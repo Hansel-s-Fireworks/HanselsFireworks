@@ -33,11 +33,11 @@ public class PumkinManager : MonoBehaviour
         return pumkins;
     }
 
-    public bool CheckPumkinExist(GameObject pumkin)
+    public void PlayAttackAnimatation()
     {
-        if (pumkins.Contains(pumkin))
-            return true;
-        else
-            return false;
+        foreach (GameObject pumkin in pumkins)
+        {
+            pumkin.GetComponent<Animator>().SetTrigger("IsAttack");
+        }
     }
 }

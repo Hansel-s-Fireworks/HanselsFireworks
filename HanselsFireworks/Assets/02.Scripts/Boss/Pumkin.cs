@@ -14,11 +14,9 @@ public class Pumkin : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
     private void Start()
     {
         animator.SetTrigger("IsAppear");
-        Debug.Log(this.gameObject.name);
         PumkinManager.Instance.addPumkin(this.gameObject);
     }
 
@@ -28,13 +26,5 @@ public class Pumkin : MonoBehaviour
         PumkinManager.Instance.DeletePumkin(this.gameObject);
         animator.SetTrigger("IsDamage");
     }
-
-    public void PlayAttackAnimation()
-    {
-        if (PumkinManager.Instance.CheckPumkinExist(this.gameObject))
-            animator.SetTrigger("IsAttack");
-        else
-            Destroy(this.gameObject);
-    }    
 
 }
