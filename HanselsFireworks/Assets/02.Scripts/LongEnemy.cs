@@ -13,27 +13,33 @@ public class LongEnemy : Enemy
     [Header("Attack")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
-    [SerializeField] private float attackRate = 1;
 
     public Animator animator;
     
     private Vector3 moveDirection = Vector3.zero;
     private EnemyState enemyState = EnemyState.None;    // 현재 적 행동
-    private float lastAttackTime = 0;                   // 공격 주기 계산용 변수 
+    // private float lastAttackTime = 0;                   // 공격 주기 계산용 변수 
 
     [SerializeField] private Player target;                           // 적의 공격 대상(플레이어)
 
-    public override void TakeDamage()
+    public override void TakeScore()
+    {
+        WaveSpawner.Instance.totalScore += this.score * WaveSpawner.Instance.combo;
+        WaveSpawner.Instance.tScore.text = WaveSpawner.Instance.totalScore.ToString();
+    }
+
+    public override void TakeDamage(int damage)
     {
         // bool isDead;
-        Debug.Log("Enemy Damaged");
-        gameObject.SetActive(false);
-        WaveSpawner.Instance.leftMoster--;
-        WaveSpawner.Instance.tLeftMonster.text = WaveSpawner.Instance.leftMoster.ToString();
-        // 점수 추가
-        // 남은 몬스터 수 줄기
-
-        // Destroy(gameObject);        // 나중에 체력에 따른 제거 조건 다르게 하기
+        Debug.Log("LongEnemy Damaged");
+        bool isDie = DecreaseHP(damage);
+        if(isDie)
+        {
+            gameObject.SetActive(false);                // 비활성화
+            WaveSpawner.Instance.leftMonster--;         // 남은 몬스터 수 줄기
+            WaveSpawner.Instance.tLeftMonster.text = WaveSpawner.Instance.leftMonster.ToString();
+            Debug.Log("Shielded_Gingerbread Dead");
+        }
     }
 
     private void Start()
@@ -80,22 +86,21 @@ public class LongEnemy : Enemy
         }
     }
 
+    // 애니메이션 이벤트와 연결
+    private void ThrowCandyball()
+    {
+        Instantiate(projectilePrefab, projectileSpawnPoint.position,
+                    projectileSpawnPoint.rotation);
+    }
+
     private IEnumerator Attack()
     {
+        // LookRotationToTarget();
         while (true)
         {
             LookRotationToTarget();         // 타겟 방향을 계속 주시
             // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)
             CalculateDistanceToTargetAndSelectState();
-            if (Time.time - lastAttackTime > attackRate)
-            {
-                // 공격 주기가 되어야 공격할 수 있도록 하기 위해 현재 시간 저장
-                lastAttackTime = Time.time;
-
-                // 발사체 생성
-                Instantiate(projectilePrefab, projectileSpawnPoint.position,
-                    projectileSpawnPoint.rotation);
-            }
             yield return null;
         }
     }
@@ -106,13 +111,14 @@ public class LongEnemy : Enemy
         Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // 내 위치        
         transform.rotation = Quaternion.LookRotation(to - from);            // 바로 돌기
     }
-    private void MoveToTarget()
-    {
-        Vector3 to = target.transform.position; // 목표 위치
-        Vector3 from = transform.position;      // 내 위치
-        moveDirection = (to - from).normalized;
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-    }
+    // private void MoveToTarget()
+    // {
+    //     Vector3 to = target.transform.position; // 목표 위치
+    //     Vector3 from = transform.position;      // 내 위치
+    //     moveDirection = (to - from).normalized;
+    //     transform.position += moveDirection * moveSpeed * Time.deltaTime;
+    // }
+
     private void OnDrawGizmos()
     {        
         // 목표 인식 및 공격 범위

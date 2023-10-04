@@ -5,31 +5,60 @@ using UnityEngine.AI;
 
 public class ShortEnemy : Enemy
 {
-    [Header("Pursuit")]
+    [Header("Move Speed")]
+    public float pursuitSpeed;
+    public float runSpeed;
+
+    [Header("Info")]
     [SerializeField] private float attackRange;
     [SerializeField] private float recognitionRange;            // 인식 및 공격 범위 (이 범위 안에 들어오면 Attack" 상태로 변경)
-    // [SerializeField] private float pursuitLimitRange;           // 추적 범위 (이 범위 바깥으로 나가면 "Wander" 상태로 변경)
+    
 
-    [Header("Attack")]
-    [SerializeField] private float attackRate = 1;
-
-    public Animator animator;
-
-    NavMeshAgent nav;
+    [SerializeField] private Player target;                           // 적의 공격 대상(플레이어)
+    
     private Vector3 moveDirection = Vector3.zero;
     private EnemyState enemyState = EnemyState.None;    // 현재 적 행동
-    private float lastAttackTime = 0;                   // 공격 주기 계산용 변수 
+    public GameObject shield;
+    NavMeshAgent nav;
     Rigidbody rb;
-    [SerializeField] private Player target;                           // 적의 공격 대상(플레이어)
+    
+    public Animator animator;
 
+    public override void TakeScore()
+    {
+        WaveSpawner.Instance.totalScore += this.score * WaveSpawner.Instance.combo;
+        WaveSpawner.Instance.tScore.text = WaveSpawner.Instance.totalScore.ToString();
+    }
 
-    public override void TakeDamage()
+    public override void TakeDamage(int damage)
     {
         Debug.Log("Shielded_Gingerbread Damaged");
-        bool isDie = false;//= status.DecreaseHP(damage);
-        if (isDie == true)
+        bool isDie = DecreaseHP(damage);
+        animator.SetInteger("HP", currentHP);
+        nav.enabled = false;
+        
+        if (isDie == false)
         {
-            Debug.Log("GameOver");
+            animator.SetTrigger("Hit");
+            if (currentHP > 1)
+            {
+                // ChangeState(EnemyState.Hurt);
+                // animator.SetTrigger("Hit");
+            }
+            else if (currentHP == 1)
+            {
+                // ChangeState(EnemyState.Hurt);
+                // animator.SetTrigger("Shield Crash");
+                shield.SetActive(false);
+            }
+        }
+        else 
+        {
+            // ChangeState(EnemyState.Dead);
+            // animator.Play("Dead");
+            gameObject.SetActive(false);
+            // WaveSpawner.Instance.;
+            Debug.Log("Shielded_Gingerbread Dead");
         }
     }
 
@@ -40,6 +69,7 @@ public class ShortEnemy : Enemy
     {
         target = FindObjectOfType<Player>();        // 플레이어 인식
         animator = GetComponent<Animator>();
+        animator.SetInteger("HP", currentHP);
         nav = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         ChangeState(EnemyState.Idle);
@@ -51,7 +81,7 @@ public class ShortEnemy : Enemy
     }
     private void FixedUpdate()
     {
-        FreezeVelocity();
+        // FreezeVelocity();
     }
 
     private void SetStatebyDistance()
@@ -93,6 +123,7 @@ public class ShortEnemy : Enemy
         {
             // 대기상태일 때, 하는 행동
             // 타겟과의 거리에 따라 행동 선태개(배회, 추격, 원거리 공격)
+            nav.enabled = true;
             SetStatebyDistance();
 
             yield return null;
@@ -105,7 +136,8 @@ public class ShortEnemy : Enemy
         {
             LookRotationToTarget();         // 타겟 방향을 계속 주시
             // MoveToTarget();                 // 타겟 방향을 계속 이동
-            nav.speed = 1;
+            nav.enabled = true;
+            nav.speed = pursuitSpeed;
             nav.SetDestination(target.transform.position);
             SetStatebyDistance();
             yield return null;
@@ -114,9 +146,10 @@ public class ShortEnemy : Enemy
 
     private IEnumerator Attack()
     {
-        nav.speed = 0;
         while (true)
-        {
+        {            
+            nav.enabled = false;
+            FreezeVelocity();
             LookRotationToTarget();         // 타겟 방향을 계속 주시
             // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)
             SetStatebyDistance();
@@ -131,13 +164,13 @@ public class ShortEnemy : Enemy
         transform.rotation = Quaternion.LookRotation(to - from);            // 바로 돌기
     }
 
-    private void MoveToTarget()
-    {
-        Vector3 to = target.transform.position; // 목표 위치
-        Vector3 from = transform.position;      // 내 위치
-        moveDirection = (to - from).normalized;
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-    }
+    // private void MoveToTarget()
+    // {
+    //     Vector3 to = target.transform.position; // 목표 위치
+    //     Vector3 from = transform.position;      // 내 위치
+    //     moveDirection = (to - from).normalized;
+    //     transform.position += moveDirection * moveSpeed * Time.deltaTime;
+    // }
 
     private void OnDrawGizmos()
     {

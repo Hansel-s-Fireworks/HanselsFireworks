@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
@@ -18,9 +19,12 @@ public class PlayerBullet : MonoBehaviour
     {
         time += Time.deltaTime;
         transform.Translate(0, -speed * Time.deltaTime, 0);
-        if (time > 3)
+        // 3초 후에도 파괴되지 않았다면 적을 맞추지 못한 것이므로 콤보 초기화
+        if (time > 3 && !gameObject.IsDestroyed())
         {
-            Destroy(this.gameObject);
+            WaveSpawner.Instance.combo = 1; // 콤보 초기화
+            WaveSpawner.Instance.tCombo.text = WaveSpawner.Instance.combo.ToString();
+            Destroy(gameObject);
         }
     }
 
@@ -28,7 +32,10 @@ public class PlayerBullet : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<Enemy>().TakeDamage();
+            other.GetComponent<Enemy>().TakeDamage(1);
+            other.GetComponent<Enemy>().TakeScore();
+            WaveSpawner.Instance.combo++;
+            WaveSpawner.Instance.tCombo.text = WaveSpawner.Instance.combo.ToString();
             Destroy(gameObject);
         }
     }
