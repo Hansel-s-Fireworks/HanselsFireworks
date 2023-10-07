@@ -18,8 +18,6 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int currentHP;
     [SerializeField] protected int score;
 
-    public float delay;
-
     void Awake()
     {
         currentHP = maxHP;        
