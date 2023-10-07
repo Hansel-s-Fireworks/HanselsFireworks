@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using UnityEngine.Cursor;
 using UnityEngine.UI;
+// using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
     private Rigidbody rb;
-
     
     public GameObject bullet;
     public Transform firePoint;
@@ -24,6 +25,24 @@ public class Player : MonoBehaviour
     public float mouseYInput;
     private float xRotation = 0f;
 
+
+    // [SerializeField] private GameObject playerBullet;
+    
+
+    private MemoryPool bulletMemoryPool;
+    
+
+    private void Awake()
+    {
+        bulletMemoryPool = new MemoryPool(bullet);        
+    }
+
+    private void OnApplicationQuit()
+    {
+        bulletMemoryPool.DestroyObjects();
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,30 +55,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) { Shoot(); }
-        OnBulletTime();
-        PlayerView();
-        
+        PlayerView();        
     }
     private void FixedUpdate()
     {
         Move();
     }
 
-    void OnBulletTime()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Time.timeScale = 0.2f;
-            moveSpeed = 3 / 0.2f;
-            slowEffect.SetActive(true);
-        }
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            Time.timeScale = 1f;
-            moveSpeed = 3;
-            slowEffect.SetActive(false);
-        }
-    }
 
     void PlayerView()
     {
@@ -84,8 +86,16 @@ public class Player : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(bullet, firePoint);
+        // Instantiate(bullet, firePoint);
+        // 메모리 풀을 이용해서 총알을 생성한다. 
+        GameObject clone = bulletMemoryPool.ActivatePoolItem();
+
+        clone.transform.position = firePoint.position;
+        clone.transform.rotation = firePoint.rotation;
+        clone.GetComponent<PlayerBullet>().Setup(bulletMemoryPool);
     }
+
+    
 
     public void TakeDamage()
     {

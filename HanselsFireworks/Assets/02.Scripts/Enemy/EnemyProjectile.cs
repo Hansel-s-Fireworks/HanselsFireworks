@@ -6,36 +6,39 @@ public class EnemyProjectile : MonoBehaviour
 {
     public float speed;
     public float time;
+    private MemoryPool memoryPool;
+
     // Start is called before the first frame update
     void Start()
     {
         transform.SetParent(null);
-        speed = 10;
+    }
+
+    public void Setup(MemoryPool pool)
+    {
+        memoryPool = pool;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        time += Time.deltaTime;
-        transform.Translate(0, -speed * Time.deltaTime, 0);
+        time += Time.fixedDeltaTime;
+        transform.Translate(0, -speed * Time.fixedDeltaTime, 0);
         if (time > 3)
         {
-            Destroy(this.gameObject);
+            time = 0;
+            memoryPool.DeactivatePoolItem(gameObject);
+            // Destroy(this.gameObject);
         }
     }
-
-    // 특정 방향으로 날아간다. 
-    // public void Shoot(Vector3 position)
-    // {
-    //     StartCoroutine("OnMove", position);
-    // }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Player>().TakeDamage();
-            Destroy(gameObject);
+            memoryPool.DeactivatePoolItem(gameObject);
+            // Destroy(gameObject);
         }
     }
 }

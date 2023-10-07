@@ -15,12 +15,22 @@ public class LongEnemy : Enemy
     [SerializeField] private Transform projectileSpawnPoint;
 
     public Animator animator;
-    
+
+    private MemoryPool memoryPool;
     private Vector3 moveDirection = Vector3.zero;
     private EnemyState enemyState = EnemyState.None;    // 현재 적 행동
     // private float lastAttackTime = 0;                   // 공격 주기 계산용 변수 
 
     [SerializeField] private Player target;                           // 적의 공격 대상(플레이어)
+
+    private void Awake()
+    {
+        memoryPool = new MemoryPool(projectilePrefab);
+    }
+    private void OnApplicationQuit()
+    {
+        memoryPool.DestroyObjects();
+    }
 
     public override void TakeScore()
     {
@@ -86,11 +96,16 @@ public class LongEnemy : Enemy
         }
     }
 
-    // 애니메이션 이벤트와 연결
+    // 애니메이션 이벤트와 연결    
     private void ThrowCandyball()
     {
-        Instantiate(projectilePrefab, projectileSpawnPoint.position,
-                    projectileSpawnPoint.rotation);
+        // Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
+        // 메모리 풀을 이용해서 총알 생성
+        GameObject clone = memoryPool.ActivatePoolItem();
+
+        clone.transform.position = projectileSpawnPoint.position;
+        clone.transform.rotation = projectileSpawnPoint.rotation;
+        clone.GetComponent<EnemyProjectile>().Setup(memoryPool);
     }
 
     private IEnumerator Attack()

@@ -18,7 +18,6 @@ public class ShortEnemy : Enemy
     
     private Vector3 moveDirection = Vector3.zero;
     private EnemyState enemyState = EnemyState.None;    // 현재 적 행동
-    public GameObject shield;
     NavMeshAgent nav;
     Rigidbody rb;
     
@@ -36,29 +35,13 @@ public class ShortEnemy : Enemy
         bool isDie = DecreaseHP(damage);
         animator.SetInteger("HP", currentHP);
         nav.enabled = false;
-        
-        if (isDie == false)
+        if (isDie)
         {
             animator.SetTrigger("Hit");
-            if (currentHP > 1)
-            {
-                // ChangeState(EnemyState.Hurt);
-                // animator.SetTrigger("Hit");
-            }
-            else if (currentHP == 1)
-            {
-                // ChangeState(EnemyState.Hurt);
-                // animator.SetTrigger("Shield Crash");
-                shield.SetActive(false);
-            }
-        }
-        else 
-        {
-            // ChangeState(EnemyState.Dead);
-            // animator.Play("Dead");
-            gameObject.SetActive(false);
-            // WaveSpawner.Instance.;
-            Debug.Log("Shielded_Gingerbread Dead");
+            gameObject.SetActive(false);                // 비활성화
+            GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
+            GameManager.Instance.tLeftMonster.text = GameManager.Instance.leftMonster.ToString();
+            Debug.Log("Short_Gingerbread Dead");
         }
     }
 
