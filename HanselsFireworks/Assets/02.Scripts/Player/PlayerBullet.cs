@@ -79,6 +79,14 @@ public class PlayerBullet : MonoBehaviour
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
             memoryPool.DeactivatePoolItem(gameObject);
         }
+        else if (other.CompareTag("Interactable"))
+        {
+            Debug.Log("상호작용 오브젝트");
+            other.GetComponent<InteractableObject>().TakeDamage(1);
+            // 일반 오브젝트는 콤보 영향이 없다.
+            impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
+            memoryPool.DeactivatePoolItem(gameObject);
+        }
         
     }
 }

@@ -7,13 +7,11 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [Header("Movement")]
-    public float moveSpeed;
-    private Rigidbody rb;
     
+    
+    [SerializeField] Mode mode;
     public GameObject bullet;
     public Transform firePoint;
-    public GameObject slowEffect;
 
     [Header("Mouse Controll view")]
     public Transform characterBody;
@@ -24,9 +22,6 @@ public class Player : MonoBehaviour
     public float mouseXInput;
     public float mouseYInput;
     private float xRotation = 0f;
-
-    [SerializeField] Mode mode;
-    // [SerializeField] private GameObject playerBullet;
 
 
     private MemoryPool bulletMemoryPool;
@@ -42,13 +37,10 @@ public class Player : MonoBehaviour
         bulletMemoryPool.DestroyObjects();
     }
 
-
     // Start is called before the first frame update
     void Start()
     {
         mode = GameManager.Instance.mode;
-        moveSpeed = 3;
-        rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;       // 마우스 커서를 화면안에 잠금
     }
 
@@ -84,10 +76,7 @@ public class Player : MonoBehaviour
 
 
 
-    private void FixedUpdate()
-    {
-        Move();
-    }
+    
 
 
     void PlayerView()
@@ -103,13 +92,7 @@ public class Player : MonoBehaviour
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         characterBody.Rotate(Vector3.up * mouseDelta.x);
     }
-
-    void Move()
-    {
-        // xz 평면상에서 움직임 입력
-        Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, Input.GetAxis("Vertical") * moveSpeed);
-        rb.velocity = transform.rotation * new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.y);
-    }
+    
 
     void Shoot()
     {

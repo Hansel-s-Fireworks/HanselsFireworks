@@ -1747,7 +1747,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2059249619810042511}
   - component: {fileID: 6121125441432794729}
-  - component: {fileID: 7031963931100280304}
+  - component: {fileID: 2335268027256656065}
   - component: {fileID: 6009529452846109001}
   - component: {fileID: 8575064077514928201}
   - component: {fileID: 7521202174756880475}
@@ -1796,7 +1796,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7031963931100280304
+--- !u!114 &2335268027256656065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1811,11 +1811,10 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 0
   score: 50
-  delay: 0
-  pursuitSpeed: 1.5
+  pursuitSpeed: 2
   runSpeed: 0
   attackRange: 1.5
-  recognitionRange: 7
+  recognitionRange: 10
   target: {fileID: 0}
   animator: {fileID: 6121125441432794729}
 --- !u!195 &6009529452846109001
