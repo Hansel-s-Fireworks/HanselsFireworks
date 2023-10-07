@@ -12,8 +12,8 @@ public class ShieldedEnemy : Enemy
     [Header("Info")]
     [SerializeField] private float attackRange;
     [SerializeField] private float recognitionRange;            // 인식 및 공격 범위 (이 범위 안에 들어오면 Attack" 상태로 변경)
-    
 
+    public int shieldScore;
     [SerializeField] private Player target;                           // 적의 공격 대상(플레이어)
     
     private Vector3 moveDirection = Vector3.zero;
@@ -26,13 +26,23 @@ public class ShieldedEnemy : Enemy
 
     public override void TakeScore()
     {
-        GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
+        if (currentHP >= 1)
+        {
+            // 방패 점수
+            GameManager.Instance.totalScore += shieldScore * GameManager.Instance.combo;
+            Debug.Log("Shielded_Gingerbread Damaged_1");
+        }
+        else if (currentHP == 0)
+        {
+            GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
+            Debug.Log("Shielded_Gingerbread Damaged_2");
+        }
         GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
     }
 
     public override void TakeDamage(int damage)
     {
-        Debug.Log("Shielded_Gingerbread Damaged");
+        // Debug.Log("Shielded_Gingerbread Damaged");
         bool isDie = DecreaseHP(damage);
         animator.SetInteger("HP", currentHP);
         nav.enabled = false;
@@ -40,15 +50,10 @@ public class ShieldedEnemy : Enemy
         if (isDie == false)
         {
             animator.SetTrigger("Hit");
-            if (currentHP > 1)
+            if (currentHP == 1)
             {
                 // ChangeState(EnemyState.Hurt);
-                // animator.SetTrigger("Hit");
-            }
-            else if (currentHP == 1)
-            {
-                // ChangeState(EnemyState.Hurt);
-                // animator.SetTrigger("Shield Crash");
+                // GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
                 shield.SetActive(false);
             }
         }
@@ -56,10 +61,14 @@ public class ShieldedEnemy : Enemy
         {
             // ChangeState(EnemyState.Dead);
             // animator.Play("Dead");
+            GameManager.Instance.mode = Mode.Burst;
+            GameManager.Instance.leftCase += 100;
+            GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
             gameObject.SetActive(false);
             // WaveSpawner.Instance.;
             Debug.Log("Shielded_Gingerbread Dead");
         }
+        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
     }
 
     

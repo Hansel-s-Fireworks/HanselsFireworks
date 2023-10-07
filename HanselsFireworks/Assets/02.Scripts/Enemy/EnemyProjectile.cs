@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.EventSystems;
 
 public class EnemyProjectile : MonoBehaviour
 {
     public float speed;
     public float time;
     private MemoryPool memoryPool;
+    public Vector3 moveDirection = Vector3.zero;        // 적이 방향을 전달
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +26,8 @@ public class EnemyProjectile : MonoBehaviour
     void FixedUpdate()
     {
         time += Time.fixedDeltaTime;
-        transform.Translate(0, -speed * Time.fixedDeltaTime, 0);
+        // transform.Translate(0, -speed * Time.fixedDeltaTime, 0);
+        transform.position += moveDirection * speed * Time.fixedDeltaTime;
         if (time > 3)
         {
             time = 0;
@@ -36,7 +40,7 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<Player>().TakeDamage();
+            other.GetComponent<Player>().TakeScore();
             memoryPool.DeactivatePoolItem(gameObject);
             // Destroy(gameObject);
         }

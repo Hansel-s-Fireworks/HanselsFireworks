@@ -25,9 +25,9 @@ public class Player : MonoBehaviour
     public float mouseYInput;
     private float xRotation = 0f;
 
-
+    [SerializeField] Mode mode;
     // [SerializeField] private GameObject playerBullet;
-    
+
 
     private MemoryPool bulletMemoryPool;
     
@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mode = GameManager.Instance.mode;
         moveSpeed = 3;
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;       // 마우스 커서를 화면안에 잠금
@@ -54,9 +55,35 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) { Shoot(); }
+        mode = GameManager.Instance.mode;
+        switch (mode)
+        {
+            case Mode.normal:
+                if (Input.GetMouseButtonDown(0)) { Shoot(); }
+                break;
+            case Mode.Burst:
+                if (Input.GetMouseButton(0)) 
+                {
+                    if (GameManager.Instance.leftCase <= 0) 
+                    {
+                        GameManager.Instance.mode = Mode.normal;
+                        break;
+                    }
+                    GameManager.Instance.leftCase -= 1;
+                    GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
+                    Shoot();
+                }
+                break;
+            default:
+                break;
+        }
+        
+
         PlayerView();        
     }
+
+
+
     private void FixedUpdate()
     {
         Move();
@@ -97,8 +124,20 @@ public class Player : MonoBehaviour
 
     
 
-    public void TakeDamage()
+    public void TakeScore()
     {
         Debug.Log("Player Damaged");
+        GameManager.Instance.combo = 0;     // 콤보 초기화
+
+        // 양수 유지
+        if (GameManager.Instance.totalScore >= 100)
+        {
+            GameManager.Instance.totalScore -= 100;     // 100점 감점
+        }
+        else GameManager.Instance.totalScore = 0;
+
+
+        GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
+        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
     }
 }

@@ -9,6 +9,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
+public enum Mode
+{
+    NULL = -1,
+    normal,
+    Burst
+}
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
@@ -45,12 +52,15 @@ public class GameManager : MonoBehaviour
     public int leftMonster;
     public int totalScore;
     public int combo;
+    public int leftCase;
+    public Mode mode;
 
     [Header("UI")]
     public TextMeshProUGUI tLeftTime;
     public TextMeshProUGUI tLeftMonster;
     public TextMeshProUGUI tScore;
     public TextMeshProUGUI tCombo;
+    public TextMeshProUGUI tLeftCase;
 
     public Vector3 spawnRange;
 
@@ -60,8 +70,11 @@ public class GameManager : MonoBehaviour
     {
         leftMonster = 0;
         totalScore = 0;
-        combo = 0;
+        combo = 1;
+        leftCase = 0;
+        tCombo.text = combo.ToString();
         tLeftTime.text = leftTime.ToString();
+        tLeftCase.text = leftCase.ToString();
         // InvokeRepeating("Spawn", 0, spawnRate);
         StartCoroutine(Timer());
         StartCoroutine(CheckObjective());

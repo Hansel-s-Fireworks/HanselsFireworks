@@ -17,7 +17,7 @@ public class LongEnemy : Enemy
     public Animator animator;
 
     private MemoryPool memoryPool;
-    private Vector3 moveDirection = Vector3.zero;
+    // private Vector3 moveDirection = Vector3.zero;
     private EnemyState enemyState = EnemyState.None;    // 현재 적 행동
     // private float lastAttackTime = 0;                   // 공격 주기 계산용 변수 
 
@@ -105,6 +105,8 @@ public class LongEnemy : Enemy
 
         clone.transform.position = projectileSpawnPoint.position;
         clone.transform.rotation = projectileSpawnPoint.rotation;
+        clone.GetComponent<EnemyProjectile>().moveDirection = CalculateVectorToTarget();
+
         clone.GetComponent<EnemyProjectile>().Setup(memoryPool);
     }
 
@@ -126,13 +128,14 @@ public class LongEnemy : Enemy
         Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // 내 위치        
         transform.rotation = Quaternion.LookRotation(to - from);            // 바로 돌기
     }
-    // private void MoveToTarget()
-    // {
-    //     Vector3 to = target.transform.position; // 목표 위치
-    //     Vector3 from = transform.position;      // 내 위치
-    //     moveDirection = (to - from).normalized;
-    //     transform.position += moveDirection * moveSpeed * Time.deltaTime;
-    // }
+
+    private Vector3 CalculateVectorToTarget()
+    {
+        Vector3 to = target.transform.position; // 목표 위치
+        Vector3 from = transform.position;      // 내 위치
+        Vector3 moveDirection = (to - from).normalized;
+        return moveDirection;
+    }
 
     private void OnDrawGizmos()
     {        
