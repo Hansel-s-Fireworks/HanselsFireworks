@@ -23,6 +23,7 @@ public class ShieldedEnemy : Enemy
     Rigidbody rb;
     
     public Animator animator;
+    public BoxCollider candyCane;
 
     public override void TakeScore()
     {
@@ -132,6 +133,7 @@ public class ShieldedEnemy : Enemy
         {
             // 대기상태일 때, 하는 행동
             // 타겟과의 거리에 따라 행동 선태개(배회, 추격, 원거리 공격)
+            candyCane.enabled = false;
             nav.enabled = true;
             SetStatebyDistance();
 
@@ -145,6 +147,7 @@ public class ShieldedEnemy : Enemy
         {
             LookRotationToTarget();         // 타겟 방향을 계속 주시
             // MoveToTarget();                 // 타겟 방향을 계속 이동
+            candyCane.enabled = false;
             nav.enabled = true;
             nav.speed = pursuitSpeed;
             nav.SetDestination(target.transform.position);
@@ -155,9 +158,11 @@ public class ShieldedEnemy : Enemy
 
     private IEnumerator Attack()
     {
+        
         while (true)
         {            
             nav.enabled = false;
+            candyCane.enabled = true;
             FreezeVelocity();
             LookRotationToTarget();         // 타겟 방향을 계속 주시
             // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)

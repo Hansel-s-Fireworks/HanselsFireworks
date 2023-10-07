@@ -23,6 +23,8 @@ public class ShortEnemy : Enemy
     
     public Animator animator;
 
+    public BoxCollider candyCane;
+
     public override void TakeScore()
     {
         GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
@@ -72,13 +74,13 @@ public class ShortEnemy : Enemy
         float distance = Vector3.Distance(target.transform.position, transform.position);
         if(distance < attackRange)
         {
-            animator.SetBool("Attack", true);
+            
             animator.SetBool("Pursuit", false);
             ChangeState(EnemyState.Attack);
         }
         else if(distance > attackRange && distance <= recognitionRange)
         {
-            animator.SetBool("Attack", false);
+            
             animator.SetBool("Pursuit", true);
             ChangeState(EnemyState.Pursuit);
         }
@@ -107,6 +109,7 @@ public class ShortEnemy : Enemy
             // 대기상태일 때, 하는 행동
             // 타겟과의 거리에 따라 행동 선태개(배회, 추격, 원거리 공격)
             nav.enabled = true;
+            candyCane.enabled = false;
             SetStatebyDistance();
 
             yield return null;
@@ -115,11 +118,14 @@ public class ShortEnemy : Enemy
 
     private IEnumerator Pursuit()
     {
+        
         while (true)
         {
+            animator.SetBool("Attack", false);
             LookRotationToTarget();         // 타겟 방향을 계속 주시
             // MoveToTarget();                 // 타겟 방향을 계속 이동
             nav.enabled = true;
+            candyCane.enabled = false;
             nav.speed = pursuitSpeed;
             nav.SetDestination(target.transform.position);
             SetStatebyDistance();
@@ -129,9 +135,12 @@ public class ShortEnemy : Enemy
 
     private IEnumerator Attack()
     {
-        while (true)
-        {            
+        animator.SetBool("Attack", true);
+        bool isAttack = animator.GetBool("Attack");
+        while (isAttack)
+        {
             nav.enabled = false;
+            candyCane.enabled = true;
             FreezeVelocity();
             LookRotationToTarget();         // 타겟 방향을 계속 주시
             // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)

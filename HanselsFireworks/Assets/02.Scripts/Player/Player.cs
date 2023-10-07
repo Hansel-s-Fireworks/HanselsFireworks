@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
     public void TakeScore()
     {
         Debug.Log("Player Damaged");
-        GameManager.Instance.combo = 0;     // 콤보 초기화
+        GameManager.Instance.combo = 1;     // 콤보 초기화
 
         // 양수 유지
         if (GameManager.Instance.totalScore >= 100)
