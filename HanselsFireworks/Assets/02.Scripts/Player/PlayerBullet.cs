@@ -21,9 +21,9 @@ public class PlayerBullet : MonoBehaviour
     }
     private void OnEnable()
     {
-        mode = GameManager.Instance.mode;       // ¹ß»çµÈ ½ÃÁ¡¿¡¼­ÀÇ ¸ðµå¸¦ ÀúÀå.
-        // ±×·¡¼­ start¿¡¼­ ¹Ì¸® ÀúÀåÇÏ°í ÁøÇà.
-        // ¹ß»çµÇ°í ³ë¸»ÀÌ µÇ¾ú´Ù°í ÀÌ¹Ì ¹ß»çµÈ°Íµµ ³ë¸»¸ðµå ÃÑ¾ËÀÌ µÉ¼ö´Â ¾ø±â¶§¹®. 
+        mode = GameManager.Instance.mode;       // ï¿½ß»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½.
+        // ï¿½×·ï¿½ï¿½ï¿½ startï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½.
+        // ï¿½ß»ï¿½Ç°ï¿½ ï¿½ë¸»ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ù°ï¿½ ï¿½Ì¹ï¿½ ï¿½ß»ï¿½È°Íµï¿½ ï¿½ë¸»ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¶§ï¿½ï¿½. 
     }
     public void Setup(MemoryPool pool)
     {
@@ -35,20 +35,20 @@ public class PlayerBullet : MonoBehaviour
     {
         time += Time.fixedDeltaTime;
         transform.Translate(0, -speed * Time.fixedDeltaTime, 0);
-        // 3ÃÊ ÈÄ¿¡µµ ÆÄ±«µÇÁö ¾Ê¾Ò´Ù¸é ÀûÀ» ¸ÂÃßÁö ¸øÇÑ °ÍÀÌ¹Ç·Î ÄÞº¸ ÃÊ±âÈ­
+        // 3ï¿½ï¿½ ï¿½Ä¿ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½Þºï¿½ ï¿½Ê±ï¿½È­
         if (time > 3)
         {
-            // ÀÌ·¯¸é ³ª°£ ½ÃÁ¡ÀÇ ÃÑ¾ËÀÌ ÄÞº¸ ÃÊ±âÈ­°¡ µÉ °ÍÀÌ´Ù. 
-            // »ý¼ºµÈ ÃÑ¾ËÀÇ ¼Ó¼ºÀ» ¹Ù²ãÁà¾ß ÇÑ´Ù. 
+            // ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½Þºï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½. 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½. 
             if (mode == Mode.normal)
             {
-                Debug.Log("ÄÞº¸ ÃÊ±âÈ­");
-                GameManager.Instance.combo = 1; // ÄÞº¸ ÃÊ±âÈ­
+                Debug.Log("ï¿½Þºï¿½ ï¿½Ê±ï¿½È­");
+                GameManager.Instance.combo = 1; // ï¿½Þºï¿½ ï¿½Ê±ï¿½È­
                 GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             }
-            time = 0;       // ½Ã°£À» ´Ù½Ã 0À¸·Î ¸¸µé¾îÁà¾ß ´Ù½Ã »ý¼ºµÈ´Ù.
-                            // ±×·¸Áö ¾ÊÀ¸¸é if¹®¿¡ ÀÇÇØ ¹Ù·Î ºñÈ°¼ºÈ­µÈ´Ù. 
-            memoryPool.DeactivatePoolItem(gameObject);      // ºñÈ°¼ºÈ­
+            time = 0;       // ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½.
+                            // ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ifï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½È´ï¿½. 
+            memoryPool.DeactivatePoolItem(gameObject);      // ï¿½ï¿½È°ï¿½ï¿½È­
             // Destroy(gameObject);
         }
     }
@@ -61,10 +61,10 @@ public class PlayerBullet : MonoBehaviour
             other.GetComponent<Enemy>().TakeScore();
             GameManager.Instance.combo++;
             GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
-            // ÇÃ·¹ÀÌ¾î ½ºÅ©¸³Æ®¿¡ ÀÖ´Â Impact
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö´ï¿½ Impact
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
-            // bool º¯¼ö ÇÏ³ª º¯È­ÁÖ¸é ºÎ¸ð ½ºÅ©¸³Æ®¿¡¼­ ¸Þ¸ð¸® Ç® ½ÇÇà
-            // ÀÌÆåÆ® ÇÃ·¹ÀÌ ³¡³ª°í¼­ ¸Þ¸ð¸® Ç® ÇØÁ¦
+            // bool ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½È­ï¿½Ö¸ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½Å©ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ Ç® ï¿½ï¿½ï¿½ï¿½
+            // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ Ç® ï¿½ï¿½ï¿½ï¿½
             memoryPool.DeactivatePoolItem(gameObject);
             // Destroy(gameObject);
         }
@@ -72,8 +72,8 @@ public class PlayerBullet : MonoBehaviour
         {
             if (mode == Mode.normal)
             {
-                Debug.Log("ÄÞº¸ ÃÊ±âÈ­");
-                GameManager.Instance.combo = 1; // ÄÞº¸ ÃÊ±âÈ­
+                Debug.Log("ï¿½Þºï¿½ ï¿½Ê±ï¿½È­");
+                GameManager.Instance.combo = 1; // ï¿½Þºï¿½ ï¿½Ê±ï¿½È­
                 GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             }
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
@@ -81,9 +81,9 @@ public class PlayerBullet : MonoBehaviour
         }
         else if (other.CompareTag("Interactable"))
         {
-            Debug.Log("»óÈ£ÀÛ¿ë ¿ÀºêÁ§Æ®");
+            Debug.Log("ï¿½ï¿½È£ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®");
             other.GetComponent<InteractableObject>().TakeDamage(1);
-            // ÀÏ¹Ý ¿ÀºêÁ§Æ®´Â ÄÞº¸ ¿µÇâÀÌ ¾ø´Ù.
+            // ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Þºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
             memoryPool.DeactivatePoolItem(gameObject);
         }

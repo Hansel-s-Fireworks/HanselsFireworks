@@ -2,32 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Witch : MonoBehaviour
+public class Witch : Enemy
 {
     [SerializeField]
     private GameObject[] myPumkins;
+    [SerializeField]
+    private GameObject pumkinPrefab;
+
     private bool canDamage = false;
     private bool isAttacking = false;
     private Animator animator;
-    [SerializeField]
-    private Transform targetTransform;  /// player Transform
-    [SerializeField]
-    private int hp;
 
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-    }
-
-    private void Update()
-    {
-        if (isAttacking)
-        {
-            isAttacking = false;
-
-            // 플레이어 위치 받아와서 호박 Transform 변환
-        }
     }
 
     // 시작하는 조건 추가해야함
@@ -36,17 +25,15 @@ public class Witch : MonoBehaviour
         StartCoroutine(SpawnPumkinWithDelay());
     }
 
-    public void MyTurn(bool canAttack)
+    public void MyTurn(bool canTakeDamage)
     {
-        Debug.Log("마녀의 턴입니다");
-        Debug.Log(canAttack);
-        if (!canAttack)
+        canDamage = canTakeDamage;
+        if (!canTakeDamage)
         {
             Debug.Log("마녀가 공격");
             // 마녀 공격 애니메이션
             animator.SetTrigger("IsAttacking");
-            PumkinManager.Instance.PlayAttackAnimatation();
-            Invoke("MyPumkinAttack", 1f);
+            PumkinManager.Instance.Attack();
         }
         else
         {
@@ -56,17 +43,27 @@ public class Witch : MonoBehaviour
         }
     }
 
-    public void GetDamage()
+    public override void TakeScore()
     {
-        if (hp > 0)
+        if (canDamage)
         {
-            hp--;
-            Debug.Log("마녀의 남은 hp:" + hp);
-            animator.SetTrigger("IsDamage");
+            GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
+            GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
         }
-        else if (hp == 0)
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        if (canDamage)
         {
-            animator.SetTrigger("IsDead");
+            animator.SetTrigger("IsDamage");
+            bool isDie = DecreaseHP(damage);
+            if (isDie)
+            {
+                canDamage = false;
+                Debug.Log("1페이즈 끝");
+                animator.SetTrigger("IsDead");
+            }
         }
     }
 
@@ -78,15 +75,10 @@ public class Witch : MonoBehaviour
 
             if (obj != null)
             {
+                Instantiate(pumkinPrefab, obj.transform);
+
                 obj.SetActive(true);
             }
         }
-    }
-
-
-
-    private void MyPumkinAttack()
-    {
-        isAttacking = true;
     }
 }

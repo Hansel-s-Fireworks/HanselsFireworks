@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         mode = GameManager.Instance.mode;
-        Cursor.lockState = CursorLockMode.Locked;       // ¸¶¿ì½º Ä¿¼­¸¦ È­¸é¾È¿¡ Àá±Ý
+        Cursor.lockState = CursorLockMode.Locked;       // ï¿½ï¿½ï¿½ì½º Ä¿ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½È¿ï¿½ ï¿½ï¿½ï¿½
     }
 
     // Update is called once per frame
@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
         Vector2 mouseDelta = new Vector2(mouseXInput * mouseSensitivity, mouseYInput * mouseSensitivity);
 
         xRotation -= mouseDelta.y;
-        // À§¾Æ·¡ ³»·Áº¸´Â °¢µµ ¹üÀ§ Á¦ÇÑ
+        // ï¿½ï¿½ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         xRotation = Mathf.Clamp(xRotation, -90f, 80f);
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Instantiate(bullet, firePoint);
-        // ¸Þ¸ð¸® Ç®À» ÀÌ¿ëÇØ¼­ ÃÑ¾ËÀ» »ý¼ºÇÑ´Ù. 
+        // ï¿½Þ¸ï¿½ Ç®ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
         GameObject clone = bulletMemoryPool.ActivatePoolItem();
 
         clone.transform.position = firePoint.position;
@@ -110,12 +110,12 @@ public class Player : MonoBehaviour
     public void TakeScore()
     {
         Debug.Log("Player Damaged");
-        GameManager.Instance.combo = 1;     // ÄÞº¸ ÃÊ±âÈ­
+        GameManager.Instance.combo = 1;     // ï¿½Þºï¿½ ï¿½Ê±ï¿½È­
 
-        // ¾ç¼ö À¯Áö
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (GameManager.Instance.totalScore >= 100)
         {
-            GameManager.Instance.totalScore -= 100;     // 100Á¡ °¨Á¡
+            GameManager.Instance.totalScore -= 100;     // 100ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
         else GameManager.Instance.totalScore = 0;
 

@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class LongEnemy : Enemy
 {
     [Header("Pursuit")]
-    [SerializeField] private float attackRange;            // ÀÎ½Ä ¹× °ø°Ý ¹üÀ§ (ÀÌ ¹üÀ§ ¾È¿¡ µé¾î¿À¸é Attack" »óÅÂ·Î º¯°æ)
+    [SerializeField] private float attackRange;            // ï¿½Î½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Attack" ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
     [Header("Attack")]
     [SerializeField] private GameObject projectilePrefab;
@@ -18,10 +18,10 @@ public class LongEnemy : Enemy
 
     private MemoryPool memoryPool;
     // private Vector3 moveDirection = Vector3.zero;
-    private EnemyState enemyState = EnemyState.None;    // ÇöÀç Àû Çàµ¿
-    // private float lastAttackTime = 0;                   // °ø°Ý ÁÖ±â °è»ê¿ë º¯¼ö 
+    private EnemyState enemyState = EnemyState.None;    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½àµ¿
+    // private float lastAttackTime = 0;                   // ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-    [SerializeField] private Player target;                           // ÀûÀÇ °ø°Ý ´ë»ó(ÇÃ·¹ÀÌ¾î)
+    [SerializeField] private Player target;                           // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½Ã·ï¿½ï¿½Ì¾ï¿½)
 
     private void Awake()
     {
@@ -45,8 +45,8 @@ public class LongEnemy : Enemy
         bool isDie = DecreaseHP(damage);
         if(isDie)
         {
-            gameObject.SetActive(false);                // ºñÈ°¼ºÈ­
-            GameManager.Instance.leftMonster--;         // ³²Àº ¸ó½ºÅÍ ¼ö ÁÙ±â
+            gameObject.SetActive(false);                // ï¿½ï¿½È°ï¿½ï¿½È­
+            GameManager.Instance.leftMonster--;         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù±ï¿½
             GameManager.Instance.tLeftMonster.text = GameManager.Instance.leftMonster.ToString();
             Debug.Log("Shielded_Gingerbread Dead");
         }
@@ -54,7 +54,7 @@ public class LongEnemy : Enemy
 
     private void Start()
     {
-        target = FindObjectOfType<Player>();        // ÇÃ·¹ÀÌ¾î ÀÎ½Ä
+        target = FindObjectOfType<Player>();        // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Î½ï¿½
         animator = GetComponent<Animator>();
         ChangeState(EnemyState.Idle);
     }
@@ -63,7 +63,7 @@ public class LongEnemy : Enemy
     {
         float distance = Vector3.Distance(target.transform.position, transform.position);
 
-        if (distance <= attackRange)        // °ø°ÝÇÏ±â
+        if (distance <= attackRange)        // ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
         {
             animator.SetBool("Attack", true);
             ChangeState(EnemyState.Attack);
@@ -77,30 +77,30 @@ public class LongEnemy : Enemy
 
     public void ChangeState(EnemyState newState)
     {
-        // ÇöÀç Àç»ýÁßÀÎ »óÅÂ¿Í ¹Ù²Ù·Á°í ÇÏ´Â »óÅÂ°¡ °°À¸¸é ¹Ù²Ü ÇÊ¿ä°¡ ¾ø±â ¶§¹®¿¡ return
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½Ù²Ù·ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ return
         if (enemyState == newState) return;        
-        StopCoroutine(enemyState.ToString());   // ÀÌÀü¿¡ Àç»ýÁßÀÌ´ø »óÅÂ Á¾·á   
-        enemyState = newState;                  // ÇöÀç ÀûÀÇ »óÅÂ¸¦ newState·Î ¼³Á¤        
-        StartCoroutine(enemyState.ToString());  // »õ·Î¿î »óÅÂ Àç»ý
+        StopCoroutine(enemyState.ToString());   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½   
+        enemyState = newState;                  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ newStateï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½        
+        StartCoroutine(enemyState.ToString());  // ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     }
 
     private IEnumerator Idle()
     {
         while (true)
         {
-            // ´ë±â»óÅÂÀÏ ¶§, ÇÏ´Â Çàµ¿
-            // Å¸°Ù°úÀÇ °Å¸®¿¡ µû¶ó Çàµ¿ ¼±ÅÂ°³(¹èÈ¸, Ãß°Ý, ¿ø°Å¸® °ø°Ý)
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½Ï´ï¿½ ï¿½àµ¿
+            // Å¸ï¿½Ù°ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½àµ¿ ï¿½ï¿½ï¿½Â°ï¿½(ï¿½ï¿½È¸, ï¿½ß°ï¿½, ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½)
             CalculateDistanceToTargetAndSelectState();
 
             yield return null;
         }
     }
 
-    // ¾Ö´Ï¸ÞÀÌ¼Ç ÀÌº¥Æ®¿Í ¿¬°á    
+    // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½    
     private void ThrowCandyball()
     {
         // Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
-        // ¸Þ¸ð¸® Ç®À» ÀÌ¿ëÇØ¼­ ÃÑ¾Ë »ý¼º
+        // ï¿½Þ¸ï¿½ Ç®ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ ï¿½Ñ¾ï¿½ ï¿½ï¿½ï¿½ï¿½
         GameObject clone = memoryPool.ActivatePoolItem();
 
         clone.transform.position = projectileSpawnPoint.position;
@@ -115,8 +115,8 @@ public class LongEnemy : Enemy
         // LookRotationToTarget();
         while (true)
         {
-            LookRotationToTarget();         // Å¸°Ù ¹æÇâÀ» °è¼Ó ÁÖ½Ã
-            // Å¸°Ù°úÀÇ °Å¸®¿¡ µû¶ó Çàµ¿ ¼±ÅÃ (¿ø°Å¸® °ø°Ý / Á¤Áö)
+            LookRotationToTarget();         // Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½
+            // Å¸ï¿½Ù°ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½àµ¿ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½)
             CalculateDistanceToTargetAndSelectState();
             yield return null;
         }
@@ -124,22 +124,22 @@ public class LongEnemy : Enemy
 
     private void LookRotationToTarget()
     {        
-        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // ¸ñÇ¥ À§Ä¡
-        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // ³» À§Ä¡        
-        transform.rotation = Quaternion.LookRotation(to - from);            // ¹Ù·Î µ¹±â
+        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // ï¿½ï¿½Ç¥ ï¿½ï¿½Ä¡
+        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // ï¿½ï¿½ ï¿½ï¿½Ä¡        
+        transform.rotation = Quaternion.LookRotation(to - from);            // ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     private Vector3 CalculateVectorToTarget()
     {
-        Vector3 to = target.transform.position; // ¸ñÇ¥ À§Ä¡
-        Vector3 from = transform.position;      // ³» À§Ä¡
+        Vector3 to = target.transform.position; // ï¿½ï¿½Ç¥ ï¿½ï¿½Ä¡
+        Vector3 from = transform.position;      // ï¿½ï¿½ ï¿½ï¿½Ä¡
         Vector3 moveDirection = (to - from).normalized;
         return moveDirection;
     }
 
     private void OnDrawGizmos()
     {        
-        // ¸ñÇ¥ ÀÎ½Ä ¹× °ø°Ý ¹üÀ§
+        // ï¿½ï¿½Ç¥ ï¿½Î½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }

@@ -27,17 +27,22 @@ public class PumkinManager : MonoBehaviour
     {
         pumkins.Remove(pumkin);
     }
+    
+    public void DeleteAllPumkin()
+    {
+        pumkins.Clear();
+    }
 
     public List<GameObject> GetPumkinList()
     {
         return pumkins;
     }
 
-    public void PlayAttackAnimatation()
+    public void Attack()
     {
         foreach (GameObject pumkin in pumkins)
         {
-            pumkin.GetComponent<Animator>().SetTrigger("IsAttack");
+            pumkin.GetComponent<PumkinEnemy>().Attack();
         }
     }
 }
