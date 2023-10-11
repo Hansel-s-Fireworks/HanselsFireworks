@@ -30,7 +30,6 @@ namespace Polyperfect.Universal
                 velocity.y = -2f;
             }
 
-
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
 
@@ -47,14 +46,9 @@ namespace Polyperfect.Universal
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }
 
-
-
             velocity.y += gravity * Time.deltaTime;
 
             controller.Move(velocity * Time.deltaTime);
-
-
-
 
         }
     }

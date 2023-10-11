@@ -7,6 +7,7 @@ public class BossManager : MonoBehaviour
 {
     public static BossManager instance;
     private bool playerCanAttack;
+    public UnityEvent PhaseStart;
     public UnityEvent<bool> PhaseEndEvent;
 
     private void Awake()
@@ -27,7 +28,7 @@ public class BossManager : MonoBehaviour
 
     private void Start()
     {
-        Invoke("PhaseOneEnd", 10f);
+        Phase1Start();
     }
 
     private void PhaseOneEnd()
@@ -40,9 +41,17 @@ public class BossManager : MonoBehaviour
         else
         {
             Debug.Log("fail");
+            Phase1Start();
             playerCanAttack = false;
         }
         PhaseEndEvent.Invoke(playerCanAttack);
+    }
+
+    private void Phase1Start()
+    {
+        PhaseStart.Invoke();
+        //PumkinManager.Instance.DeleteAllPumkin();
+        Invoke("PhaseOneEnd", 10f);
     }
 
 }

@@ -102,10 +102,10 @@ public class GameManager : MonoBehaviour
 
     public int GetLeftEnemies()
     {
-        // ¸ðµç Enemy ÄÄÆ÷³ÍÆ®¸¦ °¡Áø °ÔÀÓ ¿ÀºêÁ§Æ® ¹è¿­À» Ã£½À´Ï´Ù.
+        // ï¿½ï¿½ï¿½ Enemy ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½è¿­ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½Ï´ï¿½.
         Enemy[] enemies = FindObjectsOfType<Enemy>();
 
-        // Enemy ÄÄÆ÷³ÍÆ®¸¦ °¡Áø °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ °³¼ö¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
+        // Enemy ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Õ´Ï´ï¿½.
         return enemies.Length;
     }
 
@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // ±âÁî¸ð »ö»ó ÁöÁ¤
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(transform.position, spawnRange * 2);
     }

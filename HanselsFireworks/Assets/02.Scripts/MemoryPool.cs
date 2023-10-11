@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class MemoryPool : MonoBehaviour
 {
-    // ¸Þ¸ð¸® Ç®·Î °ü¸®µÇ´Â ¿ÀºêÁ§Æ® Á¤º¸
+    // ï¿½Þ¸ï¿½ Ç®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
     private class PoolItem
     {
-        public bool isActive;           // "gameObject"ÀÇ È°¼ºÈ­/ºñÈ°¼ºÈ­ Á¤º¸
-        public GameObject gameObject;   // È­¸é¿¡ º¸ÀÌ´Â ½ÇÁ¦ °ÔÀÓ¿ÀºêÁ§Æ®
+        public bool isActive;           // "gameObject"ï¿½ï¿½ È°ï¿½ï¿½È­/ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½
+        public GameObject gameObject;   // È­ï¿½é¿¡ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     }
 
-    private int increaseCount = 5;      // ¿ÀºêÁ§Æ®°¡ ºÎÁ·ÇÒ¶§, Ãß°¡·Î »ý¼ºµÇ´Â ¿ÀºêÁ§Æ® ¼ö
-    private int maxCount;               // ÇöÀç ¸®½ºÆ®¿¡ µî·ÏµÇ¾î ÀÖ´Â ¿ÀºêÁ§Æ® °³¼ö
-    private int activeCount;            // ÇöÀç °ÔÀÓ¿¡ »ç¿ëµÇ°í ÀÖ´Â ¿ÀºêÁ§Æ® °³¼ö
+    private int increaseCount = 5;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½, ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½
+    private int maxCount;               // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ÏµÇ¾ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+    private int activeCount;            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½Ç°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
-    private GameObject poolObject;      // ¿ÀºêÁ§Æ® Ç®¸µ¿¡¼­ °ü¸®ÇÏ´Â °ÔÀÓ ¿ÀºêÁ§Æ® ÇÁ¸®Æé
-    private List<PoolItem> poolItemList;// °ü¸®µÇ´Â ¸ðµç ¿ÀºêÁ§Æ®¸¦ ÀúÀåÇÏ´Â ¸®½ºÆ® 
+    private GameObject poolObject;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private List<PoolItem> poolItemList;// ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
 
-    public int MaxCount => maxCount;        // ¿ÜºÎ¿¡¼­ È®ÀÎÀ» À§ÇÑ ÇÁ·ÎÆÛÆ¼ 
-    public int ActiveCount => activeCount;  // ¿ÜºÎ¿¡¼­ È®ÀÎÀ» À§ÇÑ ÇÁ·ÎÆÛÆ¼
+    public int MaxCount => maxCount;        // ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ 
+    public int ActiveCount => activeCount;  // ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼
 
     // private Vector3 tempPosition = new Vector3(1000, 1000, 1000);
 
-    // ÇØ´ç °ÔÀÓ¿ÀºêÁ§Æ®¸¦ ¹Þ¾Æ¼­ »ý¼ºÀÚ È£Ãâ
+    // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
     public MemoryPool(GameObject poolObject)
     {
         maxCount = 0;
@@ -32,7 +32,7 @@ public class MemoryPool : MonoBehaviour
 
         poolItemList = new List<PoolItem>();
 
-        InstantiateObjects();   // ÃÖÃÊ 5°³ÀÇ ¾ÆÀÌÅÛ ¹Ì¸® »ý¼º
+        InstantiateObjects();   // ï¿½ï¿½ï¿½ï¿½ 5ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
     public void InstantiateObjects()
@@ -52,7 +52,7 @@ public class MemoryPool : MonoBehaviour
     }
 
     /// <summary>
-    /// ÇöÀç °ü¸®ÁßÀÎ ¸ðµç ¿ÀºêÁ§Æ®¸¦ »èÁ¦
+    /// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void DestroyObjects()
     {
@@ -69,8 +69,8 @@ public class MemoryPool : MonoBehaviour
     {
         if (poolItemList == null) return null;
 
-        // ÇöÀç »ý¼ºÇØ¼­ °ü¸®ÇÏ´Â ¸ðµç ¿ÀºêÁ§Æ® °³¼ö¿Í ÇöÀç È°¼ºÈ­ »óÅÂÀÎ ¿ÀºêÁ§Æ® °³¼ö ºñ±³
-        // ¸ðµç ¿ÀºêÁ§Æ®°¡ È°¼ºÈ­ »óÅÂÀÌ¸é »õ·Î¿î ¿ÀºêÁ§Æ® ÇÊ¿ä
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê¿ï¿½
         if (maxCount == activeCount)
         {
             InstantiateObjects();
@@ -81,10 +81,10 @@ public class MemoryPool : MonoBehaviour
         {
             PoolItem poolItem = poolItemList[i];
 
-            // i¹ø¤Š°¡ ºñÈ°¼ºÈ­ÀÌ¸é
+            // iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ï¿½Ì¸ï¿½
             if (poolItem.isActive == false)
             {
-                // ´ÙÀ½ ²¨ È°¼ºÈ­ 
+                // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È°ï¿½ï¿½È­ 
                 activeCount++;
                 poolItem.isActive = true;
                 poolItem.gameObject.SetActive(true);
@@ -96,7 +96,7 @@ public class MemoryPool : MonoBehaviour
         return null;
     }
 
-    // ÇöÀç »ç¿ëÀÌ ¿Ï·áµÈ ¿ÀºêÁ§Æ®¸¦ ºñÈ°¼ºÈ­ »óÅÂ·Î °áÁ¤
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void DeactivatePoolItem(GameObject removeObject)
     {
         if (poolItemList == null || removeObject == null) return;
@@ -116,7 +116,7 @@ public class MemoryPool : MonoBehaviour
         }
     }
 
-    // °ÔÀÓ¿¡ »ç¿ëÁßÀÎ ¸ðµç ¿ÀºêÁ§Æ®¸¦ ºñÈ°¼ºÈ­ »óÅÂ·Î ¼³Á¤
+    // ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void DeactivateAllPoolItems()
     {
         if (poolItemList == null) return;

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5323173915494729220}
   m_Layer: 0
   m_Name: Witch_Pumkin
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,6 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12162ae6d68b7a742b9b6b5e24c41bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHP: 2
+  currentHP: 2
+  score: 1
+  target: {fileID: 0}
+  approachTime: 2
 --- !u!1 &2374468238951769227
 GameObject:
   m_ObjectHideFlags: 0
