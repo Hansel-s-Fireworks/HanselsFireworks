@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
                         break;
                     }
                     GameManager.Instance.leftCase -= 1;
-                    GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
+                    //GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
                     Shoot();
                 }
                 break;
@@ -113,14 +113,14 @@ public class Player : MonoBehaviour
         GameManager.Instance.combo = 1;     // �޺� �ʱ�ȭ
 
         // ��� ����
-        if (GameManager.Instance.totalScore >= 100)
+        if (GameManager.Instance.score >= 100)
         {
-            GameManager.Instance.totalScore -= 100;     // 100�� ����
+            GameManager.Instance.score -= 100;     // 100�� ����
         }
-        else GameManager.Instance.totalScore = 0;
+        else GameManager.Instance.score = 0;
 
 
-        GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+        // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
+        // GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
     }
 }

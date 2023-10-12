@@ -44,7 +44,7 @@ public class PlayerBullet : MonoBehaviour
             {
                 Debug.Log("�޺� �ʱ�ȭ");
                 GameManager.Instance.combo = 1; // �޺� �ʱ�ȭ
-                GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
+                // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             }
             time = 0;       // �ð��� �ٽ� 0���� �������� �ٽ� �����ȴ�.
                             // �׷��� ������ if���� ���� �ٷ� ��Ȱ��ȭ�ȴ�. 
@@ -60,7 +60,7 @@ public class PlayerBullet : MonoBehaviour
             other.GetComponent<Enemy>().TakeDamage(1);
             other.GetComponent<Enemy>().TakeScore();
             GameManager.Instance.combo++;
-            GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
+            // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             // �÷��̾� ��ũ��Ʈ�� �ִ� Impact
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
             // bool ���� �ϳ� ��ȭ�ָ� �θ� ��ũ��Ʈ���� �޸� Ǯ ����
@@ -74,7 +74,7 @@ public class PlayerBullet : MonoBehaviour
             {
                 Debug.Log("�޺� �ʱ�ȭ");
                 GameManager.Instance.combo = 1; // �޺� �ʱ�ȭ
-                GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
+                // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             }
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
             memoryPool.DeactivatePoolItem(gameObject);
