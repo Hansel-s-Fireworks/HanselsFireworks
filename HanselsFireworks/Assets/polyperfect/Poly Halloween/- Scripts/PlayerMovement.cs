@@ -14,16 +14,30 @@ namespace Polyperfect.Universal
         public float groundDistance = 0.4f;
         public LayerMask groundMask;
 
-
         Vector3 velocity;
         bool isGrounded;
+
+        public GameObject bullet;
+        public Transform firePoint;
+
 
         // Update is called once per frame
         void Update()
         {
             controller = GetComponent<CharacterController>();
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            Controller();
+            Shoot();
 
+        }
+
+        private void Shoot()
+        {
+            if (Input.GetMouseButtonDown(0)) { Instantiate(bullet, firePoint); }
+        }
+
+        public void Controller()
+        {
             if (isGrounded && velocity.y < 0)
             {
                 controller.slopeLimit = 45.0f;
