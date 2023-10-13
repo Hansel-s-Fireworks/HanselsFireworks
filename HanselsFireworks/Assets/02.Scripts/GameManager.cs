@@ -119,6 +119,12 @@ public class GameManager : MonoBehaviour
         }
         print("Timer coroutine end");
     }
+    private int bounsScore = 500;
+
+    public void AddBonusScore()
+    {
+        totalScore += bounsScore * combo;
+    }
 
     IEnumerator CheckObjective()
     {
@@ -130,11 +136,14 @@ public class GameManager : MonoBehaviour
                 if (leftMonster == 0)
                 {
                     // bonus score
+                    AddBonusScore();
+                    // UIManager.Instance.ShowBonusUI();
                     Debug.Log("Win");
                     StopCoroutine(Timer());
                     stageScore[currentStage] = score;
-                    UIManager.Instance.ShowResultUI();      // ShowResultUI
                     totalScore += stageScore[currentStage];
+                    UIManager.Instance.ShowResultUI();      // ShowResultUI
+                    
                     currentStage++;
                     score = 0;
                     SceneMgr.Instance.LoadNextScene();      // LoadNextScene
@@ -148,8 +157,9 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Lose"); 
                 StopCoroutine(Timer());
                 stageScore[currentStage] = score;
-                UIManager.Instance.ShowResultUI();      // ShowResultUI
                 totalScore += stageScore[currentStage];
+                UIManager.Instance.ShowResultUI();      // ShowResultUI
+                
                 currentStage++;
                 score = 0;
                 SceneMgr.Instance.LoadNextScene();      // LoadNextScene

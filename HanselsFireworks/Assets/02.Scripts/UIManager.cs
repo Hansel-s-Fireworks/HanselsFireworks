@@ -82,40 +82,56 @@ public class UIManager : MonoBehaviour
 
     public void ShowResultUI()
     {
+        InitScore();
         print("UI");
         animResultUI.SetBool("End", true);
 
-        // StartCoroutine(PlayCor());
-        StartCoroutine(AnimateScore(GameManager.Instance.currentStage));
+        StartCoroutine(ShowResult());
     }
-    IEnumerator PlayCor()
+
+
+    // 결과 초기 점수 갱신
+    public void InitScore()
     {
-        yield return StartCoroutine(AnimateScore(GameManager.Instance.currentStage));
-        yield return new WaitForSeconds(5.0f);
+        for (int i = 0; i < tStageScores.Length; i++)
+        {
+            tStageScores[i].text = GameManager.Instance.stageScore[i].ToString();
+        }
+        tTotalScore.text = GameManager.Instance.totalScore.ToString();
     }
-    IEnumerator AnimateScore(int curStage)
+
+    IEnumerator ShowResult()
     {
+        int curStage = GameManager.Instance.currentStage;
+        int currentStageScore = GameManager.Instance.stageScore[curStage];
+        int totalScore = GameManager.Instance.totalScore;
+        yield return StartCoroutine(AnimateStageScore(0, currentStageScore));
+        yield return new WaitForSeconds(1.0f);
+        yield return StartCoroutine(AnimateTotalScore(currentStageScore, totalScore));
+    }
+
+    IEnumerator AnimateStageScore(int a, int b)
+    {
+        int curStage = GameManager.Instance.currentStage;
         float temp = 0;
         int tempScore = 0;
         float LoadingDuration = 1f / LoadingTime;
         while (true)
         {
             temp += Time.deltaTime * LoadingDuration;
-            
-            tempScore = (int)Mathf.Lerp(0, GameManager.Instance.stageScore[curStage], temp);
+
+            tempScore = (int)Mathf.Lerp(a, b, temp);
 
             tStageScores[curStage].text = tempScore.ToString();
-            if (tempScore >= GameManager.Instance.stageScore[curStage])
+            if (tempScore >= b)
             {
                 break;
             }
             yield return null;
         }
-        // yield return new WaitForSeconds(5.0f);
     }
 
-    // 전체 점수 코루틴
-    IEnumerator AnimateScore()
+    IEnumerator AnimateTotalScore(int a, int b)
     {
         float temp = 0;
         int tempScore = 0;
@@ -124,17 +140,18 @@ public class UIManager : MonoBehaviour
         {
             temp += Time.deltaTime * LoadingDuration;
 
-            tempScore = (int)Mathf.Lerp(GameManager.Instance.totalScore, GameManager.Instance.totalScore + GameManager.Instance.score, temp);
+            tempScore = (int)Mathf.Lerp(a, b, temp);
 
             tTotalScore.text = tempScore.ToString();
-            if (tempScore >= GameManager.Instance.totalScore + GameManager.Instance.score)
+            if (tempScore >= b)
             {
                 break;
             }
             yield return null;
         }
-        yield return new WaitForSeconds(5.0f);
     }
+
+
 
     // 게임 시작
     public void StartUI()
