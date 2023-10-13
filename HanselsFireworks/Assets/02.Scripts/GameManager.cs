@@ -44,17 +44,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
     public int[] stageScore;
     public int score;
     public int totalScore;
     public int currentStage;
+    public int maxTime;
 
-    public float startTime;
-    public float endTime;
-    public float spawnRate;
-    public int leftTime;
+    private int leftTime { get; set; }
+    public int LeftTime { get { return leftTime; } set { leftTime = value; } }
     public int leftMonster;
     public int combo;
     public int leftCase;
@@ -63,21 +60,20 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        leftTime = maxTime;
+        stageScore = new int[3];
         leftMonster = 0;
         score = 0;
         combo = 1;
         leftCase = 0;
-        
-        // InvokeRepeating("Spawn", 0, spawnRate);
-        StartCoroutine(Timer());
-        StartCoroutine(CheckObjective());
-        // Invoke("CancelInvoke", endTime);
+        currentStage = 0;
     }
     private void Update()
     {
-        leftMonster = GetLeftEnemies();
-        
+        leftMonster = GetLeftEnemies();        
     }
+
+    public int GetleftTime() { return leftTime; }
 
     public int GetLeftEnemies()
     {
@@ -92,21 +88,23 @@ public class GameManager : MonoBehaviour
     {
         stageScore[0] = score;
     }
-
-    public void Objective()
+    public void Init() 
     {
-        if(leftMonster == 0)
-        {
-            // bonus Score
-            stageScore[0] = score;
-            score = 0;
-        }
-        if(leftTime == 0)
-        {
-            stageScore[0] = score;
-            score = 0;
-            
-        }
+        leftTime = maxTime;
+        leftMonster = 0;
+        score = 0;
+        combo = 1;
+        leftCase = 0;
+    }
+
+
+    public void SetTimer()
+    {
+        StartCoroutine(Timer());
+    }
+    public void SetObjective()
+    {
+        StartCoroutine(CheckObjective());
     }
 
     IEnumerator Timer()

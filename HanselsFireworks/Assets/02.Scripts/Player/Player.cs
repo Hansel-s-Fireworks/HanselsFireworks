@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         mode = GameManager.Instance.mode;
-        Cursor.lockState = CursorLockMode.Locked;       // ���콺 Ŀ���� ȭ��ȿ� ���
+        // Cursor.lockState = CursorLockMode.Locked;       // ���콺 Ŀ���� ȭ��ȿ� ���
     }
 
     // Update is called once per frame

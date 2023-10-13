@@ -35,7 +35,7 @@ public class SceneMgr : MonoBehaviour
     public string nextSceneName;
     [Range(0, 100)] public float percent;
     public float timer;
-    public float fakeLoadingTime = 2f; // 페이크 로딩 시간 설정 (초 단위)
+    public float fakeLoadingTime; // 페이크 로딩 시간 설정 (초 단위)
 
     void Update()
     {
@@ -44,6 +44,7 @@ public class SceneMgr : MonoBehaviour
 
     public void LoadNextScene()
     {
+        if (nextSceneName == "") return;
         // 비동기적으로 Scene을 불러오기 위해 Coroutine을 사용한다.
         StartCoroutine(LoadMyAsyncScene());
     }

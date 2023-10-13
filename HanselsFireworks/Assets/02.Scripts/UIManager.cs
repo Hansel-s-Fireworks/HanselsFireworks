@@ -41,46 +41,58 @@ public class UIManager : MonoBehaviour
 
     [Header("Result UI")]
     public GameObject resultPenel;
+    // public GameObject startPenel;
     public TextMeshProUGUI[] tStageScores;
     public TextMeshProUGUI tTotalScore;
 
-    [SerializeField] private Animator uiAnimator;
+    [SerializeField] private Animator animResultUI;
+    [SerializeField] private Animator animStartUI;
 
     [SerializeField] private float LoadingTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        LoadingTime = 2;
         tCombo.text = GameManager.Instance.combo.ToString();
-        tLeftTime.text = GameManager.Instance.leftTime.ToString();
+        tLeftTime.text = GameManager.Instance.LeftTime.ToString();
         tLeftCase.text = GameManager.Instance.leftCase.ToString();
-        uiAnimator = resultPenel.GetComponent<Animator>();
+        animResultUI = resultPenel.GetComponent<Animator>();
+        GameManager.Instance.Init();
+        // animStartUI = startPenel.GetComponent<Animator>();
+        // 마우스 커서를 보이게 하고 잠금을 해제합니다.
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        tLeftTime.text = GameManager.Instance.leftTime.ToString();
+        tLeftTime.text = GameManager.Instance.LeftTime.ToString();
         tLeftMonster.text = GameManager.Instance.leftMonster.ToString();
         tScore.text = GameManager.Instance.score.ToString();
         tCombo.text = GameManager.Instance.combo.ToString();
         tLeftCase.text = GameManager.Instance.leftCase.ToString();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // ShowResultUI();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     ShowResultUI();
+        // }
     }
 
 
     public void ShowResultUI()
     {
         print("UI");
-        uiAnimator.SetBool("End", true);
-        
+        animResultUI.SetBool("End", true);
+
+        // StartCoroutine(PlayCor());
         StartCoroutine(AnimateScore(GameManager.Instance.currentStage));
     }
-
+    IEnumerator PlayCor()
+    {
+        yield return StartCoroutine(AnimateScore(GameManager.Instance.currentStage));
+        yield return new WaitForSeconds(5.0f);
+    }
     IEnumerator AnimateScore(int curStage)
     {
         float temp = 0;
@@ -99,6 +111,7 @@ public class UIManager : MonoBehaviour
             }
             yield return null;
         }
+        // yield return new WaitForSeconds(5.0f);
     }
 
     // 전체 점수 코루틴
@@ -120,11 +133,17 @@ public class UIManager : MonoBehaviour
             }
             yield return null;
         }
+        yield return new WaitForSeconds(5.0f);
     }
 
+    // 게임 시작
     public void StartUI()
     {
         // 3,2,1 실행. 이거 코루틴
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        GameManager.Instance.SetTimer();
+        GameManager.Instance.SetObjective();
     }
 
 }
