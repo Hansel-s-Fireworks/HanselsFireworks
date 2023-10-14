@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class UIManager : MonoBehaviour
@@ -38,16 +39,21 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI tScore;
     public TextMeshProUGUI tCombo;
     public TextMeshProUGUI tLeftCase;
+    public Image stageInfo; 
 
     [Header("Result UI")]
     public GameObject resultPenel;
-    // public GameObject startPenel;
+    public GameObject playPenel;
     public TextMeshProUGUI[] tStageScores;
     public TextMeshProUGUI tTotalScore;
+    public TextMeshProUGUI tComboPlayScreen;
 
     [SerializeField] private Animator animResultUI;
+    [SerializeField] private Animator animPlayUI;
     [SerializeField] private float LoadingTime;
+    [SerializeField] private Sprite[] stageImages;
     private int initTotalScore;
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
@@ -55,14 +61,21 @@ public class UIManager : MonoBehaviour
         tCombo.text = GameManager.Instance.combo.ToString();
         tLeftTime.text = GameManager.Instance.LeftTime.ToString();
         tLeftCase.text = GameManager.Instance.leftCase.ToString();
+        
         animResultUI = resultPenel.GetComponent<Animator>();
+        animPlayUI = playPenel.GetComponent<Animator>();
+
+        player = FindAnyObjectByType<Player>();
+        
         GameManager.Instance.Init();
+        
         initTotalScore = GameManager.Instance.totalScore;
-        // animStartUI = startPenel.GetComponent<Animator>();
+        
         // 마우스 커서를 보이게 하고 잠금을 해제합니다.
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
+        
+        InitInfo();
     }
 
     // Update is called once per frame
@@ -78,7 +91,19 @@ public class UIManager : MonoBehaviour
         //     ShowResultUI();
         // }
     }
+    void SetComponentEnabled<T>(bool isEnabled) where T : MonoBehaviour
+    {
+        MonoBehaviour componentToDisable = player.GetComponent<T>();
+        componentToDisable.enabled = isEnabled;
+    }
 
+    public void PlayStart()
+    {
+        // 컴포넌트 활성화 
+        SetComponentEnabled<Player>(true);
+        SetComponentEnabled<PlayerMovement>(true);
+        SetComponentEnabled<SpecialSkill>(true);
+    }
 
     public void ShowResultUI()
     {
@@ -88,6 +113,17 @@ public class UIManager : MonoBehaviour
 
         StartCoroutine(ShowResult());
     }
+
+    public void ShowBonusUI()
+    {
+        tComboPlayScreen.text = GameManager.Instance.combo.ToString();
+        animPlayUI.SetBool("KillAllMonster", true);
+    }
+
+    // public IEnumerator ShowBonusScore()
+    // {
+    // 
+    // }
 
 
     // 결과 초기 점수 갱신
@@ -99,6 +135,11 @@ public class UIManager : MonoBehaviour
         }
         // 초기 결과 점수 
         tTotalScore.text = initTotalScore.ToString();
+    }
+    public void InitInfo()
+    {
+        int curStage = GameManager.Instance.currentStage;
+        stageInfo.sprite = stageImages[curStage];
     }
 
     IEnumerator ShowResult()

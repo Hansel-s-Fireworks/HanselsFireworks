@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     public int totalScore;
     public int currentStage;
     public int maxTime;
+    
+
 
     private int leftTime { get; set; }
     public int LeftTime { get { return leftTime; } set { leftTime = value; } }
@@ -60,18 +62,14 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        leftTime = maxTime;
+        Init();
         stageScore = new int[3];
-        leftMonster = 0;
-        score = 0;
-        combo = 1;
-        leftCase = 0;
-        currentStage = 0;
     }
     private void Update()
     {
         leftMonster = GetLeftEnemies();        
     }
+    
 
     public int GetleftTime() { return leftTime; }
 
@@ -89,12 +87,13 @@ public class GameManager : MonoBehaviour
         stageScore[0] = score;
     }
     public void Init() 
-    {
+    {        
         leftTime = maxTime;
         leftMonster = 0;
         score = 0;
         combo = 1;
         leftCase = 0;
+        isMonsterLeft = true;
     }
 
 
@@ -114,16 +113,18 @@ public class GameManager : MonoBehaviour
         {
             leftTime -= 1;
             
-            if(leftMonster == 0) break;
+            // if(leftMonster == 0) break;
             yield return new WaitForSeconds(1f);
         }
         print("Timer coroutine end");
     }
     private int bounsScore = 500;
+    private bool isMonsterLeft;
 
     public void AddBonusScore()
     {
-        totalScore += bounsScore * combo;
+        score += bounsScore * combo;
+        // totalScore += bounsScore * combo;
     }
 
     IEnumerator CheckObjective()
@@ -133,28 +134,28 @@ public class GameManager : MonoBehaviour
         {
             if (leftTime > 0)
             {
-                if (leftMonster == 0)
+                if (leftMonster == 0 && isMonsterLeft)
                 {
+                    isMonsterLeft = false;
                     // bonus score
+                    UIManager.Instance.ShowBonusUI();                    
                     AddBonusScore();
-                    // UIManager.Instance.ShowBonusUI();
-                    Debug.Log("Win");
-                    StopCoroutine(Timer());
-                    stageScore[currentStage] = score;
-                    totalScore += stageScore[currentStage];
-                    UIManager.Instance.ShowResultUI();      // ShowResultUI
-                    
-                    currentStage++;
-                    score = 0;
-                    SceneMgr.Instance.LoadNextScene();      // LoadNextScene
-                    break;
+
+                    // stageScore[currentStage] = score;
+                    // totalScore += stageScore[currentStage];
+                    // UIManager.Instance.ShowResultUI();      // ShowResultUI
+                    // 
+                    // currentStage++;
+                    // score = 0;
+                    // SceneMgr.Instance.LoadNextScene();      // LoadNextScene
+                    // break;
                 }
             }
             else 
             {
                 // 완전 끝
                 // 모든 플레이어, 적 이동 금지. 
-                Debug.Log("Lose"); 
+                Debug.Log("End");
                 StopCoroutine(Timer());
                 stageScore[currentStage] = score;
                 totalScore += stageScore[currentStage];

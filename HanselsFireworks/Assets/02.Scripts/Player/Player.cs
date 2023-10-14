@@ -47,6 +47,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateMode();
+        PlayerView();        
+    }
+
+    private void UpdateMode()
+    {
         mode = GameManager.Instance.mode;
         switch (mode)
         {
@@ -54,9 +60,9 @@ public class Player : MonoBehaviour
                 if (Input.GetMouseButtonDown(0)) { Shoot(); }
                 break;
             case Mode.Burst:
-                if (Input.GetMouseButton(0)) 
+                if (Input.GetMouseButton(0))
                 {
-                    if (GameManager.Instance.leftCase <= 0) 
+                    if (GameManager.Instance.leftCase <= 0)
                     {
                         GameManager.Instance.mode = Mode.normal;
                         break;
@@ -69,12 +75,7 @@ public class Player : MonoBehaviour
             default:
                 break;
         }
-        
-
-        PlayerView();        
     }
-
-
 
     
 
