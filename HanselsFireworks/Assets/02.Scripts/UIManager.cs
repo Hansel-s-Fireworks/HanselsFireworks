@@ -48,12 +48,19 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI tTotalScore;
     public TextMeshProUGUI tComboPlayScreen;
 
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip bonusSound;
+    [SerializeField] private AudioClip sumResult;
+
     [SerializeField] private Animator animResultUI;
     [SerializeField] private Animator animPlayUI;
     [SerializeField] private float LoadingTime;
     [SerializeField] private Sprite[] stageImages;
     private int initTotalScore;
     private Player player;
+    private AudioSource audioSource;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -70,7 +77,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.Init();
         
         initTotalScore = GameManager.Instance.totalScore;
-        
+        audioSource = GetComponent<AudioSource>();
         // 마우스 커서를 보이게 하고 잠금을 해제합니다.
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -118,6 +125,8 @@ public class UIManager : MonoBehaviour
     {
         tComboPlayScreen.text = GameManager.Instance.combo.ToString();
         animPlayUI.SetBool("KillAllMonster", true);
+        audioSource.clip = bonusSound;
+        audioSource.Play();
     }
 
     // public IEnumerator ShowBonusScore()
@@ -175,6 +184,8 @@ public class UIManager : MonoBehaviour
 
     IEnumerator AnimateTotalScore(int a, int b)
     {
+        audioSource.clip = sumResult;
+        audioSource.Play();
         float temp = 0;
         int tempScore = 0;
         float LoadingDuration = 1f / LoadingTime;
@@ -187,6 +198,7 @@ public class UIManager : MonoBehaviour
             tTotalScore.text = tempScore.ToString();
             if (tempScore >= b)
             {
+                
                 break;
             }
             yield return null;
