@@ -45,8 +45,9 @@ public class SceneMgr : MonoBehaviour
     public void LoadNextScene()
     {
         if (nextSceneName == "") return;
+        
         // 비동기적으로 Scene을 불러오기 위해 Coroutine을 사용한다.
-        StartCoroutine(LoadMyAsyncScene());
+        StartCoroutine(LoadMyAsyncScene());        
     }
 
     IEnumerator LoadMyAsyncScene()

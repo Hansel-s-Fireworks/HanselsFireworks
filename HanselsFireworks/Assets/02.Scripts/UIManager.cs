@@ -46,9 +46,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI tTotalScore;
 
     [SerializeField] private Animator animResultUI;
-    [SerializeField] private Animator animStartUI;
-
     [SerializeField] private float LoadingTime;
+    private int initTotalScore;
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +57,7 @@ public class UIManager : MonoBehaviour
         tLeftCase.text = GameManager.Instance.leftCase.ToString();
         animResultUI = resultPenel.GetComponent<Animator>();
         GameManager.Instance.Init();
+        initTotalScore = GameManager.Instance.totalScore;
         // animStartUI = startPenel.GetComponent<Animator>();
         // 마우스 커서를 보이게 하고 잠금을 해제합니다.
         Cursor.lockState = CursorLockMode.None;
@@ -97,7 +97,8 @@ public class UIManager : MonoBehaviour
         {
             tStageScores[i].text = GameManager.Instance.stageScore[i].ToString();
         }
-        tTotalScore.text = GameManager.Instance.totalScore.ToString();
+        // 초기 결과 점수 
+        tTotalScore.text = initTotalScore.ToString();
     }
 
     IEnumerator ShowResult()
@@ -107,7 +108,7 @@ public class UIManager : MonoBehaviour
         int totalScore = GameManager.Instance.totalScore;
         yield return StartCoroutine(AnimateStageScore(0, currentStageScore));
         yield return new WaitForSeconds(1.0f);
-        yield return StartCoroutine(AnimateTotalScore(currentStageScore, totalScore));
+        yield return StartCoroutine(AnimateTotalScore(initTotalScore, totalScore));
     }
 
     IEnumerator AnimateStageScore(int a, int b)
