@@ -33,8 +33,7 @@ public class PumkinEnemy : Enemy
     {
         if (canTakeDamage)
         {
-            GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
-            GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+            GameManager.Instance.score += this.score * GameManager.Instance.combo;            
         }
     }
 

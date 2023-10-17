@@ -34,8 +34,8 @@ public class LongEnemy : Enemy
 
     public override void TakeScore()
     {
-        GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+        GameManager.Instance.score += this.score * GameManager.Instance.combo;
+        
     }
 
     public override void TakeDamage(int damage)
@@ -47,7 +47,7 @@ public class LongEnemy : Enemy
         {
             gameObject.SetActive(false);                // ��Ȱ��ȭ
             GameManager.Instance.leftMonster--;         // ���� ���� �� �ٱ�
-            GameManager.Instance.tLeftMonster.text = GameManager.Instance.leftMonster.ToString();
+            
             Debug.Log("Shielded_Gingerbread Dead");
         }
     }

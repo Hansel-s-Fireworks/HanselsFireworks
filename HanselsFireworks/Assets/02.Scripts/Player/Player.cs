@@ -41,11 +41,17 @@ public class Player : MonoBehaviour
     void Start()
     {
         mode = GameManager.Instance.mode;
-        Cursor.lockState = CursorLockMode.Locked;       // ���콺 Ŀ���� ȭ��ȿ� ���
+        // Cursor.lockState = CursorLockMode.Locked;       // ���콺 Ŀ���� ȭ��ȿ� ���
     }
 
     // Update is called once per frame
     void Update()
+    {
+        UpdateMode();
+        PlayerView();        
+    }
+
+    private void UpdateMode()
     {
         mode = GameManager.Instance.mode;
         switch (mode)
@@ -54,27 +60,22 @@ public class Player : MonoBehaviour
                 if (Input.GetMouseButtonDown(0)) { Shoot(); }
                 break;
             case Mode.Burst:
-                if (Input.GetMouseButton(0)) 
+                if (Input.GetMouseButton(0))
                 {
-                    if (GameManager.Instance.leftCase <= 0) 
+                    if (GameManager.Instance.leftCase <= 0)
                     {
                         GameManager.Instance.mode = Mode.normal;
                         break;
                     }
                     GameManager.Instance.leftCase -= 1;
-                    GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
+                    //GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
                     Shoot();
                 }
                 break;
             default:
                 break;
         }
-        
-
-        PlayerView();        
     }
-
-
 
     
 
@@ -113,14 +114,14 @@ public class Player : MonoBehaviour
         GameManager.Instance.combo = 1;     // �޺� �ʱ�ȭ
 
         // ��� ����
-        if (GameManager.Instance.totalScore >= 100)
+        if (GameManager.Instance.score >= 100)
         {
-            GameManager.Instance.totalScore -= 100;     // 100�� ����
+            GameManager.Instance.score -= 100;     // 100�� ����
         }
-        else GameManager.Instance.totalScore = 0;
+        else GameManager.Instance.score = 0;
 
 
-        GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+        // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
+        // GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
     }
 }

@@ -3004,12 +3004,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4427565274650888144}
-  - component: {fileID: 7800825851143987980}
   - component: {fileID: 5126268698790211659}
   - component: {fileID: 5938146187183052412}
-  - component: {fileID: 4139179979542116175}
+  - component: {fileID: 7800825851143987980}
   - component: {fileID: 4663898018303545812}
   - component: {fileID: 4211184373820082094}
+  - component: {fileID: 4139179979542116175}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -3035,26 +3035,6 @@ Transform:
   - {fileID: 4319546239066646311}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7800825851143987980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8801224168550988465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b6353fa47cd194cb66db6d58f78b44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: 0
-  bullet: {fileID: 3728249667321437466, guid: f722f810e7eed6e4e80314999ada6b5d, type: 3}
-  firePoint: {fileID: 1507534351093756635}
-  characterBody: {fileID: 4427565274650888144}
-  cameraTransform: {fileID: 8077738267041552445}
-  mouseSensitivity: 7
-  mouseXInput: 0
-  mouseYInput: 0
 --- !u!54 &5126268698790211659
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3105,6 +3085,55 @@ CapsuleCollider:
   m_Height: 1.8233519
   m_Direction: 1
   m_Center: {x: 0, y: 0.8700826, z: 0}
+--- !u!114 &7800825851143987980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801224168550988465}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b6353fa47cd194cb66db6d58f78b44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+  bullet: {fileID: 3728249667321437466, guid: f722f810e7eed6e4e80314999ada6b5d, type: 3}
+  firePoint: {fileID: 1507534351093756635}
+  characterBody: {fileID: 4427565274650888144}
+  cameraTransform: {fileID: 8077738267041552445}
+  mouseSensitivity: 7
+  mouseXInput: 0
+  mouseYInput: 0
+--- !u!114 &4663898018303545812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801224168550988465}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d128f794a310bd4db951430e8c60dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4211184373820082094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801224168550988465}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a94791871803a4478e5aa6ecb4648dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 3
+  runSpeed: 5
+  jumpForce: 4
+  keyCodeRun: 304
+  keyCodeJump: 32
 --- !u!114 &4139179979542116175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3118,35 +3147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effect: {fileID: 167795266791826293, guid: b72687679c87a8e42a41385891403bf4, type: 3}
---- !u!114 &4663898018303545812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8801224168550988465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d128f794a310bd4db951430e8c60dfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4211184373820082094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8801224168550988465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a94791871803a4478e5aa6ecb4648dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 3
-  runSpeed: 5
-  jumpForce: 4
-  keyCodeRun: 304
-  keyCodeJump: 32
 --- !u!1 &9081708869924010758
 GameObject:
   m_ObjectHideFlags: 0

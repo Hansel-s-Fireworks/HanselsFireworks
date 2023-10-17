@@ -30,15 +30,15 @@ public class ShieldedEnemy : Enemy
         if (currentHP >= 1)
         {
             // 방패 점수
-            GameManager.Instance.totalScore += shieldScore * GameManager.Instance.combo;
+            GameManager.Instance.score += shieldScore * GameManager.Instance.combo;
             Debug.Log("Shielded_Gingerbread Damaged_1");
         }
         else if (currentHP == 0)
         {
-            GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
+            GameManager.Instance.score += this.score * GameManager.Instance.combo;
             Debug.Log("Shielded_Gingerbread Damaged_2");
         }
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+        
     }
 
     public override void TakeDamage(int damage)
@@ -63,13 +63,11 @@ public class ShieldedEnemy : Enemy
             // ChangeState(EnemyState.Dead);
             // animator.Play("Dead");
             GameManager.Instance.mode = Mode.Burst;
-            GameManager.Instance.leftCase += 100;
-            GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
+            GameManager.Instance.leftCase += 100;            
             gameObject.SetActive(false);
             // WaveSpawner.Instance.;
             Debug.Log("Shielded_Gingerbread Dead");
         }
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
     }
 
     

@@ -15,7 +15,15 @@ public class ShortEnemy : Enemy
     
 
     [SerializeField] private Player target;                           // ���� ���� ���(�÷��̾�)
+
     
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip audioClipWalk;
+    [SerializeField] private AudioClip audioClipRun;
+    [SerializeField] private AudioClip audioClipDie;
+    [SerializeField] private AudioClip audioClipAttack;
+
+    private AudioSource audioSource;
     private Vector3 moveDirection = Vector3.zero;
     private EnemyState enemyState = EnemyState.None;    // ���� �� �ൿ
     NavMeshAgent nav;
@@ -27,8 +35,8 @@ public class ShortEnemy : Enemy
 
     public override void TakeScore()
     {
-        GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+        GameManager.Instance.score += this.score * GameManager.Instance.combo;
+        
     }
 
     public override void TakeDamage(int damage)
@@ -37,17 +45,28 @@ public class ShortEnemy : Enemy
         bool isDie = DecreaseHP(damage);
         animator.SetInteger("HP", currentHP);
         nav.enabled = false;
+        audioSource.clip = audioClipDie;
+
         if (isDie)
         {
             animator.SetTrigger("Hit");
             gameObject.SetActive(false);                // ��Ȱ��ȭ
             GameManager.Instance.leftMonster--;         // ���� ���� �� �ٱ�
-            GameManager.Instance.tLeftMonster.text = GameManager.Instance.leftMonster.ToString();
+            
             Debug.Log("Short_Gingerbread Dead");
         }
     }
 
-    
+    private void PlaySound(AudioClip clip)
+    {
+        audioSource.Stop();             // 기존에 재생중인 사운드를 정지하고 
+        audioSource.clip = clip;        // 새로운 사운드 clip으로 교체 후
+        audioSource.Play();             // 사운드 재생
+    }
+    private void Setup()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +76,7 @@ public class ShortEnemy : Enemy
         animator.SetInteger("HP", currentHP);
         nav = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
+        Setup();
         ChangeState(EnemyState.Idle);
     }
     void FreezeVelocity()
@@ -69,18 +89,26 @@ public class ShortEnemy : Enemy
         // FreezeVelocity();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            // audioSource.clip = audioClipAttack;
+        }
+    }
+
     private void SetStatebyDistance()
     {
         float distance = Vector3.Distance(target.transform.position, transform.position);
         if(distance < attackRange)
         {
-            
+            audioSource.clip = audioClipAttack;
             animator.SetBool("Pursuit", false);
             ChangeState(EnemyState.Attack);
         }
         else if(distance > attackRange && distance <= recognitionRange)
         {
-            
+            audioSource.clip = audioClipWalk;
             animator.SetBool("Pursuit", true);
             ChangeState(EnemyState.Pursuit);
         }
@@ -103,6 +131,7 @@ public class ShortEnemy : Enemy
 
     private IEnumerator Idle()
     {
+        // audioSource.Stop();
         nav.speed = 0;
         while (true)
         {
@@ -118,6 +147,7 @@ public class ShortEnemy : Enemy
 
     private IEnumerator Pursuit()
     {
+        audioSource.Play();
         
         while (true)
         {
@@ -133,19 +163,37 @@ public class ShortEnemy : Enemy
         }
     }
 
+    // private IEnumerator Attack()
+    // {
+    //     audioSource.Play();
+    //     
+    // 
+    //     animator.SetBool("Attack", true);
+    //     bool isAttack = animator.GetBool("Attack");
+    //     while (isAttack)
+    //     {
+    //         nav.enabled = false;
+    //         candyCane.enabled = true;
+    //         FreezeVelocity();
+    //         LookRotationToTarget();         // Ÿ�� ������ ��� �ֽ�
+    //         yield return new WaitForSeconds(0.75f);
+    //         // Ÿ�ٰ��� �Ÿ��� ���� �ൿ ���� (���Ÿ� ���� / ����)
+    //         SetStatebyDistance();
+    //     }
+    // }
+
     private IEnumerator Attack()
     {
-        animator.SetBool("Attack", true);
-        bool isAttack = animator.GetBool("Attack");
-        while (isAttack)
+        while (true)
         {
             nav.enabled = false;
             candyCane.enabled = true;
             FreezeVelocity();
-            LookRotationToTarget();         // Ÿ�� ������ ��� �ֽ�
-            // Ÿ�ٰ��� �Ÿ��� ���� �ൿ ���� (���Ÿ� ���� / ����)
+            LookRotationToTarget();
+            animator.SetBool("Attack", true);
+            PlaySound(audioClipAttack);
             SetStatebyDistance();
-            yield return null;
+            yield return new WaitForSeconds(0.75f);
         }
     }
 

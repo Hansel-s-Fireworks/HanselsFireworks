@@ -7,8 +7,7 @@ public class BreakableCookie : InteractableObject
 {
     public override void TakeScore()
     {
-        GameManager.Instance.totalScore += this.score;
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+        GameManager.Instance.score += this.score;
     }
 
     public override void TakeDamage(int damage)

@@ -44,74 +44,66 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // public GameObject enemy;
-    public float startTime;
-    public float endTime;
-    public float spawnRate;
-    public int leftTime;
-    public int leftMonster;
+    public int[] stageScore;
+    public int score;
     public int totalScore;
+    public int currentStage;
+    public int maxTime;
+    
+
+
+    private int leftTime { get; set; }
+    public int LeftTime { get { return leftTime; } set { leftTime = value; } }
+    public int leftMonster;
     public int combo;
     public int leftCase;
     public Mode mode;
 
-    [Header("UI")]
-    public TextMeshProUGUI tLeftTime;
-    public TextMeshProUGUI tLeftMonster;
-    public TextMeshProUGUI tScore;
-    public TextMeshProUGUI tCombo;
-    public TextMeshProUGUI tLeftCase;
-
-    public Vector3 spawnRange;
-
-
     // Start is called before the first frame update
     void Start()
     {
-        leftMonster = 0;
-        totalScore = 0;
-        combo = 1;
-        leftCase = 0;
-        tCombo.text = combo.ToString();
-        tLeftTime.text = leftTime.ToString();
-        tLeftCase.text = leftCase.ToString();
-        // InvokeRepeating("Spawn", 0, spawnRate);
-        StartCoroutine(Timer());
-        StartCoroutine(CheckObjective());
-        // Invoke("CancelInvoke", endTime);
+        Init();
+        stageScore = new int[3];
     }
     private void Update()
     {
-        leftMonster = GetLeftEnemies();
-        tLeftMonster.text = leftMonster.ToString();
+        leftMonster = GetLeftEnemies();        
     }
+    
 
-
-    void Spawn()
-    {
-        Vector3 spawnArea = new Vector3(
-            Random.Range(transform.position.x - spawnRange.x, transform.position.x + spawnRange.x),
-            transform.position.y, 
-            Random.Range(transform.position.z - spawnRange.z, transform.position.z + spawnRange.z));
-        Vector3 spawnRotate = new Vector3(0, Random.Range(0, 180), 0);
-        // Instantiate(enemy, spawnArea, Quaternion.Euler(spawnRotate));
-
-        leftMonster++;
-        tLeftMonster.text = leftMonster.ToString();
-    }
+    public int GetleftTime() { return leftTime; }
 
     public int GetLeftEnemies()
     {
-        // ��� Enemy ������Ʈ�� ���� ���� ������Ʈ �迭�� ã���ϴ�.
+        // 모든 Enemy 컴포넌트를 가진 게임 오브젝트 배열을 찾습니다.
         Enemy[] enemies = FindObjectsOfType<Enemy>();
 
-        // Enemy ������Ʈ�� ���� ���� ������Ʈ�� ������ ��ȯ�մϴ�.
+        // Enemy 컴포넌트를 가진 게임 오브젝트의 개수를 반환합니다.
         return enemies.Length;
     }
 
     public void SetScore()
     {
-        
+        stageScore[0] = score;
+    }
+    public void Init() 
+    {        
+        leftTime = maxTime;
+        leftMonster = 0;
+        score = 0;
+        combo = 1;
+        leftCase = 0;
+        isMonsterLeft = true;
+    }
+
+
+    public void SetTimer()
+    {
+        StartCoroutine(Timer());
+    }
+    public void SetObjective()
+    {
+        StartCoroutine(CheckObjective());
     }
 
     IEnumerator Timer()
@@ -120,11 +112,19 @@ public class GameManager : MonoBehaviour
         while (leftTime > 0)
         {
             leftTime -= 1;
-            tLeftTime.text = leftTime.ToString();
-            if(leftMonster == 0) break;
+            
+            // if(leftMonster == 0) break;
             yield return new WaitForSeconds(1f);
         }
         print("Timer coroutine end");
+    }
+    private int bounsScore = 500;
+    private bool isMonsterLeft;
+
+    public void AddBonusScore()
+    {
+        score += bounsScore * combo;
+        // totalScore += bounsScore * combo;
     }
 
     IEnumerator CheckObjective()
@@ -134,26 +134,42 @@ public class GameManager : MonoBehaviour
         {
             if (leftTime > 0)
             {
-                if (leftMonster == 0)
+                if (leftMonster == 0 && isMonsterLeft)
                 {
-                    Debug.Log("Win");
-                    break;
+                    isMonsterLeft = false;
+                    // bonus score
+                    UIManager.Instance.ShowBonusUI();                    
+                    AddBonusScore();
+
+                    // stageScore[currentStage] = score;
+                    // totalScore += stageScore[currentStage];
+                    // UIManager.Instance.ShowResultUI();      // ShowResultUI
+                    // 
+                    // currentStage++;
+                    // score = 0;
+                    // SceneMgr.Instance.LoadNextScene();      // LoadNextScene
+                    // break;
                 }
             }
             else 
-            { 
-                Debug.Log("Lose"); 
+            {
+                // 완전 끝
+                // 모든 플레이어, 적 이동 금지. 
+                Debug.Log("End");
+                StopCoroutine(Timer());
+                stageScore[currentStage] = score;
+                totalScore += stageScore[currentStage];
+                UIManager.Instance.ShowResultUI();      // ShowResultUI
+                
+                currentStage++;
+                score = 0;
+                SceneMgr.Instance.LoadNextScene();      // LoadNextScene
                 break;
             }
             yield return null;
         }
     }
 
-    void OnDrawGizmos()
-    {
-        // ����� ���� ����
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(transform.position, spawnRange * 2);
-    }
+
 
 }
