@@ -63,6 +63,7 @@ public class ShieldedEnemy : Enemy
             // ChangeState(EnemyState.Dead);
             // animator.Play("Dead");
             GameManager.Instance.mode = Mode.Burst;
+            GameManager.Instance.ChangeBGM();
             GameManager.Instance.leftCase += 100;            
             gameObject.SetActive(false);
             // WaveSpawner.Instance.;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -49,7 +49,9 @@ public class GameManager : MonoBehaviour
     public int totalScore;
     public int currentStage;
     public int maxTime;
-    
+
+    [SerializeField]
+    private AudioSource mainBGM, burstBGM, currentBGM;
 
 
     private int leftTime { get; set; }
@@ -75,10 +77,10 @@ public class GameManager : MonoBehaviour
 
     public int GetLeftEnemies()
     {
-        // 모든 Enemy 컴포넌트를 가진 게임 오브젝트 배열을 찾습니다.
+        // 紐⑤뱺 Enemy 而댄룷?뚰듃瑜?媛吏?寃뚯엫 ?ㅻ툕?앺듃 諛곗뿴??李얠뒿?덈떎.
         Enemy[] enemies = FindObjectsOfType<Enemy>();
 
-        // Enemy 컴포넌트를 가진 게임 오브젝트의 개수를 반환합니다.
+        // Enemy 而댄룷?뚰듃瑜?媛吏?寃뚯엫 ?ㅻ툕?앺듃??媛쒖닔瑜?諛섑솚?⑸땲??
         return enemies.Length;
     }
 
@@ -88,12 +90,26 @@ public class GameManager : MonoBehaviour
     }
     public void Init() 
     {        
-        leftTime = maxTime;
-        leftMonster = 0;
-        score = 0;
-        combo = 1;
-        leftCase = 0;
-        isMonsterLeft = true;
+        if (BossManager.instance == null)
+        {
+            Debug.Log("보스매니저 존재안함");
+            leftTime = maxTime;
+            leftMonster = 0;
+            score = 0;
+            combo = 1;
+            leftCase = 0;
+            isMonsterLeft = true;
+        }
+        else
+        {
+            leftTime = 90;
+            leftMonster = 1;
+            score = 0;
+            combo = 1;
+            leftCase = 0;
+            isMonsterLeft = true;
+            Debug.Log("보스매니저 존재");
+        }
     }
 
 
@@ -127,6 +143,28 @@ public class GameManager : MonoBehaviour
         // totalScore += bounsScore * combo;
     }
 
+    public void ChangeBGM()
+    {
+        if (currentBGM == burstBGM)
+        {
+            burstBGM.mute = true;
+            mainBGM.mute = false;
+            currentBGM = mainBGM;
+        }
+        else
+        {
+            burstBGM.mute = false;
+            mainBGM.mute = true;
+            currentBGM = burstBGM;
+        }
+        currentBGM.Play();
+    }
+
+    public void MuteBGM()
+    {
+        currentBGM.mute = true;
+    }
+
     IEnumerator CheckObjective()
     {
         yield return new WaitUntil(() => leftMonster >= 1);
@@ -153,8 +191,8 @@ public class GameManager : MonoBehaviour
             }
             else 
             {
-                // 완전 끝
-                // 모든 플레이어, 적 이동 금지. 
+                // ?꾩쟾 ??
+                // 紐⑤뱺 ?뚮젅?댁뼱, ???대룞 湲덉?. 
                 Debug.Log("End");
                 StopCoroutine(Timer());
                 stageScore[currentStage] = score;
@@ -164,6 +202,7 @@ public class GameManager : MonoBehaviour
                 currentStage++;
                 score = 0;
                 SceneMgr.Instance.LoadNextScene();      // LoadNextScene
+                //bgm.mute = true;
                 break;
             }
             yield return null;

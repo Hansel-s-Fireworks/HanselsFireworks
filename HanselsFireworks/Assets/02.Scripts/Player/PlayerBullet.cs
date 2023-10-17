@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,9 +21,9 @@ public class PlayerBullet : MonoBehaviour
     }
     private void OnEnable()
     {
-        mode = GameManager.Instance.mode;       // �߻�� ���������� ��带 ����.
-        // �׷��� start���� �̸� �����ϰ� ����.
-        // �߻�ǰ� �븻�� �Ǿ��ٰ� �̹� �߻�Ȱ͵� �븻��� �Ѿ��� �ɼ��� ���⶧��. 
+        mode = GameManager.Instance.mode;       // 占쌩삼옙占?占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙躍?占쏙옙占쏙옙.
+        // 占쌓뤄옙占쏙옙 start占쏙옙占쏙옙 占싱몌옙 占쏙옙占쏙옙占싹곤옙 占쏙옙占쏙옙.
+        // 占쌩삼옙품占?占쎈말占쏙옙 占실억옙占쌕곤옙 占싱뱄옙 占쌩삼옙활孤占?占쎈말占쏙옙占?占싼억옙占쏙옙 占심쇽옙占쏙옙 占쏙옙占썩때占쏙옙. 
     }
     public void Setup(MemoryPool pool)
     {
@@ -35,20 +35,20 @@ public class PlayerBullet : MonoBehaviour
     {
         time += Time.fixedDeltaTime;
         transform.Translate(0, -speed * Time.fixedDeltaTime, 0);
-        // 3�� �Ŀ��� �ı����� �ʾҴٸ� ���� ������ ���� ���̹Ƿ� �޺� �ʱ�ȭ
+        // 3占쏙옙 占식울옙占쏙옙 占식깍옙占쏙옙占쏙옙 占십았다몌옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占싱므뤄옙 占쌨븝옙 占십깍옙화
         if (time > 3)
         {
-            // �̷��� ���� ������ �Ѿ��� �޺� �ʱ�ȭ�� �� ���̴�. 
-            // ������ �Ѿ��� �Ӽ��� �ٲ���� �Ѵ�. 
+            // 占싱뤄옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占싼억옙占쏙옙 占쌨븝옙 占십깍옙화占쏙옙 占쏙옙 占쏙옙占싱댐옙. 
+            // 占쏙옙占쏙옙占쏙옙 占싼억옙占쏙옙 占쌈쇽옙占쏙옙 占쌕뀐옙占쏙옙占?占싼댐옙. 
             if (mode == Mode.normal)
             {
-                Debug.Log("�޺� �ʱ�ȭ");
-                GameManager.Instance.combo = 1; // �޺� �ʱ�ȭ
+                Debug.Log("占쌨븝옙 占십깍옙화");
+                GameManager.Instance.combo = 1; // 占쌨븝옙 占십깍옙화
                 // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             }
-            time = 0;       // �ð��� �ٽ� 0���� �������� �ٽ� �����ȴ�.
-                            // �׷��� ������ if���� ���� �ٷ� ��Ȱ��ȭ�ȴ�. 
-            memoryPool.DeactivatePoolItem(gameObject);      // ��Ȱ��ȭ
+            time = 0;       // 占시곤옙占쏙옙 占쌕쏙옙 0占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쌕쏙옙 占쏙옙占쏙옙占싫댐옙.
+                            // 占쌓뤄옙占쏙옙 占쏙옙占쏙옙占쏙옙 if占쏙옙占쏙옙 占쏙옙占쏙옙 占쌕뤄옙 占쏙옙활占쏙옙화占싫댐옙. 
+            memoryPool.DeactivatePoolItem(gameObject);      // 占쏙옙활占쏙옙화
             // Destroy(gameObject);
         }
     }
@@ -61,10 +61,10 @@ public class PlayerBullet : MonoBehaviour
             other.GetComponent<Enemy>().TakeScore();
             GameManager.Instance.combo++;
             // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
-            // �÷��̾� ��ũ��Ʈ�� �ִ� Impact
+            // 占시뤄옙占싱억옙 占쏙옙크占쏙옙트占쏙옙 占쌍댐옙 Impact
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
-            // bool ���� �ϳ� ��ȭ�ָ� �θ� ��ũ��Ʈ���� �޸� Ǯ ����
-            // ����Ʈ �÷��� ������� �޸� Ǯ ����
+            // bool 占쏙옙占쏙옙 占싹놂옙 占쏙옙화占쌍몌옙 占싸몌옙 占쏙옙크占쏙옙트占쏙옙占쏙옙 占쌨몌옙 풀 占쏙옙占쏙옙
+            // 占쏙옙占쏙옙트 占시뤄옙占쏙옙 占쏙옙占쏙옙占쏙옙占?占쌨몌옙 풀 占쏙옙占쏙옙
             memoryPool.DeactivatePoolItem(gameObject);
             // Destroy(gameObject);
         }
@@ -72,8 +72,8 @@ public class PlayerBullet : MonoBehaviour
         {
             if (mode == Mode.normal)
             {
-                Debug.Log("�޺� �ʱ�ȭ");
-                GameManager.Instance.combo = 1; // �޺� �ʱ�ȭ
+                Debug.Log("占쌨븝옙 占십깍옙화");
+                GameManager.Instance.combo = 1; // 占쌨븝옙 占십깍옙화
                 // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             }
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
@@ -81,9 +81,9 @@ public class PlayerBullet : MonoBehaviour
         }
         else if (other.CompareTag("Interactable"))
         {
-            Debug.Log("��ȣ�ۿ� ������Ʈ");
+            Debug.Log("占쏙옙호占쌜울옙 占쏙옙占쏙옙占쏙옙트");
             other.GetComponent<InteractableObject>().TakeDamage(1);
-            // �Ϲ� ������Ʈ�� �޺� ������ ����.
+            // 占싹뱄옙 占쏙옙占쏙옙占쏙옙트占쏙옙 占쌨븝옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙.
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
             memoryPool.DeactivatePoolItem(gameObject);
         }

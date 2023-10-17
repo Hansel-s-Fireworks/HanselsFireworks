@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 // using UnityEngine.Cursor;
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         mode = GameManager.Instance.mode;
-        // Cursor.lockState = CursorLockMode.Locked;       // ���콺 Ŀ���� ȭ��ȿ� ���
+        // Cursor.lockState = CursorLockMode.Locked;       // 占쏙옙占쎌스 커占쏙옙占쏙옙 화占쏙옙효占?占쏙옙占?
     }
 
     // Update is called once per frame
@@ -64,6 +64,7 @@ public class Player : MonoBehaviour
                 {
                     if (GameManager.Instance.leftCase <= 0)
                     {
+                        GameManager.Instance.ChangeBGM();
                         GameManager.Instance.mode = Mode.normal;
                         break;
                     }
@@ -87,7 +88,7 @@ public class Player : MonoBehaviour
         Vector2 mouseDelta = new Vector2(mouseXInput * mouseSensitivity, mouseYInput * mouseSensitivity);
 
         xRotation -= mouseDelta.y;
-        // ���Ʒ� �������� ���� ���� ����
+        // 占쏙옙占싣뤄옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
         xRotation = Mathf.Clamp(xRotation, -90f, 80f);
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
@@ -98,7 +99,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Instantiate(bullet, firePoint);
-        // �޸� Ǯ�� �̿��ؼ� �Ѿ��� �����Ѵ�. 
+        // 占쌨몌옙 풀占쏙옙 占싱울옙占쌔쇽옙 占싼억옙占쏙옙 占쏙옙占쏙옙占싼댐옙. 
         GameObject clone = bulletMemoryPool.ActivatePoolItem();
 
         clone.transform.position = firePoint.position;
@@ -111,12 +112,12 @@ public class Player : MonoBehaviour
     public void TakeScore()
     {
         Debug.Log("Player Damaged");
-        GameManager.Instance.combo = 1;     // �޺� �ʱ�ȭ
+        GameManager.Instance.combo = 1;     // 占쌨븝옙 占십깍옙화
 
-        // ��� ����
+        // 占쏙옙占?占쏙옙占쏙옙
         if (GameManager.Instance.score >= 100)
         {
-            GameManager.Instance.score -= 100;     // 100�� ����
+            GameManager.Instance.score -= 100;     // 100占쏙옙 占쏙옙占쏙옙
         }
         else GameManager.Instance.score = 0;
 

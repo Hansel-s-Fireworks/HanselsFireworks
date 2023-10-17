@@ -21,7 +21,7 @@ public class LongEnemy : Enemy
     private EnemyState enemyState = EnemyState.None;    // ���� �� �ൿ
     // private float lastAttackTime = 0;                   // ���� �ֱ� ���� ���� 
 
-    [SerializeField] private Player target;                           // ���� ���� ���(�÷��̾�)
+    [SerializeField] private Player target;                           // ���� ���� ���?�÷��̾�)
 
     private void Awake()
     {
@@ -77,11 +77,11 @@ public class LongEnemy : Enemy
 
     public void ChangeState(EnemyState newState)
     {
-        // ���� ������� ���¿� �ٲٷ��� �ϴ� ���°� ������ �ٲ� �ʿ䰡 ���� ������ return
+        // ���� �������?���¿� �ٲٷ��� �ϴ� ���°� ������ �ٲ� �ʿ䰡 ���� ������ return
         if (enemyState == newState) return;        
-        StopCoroutine(enemyState.ToString());   // ������ ������̴� ���� ����   
+        StopCoroutine(enemyState.ToString());   // ������ ������̴�?���� ����   
         enemyState = newState;                  // ���� ���� ���¸� newState�� ����        
-        StartCoroutine(enemyState.ToString());  // ���ο� ���� ���
+        StartCoroutine(enemyState.ToString());  // ���ο� ���� ���?
     }
 
     private IEnumerator Idle()
@@ -115,7 +115,7 @@ public class LongEnemy : Enemy
         // LookRotationToTarget();
         while (true)
         {
-            LookRotationToTarget();         // Ÿ�� ������ ��� �ֽ�
+            LookRotationToTarget();         // Ÿ�� ������ ���?�ֽ�
             // Ÿ�ٰ��� �Ÿ��� ���� �ൿ ���� (���Ÿ� ���� / ����)
             CalculateDistanceToTargetAndSelectState();
             yield return null;

@@ -9,6 +9,9 @@ public class PumkinEnemy : Enemy
     [SerializeField]
     private GameObject target;
 
+    [SerializeField]
+    private AudioSource damageSound;
+
     private float approachTime = 1f;
 
     private bool canTakeDamage = false;
@@ -39,6 +42,7 @@ public class PumkinEnemy : Enemy
 
     public override void TakeDamage(int damage)
     {
+        damageSound.Play();
         if (canTakeDamage)
         {
             animator.SetTrigger("IsDamage");
@@ -71,7 +75,6 @@ public class PumkinEnemy : Enemy
 
         while (elapsedTime < approachTime)
         {
-            Debug.Log("움직이는중");
             transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / approachTime);
             elapsedTime += Time.deltaTime;
             yield return null;

@@ -13,8 +13,14 @@ EditorBuildSettings:
     guid: 8b116773d671fb646bdcf1afce5575ed
   - enabled: 1
     path: Assets/01.Scenes/MonsterTest 1.unity
-    guid: 9684d9c1b49147f4e8772aad0ab7472f
+    guid: b5b7079edaeddef43b2275fd3bf4af9d
   - enabled: 1
     path: Assets/01.Scenes/MonsterTest 2.unity
-    guid: 7dda2cc6dc216b04a81451c478563271
+    guid: d0b16c2756ae31a46910c8c379968bf1
+  - enabled: 1
+    path: Assets/01.Scenes/Boss.unity
+    guid: 785632443b8b13d4f834e0d6737bea09
+  - enabled: 1
+    path: Assets/01.Scenes/Boss_Phase2.unity
+    guid: 70d802cde91f2b94fb9a726e1c7c1eab
   m_configObjects: {}

@@ -13,7 +13,7 @@ public class PumkinManager : MonoBehaviour
     {
         if (Instance == null)
         {
-            Debug.Log("instance 생성");
+            Debug.Log("instance ?�성");
             Instance = this;
         }
     }

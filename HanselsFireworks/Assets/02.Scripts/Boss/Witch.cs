@@ -1,14 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Witch : Enemy
 {
     [SerializeField]
+    AudioSource  attackSound, laughingSound;
+    [SerializeField]
     private GameObject[] myPumkins;
     [SerializeField]
-    private GameObject pumkinPrefab;
-
+    private GameObject pumkinPrefab, barrier;
     private bool canDamage = false;
     private bool isAttacking = false;
     private Animator animator;
@@ -19,10 +20,39 @@ public class Witch : Enemy
         animator = GetComponent<Animator>();
     }
 
-    // 시작하는 조건 추가해야함
-    public void PrepareAttack()
+    public void Start()
     {
+        BossManager.instance.PhaseStartEvent.AddListener(PrepareAttack);
+        BossManager.instance.PhaseEndEvent.AddListener(MyTurn);
+
+        if (BossManager.instance.currentPhase == 3)
+        {
+            PrepareAttack(3);
+        }
+    }
+
+    // ?쒖옉?섎뒗 議곌굔 異붽??댁빞??
+    public void PrepareAttack(int phase)
+    {
+        switch(phase)
+        {
+            case 1:
+                foreach(GameObject pumkins in myPumkins)
+                {
+                    pumkins.GetComponent<PumkinAnimation>().angularSpeed = 40;
+                }
+                break;
+            case 3:
+                foreach (GameObject pumkins in myPumkins)
+                {
+                    pumkins.GetComponent<PumkinAnimation>().angularSpeed = 80;
+                }
+                break;
+        }
+
         StartCoroutine(SpawnPumkinWithDelay());
+        barrier.SetActive(true);
+        laughingSound.Play();
     }
 
     public void MyTurn(bool canTakeDamage)
@@ -30,16 +60,14 @@ public class Witch : Enemy
         canDamage = canTakeDamage;
         if (!canTakeDamage)
         {
-            Debug.Log("마녀가 공격");
-            // 마녀 공격 애니메이션
             animator.SetTrigger("IsAttacking");
+            attackSound.Play();
             PumkinManager.Instance.Attack();
         }
         else
         {
-            Debug.Log("내가 공격");
             canDamage = true;
-            // 맞는 애니메이션
+            barrier.SetActive(false);
         }
     }
 
@@ -48,7 +76,6 @@ public class Witch : Enemy
         if (canDamage)
         {
             GameManager.Instance.score += this.score * GameManager.Instance.combo;
-            
         }
     }
 
@@ -58,10 +85,15 @@ public class Witch : Enemy
         {
             animator.SetTrigger("IsDamage");
             bool isDie = DecreaseHP(damage);
+
+            if (currentHP == maxHP - damage * 5)
+            {
+                Debug.Log("씬전환");
+                BossManager.instance.goToNextPhase();
+            }    
             if (isDie)
             {
                 canDamage = false;
-                Debug.Log("1페이즈 끝");
                 animator.SetTrigger("IsDead");
             }
         }
