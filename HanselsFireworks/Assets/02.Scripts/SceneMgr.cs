@@ -35,7 +35,7 @@ public class SceneMgr : MonoBehaviour
     public string nextSceneName;
     [Range(0, 100)] public float percent;
     public float timer;
-    public float fakeLoadingTime; // ÆäÀÌÅ© ·Îµù ½Ã°£ ¼³Á¤ (ÃÊ ´ÜÀ§)
+    public float fakeLoadingTime; // í˜ì´í¬ ë¡œë”© ì‹œê°„ ì„¤ì • (ì´ˆ ë‹¨ìœ„)
 
     void Update()
     {
@@ -46,31 +46,31 @@ public class SceneMgr : MonoBehaviour
     {
         if (nextSceneName == "") return;
         
-        // ºñµ¿±âÀûÀ¸·Î SceneÀ» ºÒ·¯¿À±â À§ÇØ CoroutineÀ» »ç¿ëÇÑ´Ù.
+        // ë¹„ë™ê¸°ì ìœ¼ë¡œ Sceneì„ ë¶ˆëŸ¬ì˜¤ê¸° ìœ„í•´ Coroutineì„ ì‚¬ìš©í•œë‹¤.
         StartCoroutine(LoadMyAsyncScene());        
     }
 
     IEnumerator LoadMyAsyncScene()
     {
-        // AsyncOperationÀ» ÅëÇØ Scene Load Á¤µµ¸¦ ¾Ë ¼ö ÀÖ´Ù.
+        // AsyncOperationì„ í†µí•´ Scene Load ì •ë„ë¥¼ ì•Œ ìˆ˜ ìˆë‹¤.
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(nextSceneName);
         asyncLoad.allowSceneActivation = false;
 
         timer = 0;
-        float fakeLoadingDuration = 1f / fakeLoadingTime; // ÆäÀÌÅ© ·Îµù ½Ã°£ÀÇ ¿ª¼ö °è»ê
+        float fakeLoadingDuration = 1f / fakeLoadingTime; // í˜ì´í¬ ë¡œë”© ì‹œê°„ì˜ ì—­ìˆ˜ ê³„ì‚°
 
-        // SceneÀ» ºÒ·¯¿À´Â °ÍÀÌ ¿Ï·áµÉ ¶§±îÁö ´ë±âÇÑ´Ù.
+        // Sceneì„ ë¶ˆëŸ¬ì˜¤ëŠ” ê²ƒì´ ì™„ë£Œë  ë•Œê¹Œì§€ ëŒ€ê¸°í•œë‹¤.
         while (!asyncLoad.isDone)
         {
-            // ÁøÇà»óÈ² È®ÀÎ
+            // ì§„í–‰ìƒí™© í™•ì¸
             if (asyncLoad.progress < 0.9f)
             {
                 percent = asyncLoad.progress * 100f;
             }
             else
             {
-                // 1ÃÊ°£ ÆäÀÌÅ© ·Îµù
-                // ÆäÀÌÅ© ·Îµù
+                // 1ì´ˆê°„ í˜ì´í¬ ë¡œë”©
+                // í˜ì´í¬ ë¡œë”©
                 timer += Time.deltaTime * fakeLoadingDuration;
                 percent = Mathf.Lerp(90f, 100f, timer);
                 if (percent >= 100)

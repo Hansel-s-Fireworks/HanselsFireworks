@@ -53,7 +53,9 @@ public class GameManager : MonoBehaviour
     public int maxTime;
 
     [SerializeField]
-    private AudioSource mainBGM, burstBGM, currentBGM;
+    private AudioSource mainBGM;
+    private AudioSource burstBGM;
+    private AudioSource currentBGM;
 
 
     private int leftTime { get; set; }
