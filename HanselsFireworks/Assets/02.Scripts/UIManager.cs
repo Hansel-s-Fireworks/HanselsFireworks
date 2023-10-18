@@ -1,3 +1,4 @@
+using Autodesk.Fbx;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -60,6 +61,8 @@ public class UIManager : MonoBehaviour
     private Player player;
     private AudioSource audioSource;
 
+    [Header("Init variable")]
+    public int[] maxTime;
 
 
     // Start is called before the first frame update
@@ -78,7 +81,7 @@ public class UIManager : MonoBehaviour
         
         initTotalScore = GameManager.Instance.totalScore;
         audioSource = GetComponent<AudioSource>();
-        // ¸¶¿ì½º Ä¿¼­¸¦ º¸ÀÌ°Ô ÇÏ°í Àá±İÀ» ÇØÁ¦ÇÕ´Ï´Ù.
+        // ë§ˆìš°ìŠ¤ ì»¤ì„œë¥¼ ë³´ì´ê²Œ í•˜ê³  ì ê¸ˆì„ í•´ì œí•©ë‹ˆë‹¤.
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         
@@ -98,6 +101,7 @@ public class UIManager : MonoBehaviour
         //     ShowResultUI();
         // }
     }
+
     void SetComponentEnabled<T>(bool isEnabled) where T : MonoBehaviour
     {
         MonoBehaviour componentToDisable = player.GetComponent<T>();
@@ -106,7 +110,7 @@ public class UIManager : MonoBehaviour
 
     public void PlayStart()
     {
-        // ÄÄÆ÷³ÍÆ® È°¼ºÈ­ 
+        // ì»´í¬ë„ŒíŠ¸ í™œì„±í™” 
         SetComponentEnabled<Player>(true);
         SetComponentEnabled<PlayerMovement>(true);
         SetComponentEnabled<SpecialSkill>(true);
@@ -129,22 +133,17 @@ public class UIManager : MonoBehaviour
         audioSource.Play();
     }
 
-    // public IEnumerator ShowBonusScore()
-    // {
-    // 
-    // }
-
-
-    // °á°ú ÃÊ±â Á¡¼ö °»½Å
+    // ê²°ê³¼ ì´ˆê¸° ì ìˆ˜ ê°±ì‹ 
     public void InitScore()
     {
         for (int i = 0; i < tStageScores.Length; i++)
         {
             tStageScores[i].text = GameManager.Instance.stageScore[i].ToString();
         }
-        // ÃÊ±â °á°ú Á¡¼ö 
+        // ì´ˆê¸° ê²°ê³¼ ì ìˆ˜ 
         tTotalScore.text = initTotalScore.ToString();
     }
+
     public void InitInfo()
     {
         int curStage = GameManager.Instance.currentStage;
@@ -207,10 +206,10 @@ public class UIManager : MonoBehaviour
 
 
 
-    // °ÔÀÓ ½ÃÀÛ
+    // ê²Œì„ ì‹œì‘
     public void StartUI()
     {
-        // 3,2,1 ½ÇÇà. ÀÌ°Å ÄÚ·çÆ¾
+        // 3,2,1 ì‹¤í–‰. ì´ê±° ì½”ë£¨í‹´
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         GameManager.Instance.SetTimer();

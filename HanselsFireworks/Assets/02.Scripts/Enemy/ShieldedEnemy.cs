@@ -11,13 +11,13 @@ public class ShieldedEnemy : Enemy
 
     [Header("Info")]
     [SerializeField] private float attackRange;
-    [SerializeField] private float recognitionRange;            // ÀÎ½Ä ¹× °ø°İ ¹üÀ§ (ÀÌ ¹üÀ§ ¾È¿¡ µé¾î¿À¸é Attack" »óÅÂ·Î º¯°æ)
+    [SerializeField] private float recognitionRange;            // ì¸ì‹ ë° ê³µê²© ë²”ìœ„ (ì´ ë²”ìœ„ ì•ˆì— ë“¤ì–´ì˜¤ë©´ Attack" ìƒíƒœë¡œ ë³€ê²½)
 
     public int shieldScore;
-    [SerializeField] private Player target;                           // ÀûÀÇ °ø°İ ´ë»ó(ÇÃ·¹ÀÌ¾î)
+    [SerializeField] private Player target;                           // ì ì˜ ê³µê²© ëŒ€ìƒ(í”Œë ˆì´ì–´)
     
     private Vector3 moveDirection = Vector3.zero;
-    private EnemyState enemyState = EnemyState.None;    // ÇöÀç Àû Çàµ¿
+    private EnemyState enemyState = EnemyState.None;    // í˜„ì¬ ì  í–‰ë™
     public GameObject shield;
     NavMeshAgent nav;
     Rigidbody rb;
@@ -29,7 +29,7 @@ public class ShieldedEnemy : Enemy
     {
         if (currentHP >= 1)
         {
-            // ¹æÆĞ Á¡¼ö
+            // ë°©íŒ¨ ì ìˆ˜
             GameManager.Instance.score += shieldScore * GameManager.Instance.combo;
             Debug.Log("Shielded_Gingerbread Damaged_1");
         }
@@ -63,8 +63,8 @@ public class ShieldedEnemy : Enemy
             // ChangeState(EnemyState.Dead);
             // animator.Play("Dead");
             GameManager.Instance.mode = Mode.Burst;
-            GameManager.Instance.ChangeBGM();
             GameManager.Instance.leftCase += 100;            
+            GameManager.Instance.ChangeBGM();
             gameObject.SetActive(false);
             // WaveSpawner.Instance.;
             Debug.Log("Shielded_Gingerbread Dead");
@@ -76,7 +76,7 @@ public class ShieldedEnemy : Enemy
     // Start is called before the first frame update
     void Start()
     {
-        target = FindObjectOfType<Player>();        // ÇÃ·¹ÀÌ¾î ÀÎ½Ä
+        target = FindObjectOfType<Player>();        // í”Œë ˆì´ì–´ ì¸ì‹
         animator = GetComponent<Animator>();
         animator.SetInteger("HP", currentHP);
         nav = GetComponent<NavMeshAgent>();
@@ -118,11 +118,11 @@ public class ShieldedEnemy : Enemy
 
     public void ChangeState(EnemyState newState)
     {
-        // ÇöÀç Àç»ıÁßÀÎ »óÅÂ¿Í ¹Ù²Ù·Á°í ÇÏ´Â »óÅÂ°¡ °°À¸¸é ¹Ù²Ü ÇÊ¿ä°¡ ¾ø±â ¶§¹®¿¡ return
+        // í˜„ì¬ ì¬ìƒì¤‘ì¸ ìƒíƒœì™€ ë°”ê¾¸ë ¤ê³  í•˜ëŠ” ìƒíƒœê°€ ê°™ìœ¼ë©´ ë°”ê¿€ í•„ìš”ê°€ ì—†ê¸° ë•Œë¬¸ì— return
         if (enemyState == newState) return;
-        StopCoroutine(enemyState.ToString());   // ÀÌÀü¿¡ Àç»ıÁßÀÌ´ø »óÅÂ Á¾·á   
-        enemyState = newState;                  // ÇöÀç ÀûÀÇ »óÅÂ¸¦ newState·Î ¼³Á¤        
-        StartCoroutine(enemyState.ToString());  // »õ·Î¿î »óÅÂ Àç»ı
+        StopCoroutine(enemyState.ToString());   // ì´ì „ì— ì¬ìƒì¤‘ì´ë˜ ìƒíƒœ ì¢…ë£Œ   
+        enemyState = newState;                  // í˜„ì¬ ì ì˜ ìƒíƒœë¥¼ newStateë¡œ ì„¤ì •        
+        StartCoroutine(enemyState.ToString());  // ìƒˆë¡œìš´ ìƒíƒœ ì¬ìƒ
     }
 
     private IEnumerator Idle()
@@ -130,8 +130,8 @@ public class ShieldedEnemy : Enemy
         nav.speed = 0;
         while (true)
         {
-            // ´ë±â»óÅÂÀÏ ¶§, ÇÏ´Â Çàµ¿
-            // Å¸°Ù°úÀÇ °Å¸®¿¡ µû¶ó Çàµ¿ ¼±ÅÂ°³(¹èÈ¸, Ãß°İ, ¿ø°Å¸® °ø°İ)
+            // ëŒ€ê¸°ìƒíƒœì¼ ë•Œ, í•˜ëŠ” í–‰ë™
+            // íƒ€ê²Ÿê³¼ì˜ ê±°ë¦¬ì— ë”°ë¼ í–‰ë™ ì„ íƒœê°œ(ë°°íšŒ, ì¶”ê²©, ì›ê±°ë¦¬ ê³µê²©)
             candyCane.enabled = false;
             nav.enabled = true;
             SetStatebyDistance();
@@ -144,8 +144,8 @@ public class ShieldedEnemy : Enemy
     {
         while (true)
         {
-            LookRotationToTarget();         // Å¸°Ù ¹æÇâÀ» °è¼Ó ÁÖ½Ã
-            // MoveToTarget();                 // Å¸°Ù ¹æÇâÀ» °è¼Ó ÀÌµ¿
+            LookRotationToTarget();         // íƒ€ê²Ÿ ë°©í–¥ì„ ê³„ì† ì£¼ì‹œ
+            // MoveToTarget();                 // íƒ€ê²Ÿ ë°©í–¥ì„ ê³„ì† ì´ë™
             candyCane.enabled = false;
             nav.enabled = true;
             nav.speed = pursuitSpeed;
@@ -163,8 +163,8 @@ public class ShieldedEnemy : Enemy
             nav.enabled = false;
             candyCane.enabled = true;
             FreezeVelocity();
-            LookRotationToTarget();         // Å¸°Ù ¹æÇâÀ» °è¼Ó ÁÖ½Ã
-            // Å¸°Ù°úÀÇ °Å¸®¿¡ µû¶ó Çàµ¿ ¼±ÅÃ (¿ø°Å¸® °ø°İ / Á¤Áö)
+            LookRotationToTarget();         // íƒ€ê²Ÿ ë°©í–¥ì„ ê³„ì† ì£¼ì‹œ
+            // íƒ€ê²Ÿê³¼ì˜ ê±°ë¦¬ì— ë”°ë¼ í–‰ë™ ì„ íƒ (ì›ê±°ë¦¬ ê³µê²© / ì •ì§€)
             SetStatebyDistance();
             yield return null;
         }
@@ -172,26 +172,26 @@ public class ShieldedEnemy : Enemy
 
     private void LookRotationToTarget()
     {
-        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // ¸ñÇ¥ À§Ä¡
-        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // ³» À§Ä¡        
-        transform.rotation = Quaternion.LookRotation(to - from);            // ¹Ù·Î µ¹±â
+        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // ëª©í‘œ ìœ„ì¹˜
+        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // ë‚´ ìœ„ì¹˜        
+        transform.rotation = Quaternion.LookRotation(to - from);            // ë°”ë¡œ ëŒê¸°
     }
 
     // private void MoveToTarget()
     // {
-    //     Vector3 to = target.transform.position; // ¸ñÇ¥ À§Ä¡
-    //     Vector3 from = transform.position;      // ³» À§Ä¡
+    //     Vector3 to = target.transform.position; // ëª©í‘œ ìœ„ì¹˜
+    //     Vector3 from = transform.position;      // ë‚´ ìœ„ì¹˜
     //     moveDirection = (to - from).normalized;
     //     transform.position += moveDirection * moveSpeed * Time.deltaTime;
     // }
 
     private void OnDrawGizmos()
     {
-        // ¸ñÇ¥ ÀÎ½Ä ¹× °ø°İ ¹üÀ§
+        // ëª©í‘œ ì¸ì‹ ë° ê³µê²© ë²”ìœ„
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        // ÃßÀû ¹üÀ§
+        // ì¶”ì  ë²”ìœ„
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, recognitionRange);
     }

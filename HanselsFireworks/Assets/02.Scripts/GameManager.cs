@@ -50,12 +50,11 @@ public class GameManager : MonoBehaviour
     public int score;
     public int totalScore;
     public int currentStage;
-    public int maxTime;
+    private int maxTime;
 
-    [SerializeField]
-    private AudioSource mainBGM;
-    private AudioSource burstBGM;
-    private AudioSource currentBGM;
+    [SerializeField] private AudioSource mainBGM;
+    [SerializeField] private AudioSource burstBGM;
+    [SerializeField] private AudioSource currentBGM;
 
 
     private int leftTime { get; set; }
@@ -64,6 +63,9 @@ public class GameManager : MonoBehaviour
     public int combo;
     public int leftCase;
     public Mode mode;
+
+    private int bounsScore = 500;
+    private bool isMonsterLeft;
 
     // Start is called before the first frame update
     void Start()
@@ -93,7 +95,8 @@ public class GameManager : MonoBehaviour
         stageScore[0] = score;
     }
     public void Init() 
-    {        
+    {
+        maxTime = UIManager.Instance.maxTime[currentStage];
         if (BossManager.instance == null)
         {
             Debug.Log("보스매니저 존재안함");
@@ -138,8 +141,6 @@ public class GameManager : MonoBehaviour
         }
         print("Timer coroutine end");
     }
-    private int bounsScore = 500;
-    private bool isMonsterLeft;
 
     public void AddBonusScore()
     {
