@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -16,6 +16,7 @@ public enum Mode
     Burst
 }
 
+// 한글 테스트
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance = null;
@@ -77,10 +78,10 @@ public class GameManager : MonoBehaviour
 
     public int GetLeftEnemies()
     {
-        // 紐⑤뱺 Enemy 而댄룷?뚰듃瑜?媛吏?寃뚯엫 ?ㅻ툕?앺듃 諛곗뿴??李얠뒿?덈떎.
+        // 모든 Enemy 컴포넌트를 가진 게임 오브젝트 배열을 찾습니다.
         Enemy[] enemies = FindObjectsOfType<Enemy>();
 
-        // Enemy 而댄룷?뚰듃瑜?媛吏?寃뚯엫 ?ㅻ툕?앺듃??媛쒖닔瑜?諛섑솚?⑸땲??
+        // Enemy 컴포넌트를 가진 게임 오브젝트의 개수를 반환합니다.
         return enemies.Length;
     }
 
@@ -191,8 +192,8 @@ public class GameManager : MonoBehaviour
             }
             else 
             {
-                // ?꾩쟾 ??
-                // 紐⑤뱺 ?뚮젅?댁뼱, ???대룞 湲덉?. 
+                // 완전 끝
+                // 모든 플레이어, 적 이동 금지.  
                 Debug.Log("End");
                 StopCoroutine(Timer());
                 stageScore[currentStage] = score;
