@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class KoreanSnack : Enemy
 {
-    public Transform player; // ?�레?�어??Transform???�결??변??
+    public Transform player; // ?뚮젅?댁뼱??Transform???곌껐??蹂??
     private NavMeshAgent navMeshAgent;
 
     [SerializeField]
@@ -36,7 +36,7 @@ public class KoreanSnack : Enemy
 
     private void Update()
     {
-        // ?�레?�어???�치�?목표�??�정?�여 몬스?��? ?�라가?�록 ?�니??
+        // ?뚮젅?댁뼱???꾩튂瑜?紐⑺몴濡??ㅼ젙?섏뿬 紐ъ뒪?곌? ?곕씪媛?꾨줉 ?⑸땲??
         if (player != null)
         {
             navMeshAgent.SetDestination(player.position);

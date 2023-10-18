@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class LongEnemy : Enemy
 {
     [Header("Pursuit")]
-    [SerializeField] private float attackRange;            // �ν� �� ���� ���� (�� ���� �ȿ� ������ Attack" ���·� ����)
+    [SerializeField] private float attackRange;            // 인식 및 공격 범위 (이 범위 안에 들어오면 Attack" 상태로 변경)
 
     [Header("Attack")]
     [SerializeField] private GameObject projectilePrefab;
@@ -17,11 +17,9 @@ public class LongEnemy : Enemy
     public Animator animator;
 
     private MemoryPool memoryPool;
-    // private Vector3 moveDirection = Vector3.zero;
-    private EnemyState enemyState = EnemyState.None;    // ���� �� �ൿ
-    // private float lastAttackTime = 0;                   // ���� �ֱ� ���� ���� 
+    private EnemyState enemyState = EnemyState.None;
 
-    [SerializeField] private Player target;                           // ���� ���� ���?�÷��̾�)
+    [SerializeField] private Player target;
 
     private void Awake()
     {
@@ -45,16 +43,16 @@ public class LongEnemy : Enemy
         bool isDie = DecreaseHP(damage);
         if(isDie)
         {
-            gameObject.SetActive(false);                // ��Ȱ��ȭ
-            GameManager.Instance.leftMonster--;         // ���� ���� �� �ٱ�
-            
+            gameObject.SetActive(false);
+            GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
+
             Debug.Log("Shielded_Gingerbread Dead");
         }
     }
 
     private void Start()
     {
-        target = FindObjectOfType<Player>();        // �÷��̾� �ν�
+        target = FindObjectOfType<Player>();        // 플레이어 인식
         animator = GetComponent<Animator>();
         ChangeState(EnemyState.Idle);
     }
@@ -63,7 +61,7 @@ public class LongEnemy : Enemy
     {
         float distance = Vector3.Distance(target.transform.position, transform.position);
 
-        if (distance <= attackRange)        // �����ϱ�
+        if (distance <= attackRange)        // 공격하기
         {
             animator.SetBool("Attack", true);
             ChangeState(EnemyState.Attack);
@@ -77,30 +75,30 @@ public class LongEnemy : Enemy
 
     public void ChangeState(EnemyState newState)
     {
-        // ���� �������?���¿� �ٲٷ��� �ϴ� ���°� ������ �ٲ� �ʿ䰡 ���� ������ return
+        // 현재 재생중인 상태와 바꾸려고 하는 상태가 같으면 바꿀 필요가 없기 때문에 return
         if (enemyState == newState) return;        
-        StopCoroutine(enemyState.ToString());   // ������ ������̴�?���� ����   
-        enemyState = newState;                  // ���� ���� ���¸� newState�� ����        
-        StartCoroutine(enemyState.ToString());  // ���ο� ���� ���?
+        StopCoroutine(enemyState.ToString());   // 이전에 재생중이던 상태 종료   
+        enemyState = newState;                  // 현재 적의 상태를 newState로 설정        
+        StartCoroutine(enemyState.ToString());  // 새로운 상태 재생
     }
 
     private IEnumerator Idle()
     {
         while (true)
         {
-            // �������� ��, �ϴ� �ൿ
-            // Ÿ�ٰ��� �Ÿ��� ���� �ൿ ���°�(��ȸ, �߰�, ���Ÿ� ����)
+            // 대기상태일 때, 하는 행동
+            // 타겟과의 거리에 따라 행동 선태개(배회, 추격, 원거리 공격)
             CalculateDistanceToTargetAndSelectState();
 
             yield return null;
         }
     }
 
-    // �ִϸ��̼� �̺�Ʈ�� ����    
+    // 애니메이션 이벤트와 연결    
     private void ThrowCandyball()
     {
         // Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
-        // �޸� Ǯ�� �̿��ؼ� �Ѿ� ����
+        // 메모리 풀을 이용해서 총알 생성
         GameObject clone = memoryPool.ActivatePoolItem();
 
         clone.transform.position = projectileSpawnPoint.position;
@@ -115,8 +113,8 @@ public class LongEnemy : Enemy
         // LookRotationToTarget();
         while (true)
         {
-            LookRotationToTarget();         // Ÿ�� ������ ���?�ֽ�
-            // Ÿ�ٰ��� �Ÿ��� ���� �ൿ ���� (���Ÿ� ���� / ����)
+            LookRotationToTarget();         // 타겟 방향을 계속 주시
+            // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)
             CalculateDistanceToTargetAndSelectState();
             yield return null;
         }
@@ -124,22 +122,22 @@ public class LongEnemy : Enemy
 
     private void LookRotationToTarget()
     {        
-        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // ��ǥ ��ġ
-        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // �� ��ġ        
-        transform.rotation = Quaternion.LookRotation(to - from);            // �ٷ� ����
+        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // 목표 위치
+        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);              // 내 위치   
+        transform.rotation = Quaternion.LookRotation(to - from);                                // 바로 돌기
     }
 
     private Vector3 CalculateVectorToTarget()
     {
-        Vector3 to = target.transform.position; // ��ǥ ��ġ
-        Vector3 from = transform.position;      // �� ��ġ
+        Vector3 to = target.transform.position; // 목표 위치
+        Vector3 from = transform.position;      // 내 위치  
         Vector3 moveDirection = (to - from).normalized;
         return moveDirection;
     }
 
     private void OnDrawGizmos()
-    {        
-        // ��ǥ �ν� �� ���� ����
+    {
+        // 목표 인식 및 공격 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }

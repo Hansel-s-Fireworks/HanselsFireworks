@@ -11,10 +11,10 @@ public class ShortEnemy : Enemy
 
     [Header("Info")]
     [SerializeField] private float attackRange;
-    [SerializeField] private float recognitionRange;            // �ν� �� ���� ���� (�� ���� �ȿ� ������ Attack" ���·� ����)
-    
+    [SerializeField] private float recognitionRange;            // 인식 및 공격 범위 (이 범위 안에 들어오면 Attack" 상태로 변경)
 
-    [SerializeField] private Player target;                           // ���� ���� ���(�÷��̾�)
+
+    [SerializeField] private Player target;
 
     
     [Header("Audio Clips")]
@@ -25,7 +25,7 @@ public class ShortEnemy : Enemy
 
     private AudioSource audioSource;
     private Vector3 moveDirection = Vector3.zero;
-    private EnemyState enemyState = EnemyState.None;    // ���� �� �ൿ
+    private EnemyState enemyState = EnemyState.None;
     NavMeshAgent nav;
     Rigidbody rb;
     
@@ -50,9 +50,9 @@ public class ShortEnemy : Enemy
         if (isDie)
         {
             animator.SetTrigger("Hit");
-            gameObject.SetActive(false);                // ��Ȱ��ȭ
-            GameManager.Instance.leftMonster--;         // ���� ���� �� �ٱ�
-            
+            gameObject.SetActive(false);
+            GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
+
             Debug.Log("Short_Gingerbread Dead");
         }
     }
@@ -71,7 +71,7 @@ public class ShortEnemy : Enemy
     // Start is called before the first frame update
     void Start()
     {
-        target = FindObjectOfType<Player>();        // �÷��̾� �ν�
+        target = FindObjectOfType<Player>();        // 플레이어 인식
         animator = GetComponent<Animator>();
         animator.SetInteger("HP", currentHP);
         nav = GetComponent<NavMeshAgent>();
@@ -122,11 +122,11 @@ public class ShortEnemy : Enemy
 
     public void ChangeState(EnemyState newState)
     {
-        // ���� ������� ���¿� �ٲٷ��� �ϴ� ���°� ������ �ٲ� �ʿ䰡 ���� ������ return
+        // 현재 재생중인 상태와 바꾸려고 하는 상태가 같으면 바꿀 필요가 없기 때문에 return
         if (enemyState == newState) return;
-        StopCoroutine(enemyState.ToString());   // ������ ������̴� ���� ����   
-        enemyState = newState;                  // ���� ���� ���¸� newState�� ����        
-        StartCoroutine(enemyState.ToString());  // ���ο� ���� ���
+        StopCoroutine(enemyState.ToString());   // 이전에 재생중이던 상태 종료   
+        enemyState = newState;                  // 현재 적의 상태를 newState로 설정         
+        StartCoroutine(enemyState.ToString());  // 새로운 상태 재생
     }
 
     private IEnumerator Idle()
@@ -135,8 +135,8 @@ public class ShortEnemy : Enemy
         nav.speed = 0;
         while (true)
         {
-            // �������� ��, �ϴ� �ൿ
-            // Ÿ�ٰ��� �Ÿ��� ���� �ൿ ���°�(��ȸ, �߰�, ���Ÿ� ����)
+            // 대기상태일 때, 하는 행동
+            // 타겟과의 거리에 따라 행동 선태개(배회, 추격, 원거리 공격)
             nav.enabled = true;
             candyCane.enabled = false;
             SetStatebyDistance();
@@ -152,8 +152,8 @@ public class ShortEnemy : Enemy
         while (true)
         {
             animator.SetBool("Attack", false);
-            LookRotationToTarget();         // Ÿ�� ������ ��� �ֽ�
-            // MoveToTarget();                 // Ÿ�� ������ ��� �̵�
+            LookRotationToTarget();         // 타겟 방향을 계속 주시
+            // MoveToTarget();                 // 타겟 방향을 계속 이동
             nav.enabled = true;
             candyCane.enabled = false;
             nav.speed = pursuitSpeed;
@@ -175,9 +175,9 @@ public class ShortEnemy : Enemy
     //         nav.enabled = false;
     //         candyCane.enabled = true;
     //         FreezeVelocity();
-    //         LookRotationToTarget();         // Ÿ�� ������ ��� �ֽ�
+    //         LookRotationToTarget();         // 타겟 방향을 계속 주시
     //         yield return new WaitForSeconds(0.75f);
-    //         // Ÿ�ٰ��� �Ÿ��� ���� �ൿ ���� (���Ÿ� ���� / ����)
+    //         // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)
     //         SetStatebyDistance();
     //     }
     // }
@@ -189,36 +189,36 @@ public class ShortEnemy : Enemy
             nav.enabled = false;
             candyCane.enabled = true;
             FreezeVelocity();
-            LookRotationToTarget();
+            LookRotationToTarget();                 // 타겟 방향을 계속 주시
             animator.SetBool("Attack", true);
             PlaySound(audioClipAttack);
-            SetStatebyDistance();
+            SetStatebyDistance();           // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)
             yield return new WaitForSeconds(0.75f);
         }
     }
 
     private void LookRotationToTarget()
     {
-        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // ��ǥ ��ġ
-        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // �� ��ġ        
-        transform.rotation = Quaternion.LookRotation(to - from);            // �ٷ� ����
+        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // 목표 위치
+        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);              // 내 위치  
+        transform.rotation = Quaternion.LookRotation(to - from);                                // 바로 돌기
     }
 
     // private void MoveToTarget()
     // {
-    //     Vector3 to = target.transform.position; // ��ǥ ��ġ
-    //     Vector3 from = transform.position;      // �� ��ġ
+    //     Vector3 to = target.transform.position; // 목표 위치
+    //     Vector3 from = transform.position;      
     //     moveDirection = (to - from).normalized;
     //     transform.position += moveDirection * moveSpeed * Time.deltaTime;
     // }
 
     private void OnDrawGizmos()
     {
-        // ��ǥ �ν� �� ���� ����
+        // 목표 인식 및 공격 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        // ���� ����
+        // 추적 범위
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, recognitionRange);
     }

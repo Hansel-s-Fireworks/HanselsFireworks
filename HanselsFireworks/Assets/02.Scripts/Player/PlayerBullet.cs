@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,9 +21,9 @@ public class PlayerBullet : MonoBehaviour
     }
     private void OnEnable()
     {
-        mode = GameManager.Instance.mode;       // 占쌩삼옙占?占쏙옙占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙躍?占쏙옙占쏙옙.
-        // 占쌓뤄옙占쏙옙 start占쏙옙占쏙옙 占싱몌옙 占쏙옙占쏙옙占싹곤옙 占쏙옙占쏙옙.
-        // 占쌩삼옙품占?占쎈말占쏙옙 占실억옙占쌕곤옙 占싱뱄옙 占쌩삼옙활孤占?占쎈말占쏙옙占?占싼억옙占쏙옙 占심쇽옙占쏙옙 占쏙옙占썩때占쏙옙. 
+        mode = GameManager.Instance.mode;       // 발사된 시점에서의 모드를 저장.
+        // 그래서 start에서 미리 저장하고 진행.
+        // 발사되고 노말이 되었다고 이미 발사된것도 노말모드 총알이 될수는 없기때문. 
     }
     public void Setup(MemoryPool pool)
     {
@@ -35,20 +35,20 @@ public class PlayerBullet : MonoBehaviour
     {
         time += Time.fixedDeltaTime;
         transform.Translate(0, -speed * Time.fixedDeltaTime, 0);
-        // 3占쏙옙 占식울옙占쏙옙 占식깍옙占쏙옙占쏙옙 占십았다몌옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占싱므뤄옙 占쌨븝옙 占십깍옙화
+        // 3초 후에도 파괴되지 않았다면 적을 맞추지 못한 것이므로 콤보 초기화
         if (time > 3)
         {
-            // 占싱뤄옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占싼억옙占쏙옙 占쌨븝옙 占십깍옙화占쏙옙 占쏙옙 占쏙옙占싱댐옙. 
-            // 占쏙옙占쏙옙占쏙옙 占싼억옙占쏙옙 占쌈쇽옙占쏙옙 占쌕뀐옙占쏙옙占?占싼댐옙. 
+            // 이러면 나간 시점의 총알이 콤보 초기화가 될 것이다. 
+            // 생성된 총알의 속성을 바꿔줘야 한다. 
             if (mode == Mode.normal)
             {
-                Debug.Log("占쌨븝옙 占십깍옙화");
-                GameManager.Instance.combo = 1; // 占쌨븝옙 占십깍옙화
+                Debug.Log("콤보 초기화");
+                GameManager.Instance.combo = 1; // 콤보 초기화
                 // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             }
-            time = 0;       // 占시곤옙占쏙옙 占쌕쏙옙 0占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쌕쏙옙 占쏙옙占쏙옙占싫댐옙.
-                            // 占쌓뤄옙占쏙옙 占쏙옙占쏙옙占쏙옙 if占쏙옙占쏙옙 占쏙옙占쏙옙 占쌕뤄옙 占쏙옙활占쏙옙화占싫댐옙. 
-            memoryPool.DeactivatePoolItem(gameObject);      // 占쏙옙활占쏙옙화
+            time = 0;       // 시간을 다시 0으로 만들어줘야 다시 생성된다.
+                            // 그렇지 않으면 if문에 의해 바로 비활성화된다. 
+            memoryPool.DeactivatePoolItem(gameObject);      // 비활성화
             // Destroy(gameObject);
         }
     }
@@ -61,10 +61,10 @@ public class PlayerBullet : MonoBehaviour
             other.GetComponent<Enemy>().TakeScore();
             GameManager.Instance.combo++;
             // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
-            // 占시뤄옙占싱억옙 占쏙옙크占쏙옙트占쏙옙 占쌍댐옙 Impact
+            // 플레이어 스크립트에 있는 Impact
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
-            // bool 占쏙옙占쏙옙 占싹놂옙 占쏙옙화占쌍몌옙 占싸몌옙 占쏙옙크占쏙옙트占쏙옙占쏙옙 占쌨몌옙 풀 占쏙옙占쏙옙
-            // 占쏙옙占쏙옙트 占시뤄옙占쏙옙 占쏙옙占쏙옙占쏙옙占?占쌨몌옙 풀 占쏙옙占쏙옙
+            // bool 변수 하나 변화주면 부모 스크립트에서 메모리 풀 실행
+            // 이펙트 플레이 끝나고서 메모리 풀 해제
             memoryPool.DeactivatePoolItem(gameObject);
             // Destroy(gameObject);
         }
@@ -72,8 +72,8 @@ public class PlayerBullet : MonoBehaviour
         {
             if (mode == Mode.normal)
             {
-                Debug.Log("占쌨븝옙 占십깍옙화");
-                GameManager.Instance.combo = 1; // 占쌨븝옙 占십깍옙화
+                Debug.Log("콤보 초기화");
+                GameManager.Instance.combo = 1; // 콤보 초기화
                 // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
             }
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);

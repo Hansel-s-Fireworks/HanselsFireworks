@@ -1,29 +1,29 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MemoryPool : MonoBehaviour
 {
-    // 占쌨몌옙 풀占쏙옙 占쏙옙占쏙옙占실댐옙 占쏙옙占쏙옙占쏙옙트 占쏙옙占쏙옙
+    // 메모리 풀로 관리되는 오브젝트 정보
     private class PoolItem
     {
-        public bool isActive;           // "gameObject"占쏙옙 활占쏙옙화/占쏙옙활占쏙옙화 占쏙옙占쏙옙
-        public GameObject gameObject;   // 화占썽에 占쏙옙占싱댐옙 占쏙옙占쏙옙 占쏙옙占쌈울옙占쏙옙占쏙옙트
+        public bool isActive;           // "gameObject"의 활성화/비활성화 정보
+        public GameObject gameObject;   // 화면에 보이는 실제 게임오브젝트
     }
 
-    private int increaseCount = 5;      // 占쏙옙占쏙옙占쏙옙트占쏙옙 占쏙옙占쏙옙占쌀띰옙, 占쌩곤옙占쏙옙 占쏙옙占쏙옙占실댐옙 占쏙옙占쏙옙占쏙옙트 占쏙옙
-    private int maxCount;               // 占쏙옙占쏙옙 占쏙옙占쏙옙트占쏙옙 占쏙옙溝퓸占?占쌍댐옙 占쏙옙占쏙옙占쏙옙트 占쏙옙占쏙옙
-    private int activeCount;            // 占쏙옙占쏙옙 占쏙옙占쌈울옙 占쏙옙占실곤옙 占쌍댐옙 占쏙옙占쏙옙占쏙옙트 占쏙옙占쏙옙
+    private int increaseCount = 5;      // 오브젝트가 부족할때, 추가로 생성되는 오브젝트 수
+    private int maxCount;               // 현재 리스트에 등록되어 있는 오브젝트 개수
+    private int activeCount;            // 현재 게임에 사용되고 있는 오브젝트 개수
 
-    private GameObject poolObject;      // 占쏙옙占쏙옙占쏙옙트 풀占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹댐옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙트 占쏙옙占쏙옙占쏙옙
-    private List<PoolItem> poolItemList;// 占쏙옙占쏙옙占실댐옙 占쏙옙占?占쏙옙占쏙옙占쏙옙트占쏙옙 占쏙옙占쏙옙占싹댐옙 占쏙옙占쏙옙트 
+    private GameObject poolObject;      // 오브젝트 풀링에서 관리하는 게임 오브젝트 프리펩
+    private List<PoolItem> poolItemList;// 관리되는 모든 오브젝트를 저장하는 리스트 
 
-    public int MaxCount => maxCount;        // 占쌤부울옙占쏙옙 확占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙티 
-    public int ActiveCount => activeCount;  // 占쌤부울옙占쏙옙 확占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙티
+    public int MaxCount => maxCount;        // 외부에서 확인을 위한 프로퍼티 
+    public int ActiveCount => activeCount;  // 외부에서 확인을 위한 프로퍼티
 
     // private Vector3 tempPosition = new Vector3(1000, 1000, 1000);
 
-    // 占쌔댐옙 占쏙옙占쌈울옙占쏙옙占쏙옙트占쏙옙 占쌨아쇽옙 占쏙옙占쏙옙占쏙옙 호占쏙옙
+    // 해당 게임오브젝트를 받아서 생성자 호출
     public MemoryPool(GameObject poolObject)
     {
         maxCount = 0;
@@ -32,9 +32,8 @@ public class MemoryPool : MonoBehaviour
 
         poolItemList = new List<PoolItem>();
 
-        InstantiateObjects();   // 占쏙옙占쏙옙 5占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占싱몌옙 占쏙옙占쏙옙
+        InstantiateObjects();   // 최초 5개의 아이템 미리 생성
     }
-    // 한국어주석
 
     public void InstantiateObjects()
     {
@@ -53,12 +52,12 @@ public class MemoryPool : MonoBehaviour
     }
 
     /// <summary>
-    /// 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占?占쏙옙占쏙옙占쏙옙트占쏙옙 占쏙옙占쏙옙
+    /// 현재 관리중인 모든 오브젝트를 삭제
     /// </summary>
     public void DestroyObjects()
     {
         if (poolItemList == null) return;
-        int count = poolItemList.Count; 
+        int count = poolItemList.Count;
         for (int i = 0; i < count; ++i)
         {
             GameObject.Destroy(poolItemList[i].gameObject);
@@ -70,8 +69,8 @@ public class MemoryPool : MonoBehaviour
     {
         if (poolItemList == null) return null;
 
-        // 占쏙옙占쏙옙 占쏙옙占쏙옙占쌔쇽옙 占쏙옙占쏙옙占싹댐옙 占쏙옙占?占쏙옙占쏙옙占쏙옙트 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 활占쏙옙화 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙트 占쏙옙占쏙옙 占쏙옙
-        // 占쏙옙占?占쏙옙占쏙옙占쏙옙트占쏙옙 활占쏙옙화 占쏙옙占쏙옙占싱몌옙 占쏙옙占싸울옙 占쏙옙占쏙옙占쏙옙트 占십울옙
+        // 현재 생성해서 관리하는 모든 오브젝트 개수와 현재 활성화 상태인 오브젝트 개수 비교
+        // 모든 오브젝트가 활성화 상태이면 새로운 오브젝트 필요
         if (maxCount == activeCount)
         {
             InstantiateObjects();
@@ -82,10 +81,10 @@ public class MemoryPool : MonoBehaviour
         {
             PoolItem poolItem = poolItemList[i];
 
-            // i占쏙옙占쏙옙占쏙옙 占쏙옙활占쏙옙화占싱몌옙
+            // i번가 비활성화이면
             if (poolItem.isActive == false)
             {
-                // 占쏙옙占쏙옙 占쏙옙 활占쏙옙화 
+                // 다음 꺼 활성화 
                 activeCount++;
                 poolItem.isActive = true;
                 poolItem.gameObject.SetActive(true);
@@ -97,7 +96,7 @@ public class MemoryPool : MonoBehaviour
         return null;
     }
 
-    // 占쏙옙占쏙옙 占쏙옙占쏙옙占?占싹뤄옙占?占쏙옙占쏙옙占쏙옙트占쏙옙 占쏙옙활占쏙옙화 占쏙옙占승뤄옙 占쏙옙占쏙옙
+    // 현재 사용이 완료된 오브젝트를 비활성화 상태로 결정
     public void DeactivatePoolItem(GameObject removeObject)
     {
         if (poolItemList == null || removeObject == null) return;
@@ -117,7 +116,7 @@ public class MemoryPool : MonoBehaviour
         }
     }
 
-    // 占쏙옙占쌈울옙 占쏙옙占쏙옙占쏙옙占?占쏙옙占?占쏙옙占쏙옙占쏙옙트占쏙옙 占쏙옙활占쏙옙화 占쏙옙占승뤄옙 占쏙옙占쏙옙
+    // 게임에 사용중인 모든 오브젝트를 비활성화 상태로 설정
     public void DeactivateAllPoolItems()
     {
         if (poolItemList == null) return;

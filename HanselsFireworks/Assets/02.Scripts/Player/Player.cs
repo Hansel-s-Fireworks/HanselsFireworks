@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 // using UnityEngine.Cursor;
@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
         Vector2 mouseDelta = new Vector2(mouseXInput * mouseSensitivity, mouseYInput * mouseSensitivity);
 
         xRotation -= mouseDelta.y;
-        // 占쏙옙占싣뤄옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
+        // 위아래 내려보는 각도 범위 제한
         xRotation = Mathf.Clamp(xRotation, -90f, 80f);
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
     void Shoot()
     {
         // Instantiate(bullet, firePoint);
-        // 占쌨몌옙 풀占쏙옙 占싱울옙占쌔쇽옙 占싼억옙占쏙옙 占쏙옙占쏙옙占싼댐옙. 
+        // 메모리 풀을 이용해서 총알을 생성한다.
         GameObject clone = bulletMemoryPool.ActivatePoolItem();
 
         clone.transform.position = firePoint.position;

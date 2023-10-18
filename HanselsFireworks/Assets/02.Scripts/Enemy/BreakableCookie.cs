@@ -15,7 +15,7 @@ public class BreakableCookie : InteractableObject
         bool isDie = DecreaseHP(damage);
         if (isDie)
         {
-            gameObject.SetActive(false);                // ��Ȱ��ȭ
+            gameObject.SetActive(false);                // 비활성화
             GetComponent<BreakFruit>().Run();
             Debug.Log("BreakableCookie Breaked");
         }
