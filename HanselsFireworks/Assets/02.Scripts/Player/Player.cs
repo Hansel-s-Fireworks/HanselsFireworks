@@ -6,11 +6,8 @@ using UnityEngine.UI;
 // using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
-{
-    
-    
+{   
     [SerializeField] Mode mode;
-    public GameObject bullet;
     public Transform firePoint;
 
     [Header("Mouse Controll view")]
@@ -23,30 +20,19 @@ public class Player : MonoBehaviour
     public float mouseYInput;
     private float xRotation = 0f;
 
-
-    private MemoryPool bulletMemoryPool;
-    
-
-    private void Awake()
-    {
-        bulletMemoryPool = new MemoryPool(bullet);        
-    }
-
-    private void OnApplicationQuit()
-    {
-        bulletMemoryPool.DestroyObjects();
-    }
+    [SerializeField] private Animator gunAnimator;
+    public FireGun fireGun;    
 
     // Start is called before the first frame update
     void Start()
     {
         mode = GameManager.Instance.mode;
-        // Cursor.lockState = CursorLockMode.Locked;       // 占쏙옙占쎌스 커占쏙옙占쏙옙 화占쏙옙효占?占쏙옙占?
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         UpdateMode();
         PlayerView();        
     }
@@ -54,31 +40,34 @@ public class Player : MonoBehaviour
     private void UpdateMode()
     {
         mode = GameManager.Instance.mode;
-        switch (mode)
+        if (Input.GetMouseButtonDown(0))
         {
-            case Mode.normal:
-                if (Input.GetMouseButtonDown(0)) { Shoot(); }
-                break;
-            case Mode.Burst:
-                if (Input.GetMouseButton(0))
-                {
+            switch (mode)
+            {
+                case Mode.normal:
+                        fireGun.StartWeaponAction();                    
+                    break;
+                case Mode.Burst:
                     if (GameManager.Instance.leftCase <= 0)
                     {
                         GameManager.Instance.ChangeBGM();
                         GameManager.Instance.mode = Mode.normal;
+                        fireGun.isAutomaticAttack = false;
                         break;
                     }
-                    GameManager.Instance.leftCase -= 1;
-                    //GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
-                    Shoot();
-                }
-                break;
-            default:
-                break;
+                    fireGun.StartWeaponAction();
+                    fireGun.isAutomaticAttack = true;
+                    // GameManager.Instance.leftCase -= 1;
+                    break;
+                default:
+                    break;
+            }
         }
-    }
-
-    
+        else if (Input.GetMouseButtonUp(0))
+        {
+            fireGun.StopWeaponAction();
+        }
+    }   
 
 
     void PlayerView()
@@ -93,36 +82,18 @@ public class Player : MonoBehaviour
 
         cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         characterBody.Rotate(Vector3.up * mouseDelta.x);
-    }
-    
-
-    void Shoot()
-    {
-        // Instantiate(bullet, firePoint);
-        // 메모리 풀을 이용해서 총알을 생성한다.
-        GameObject clone = bulletMemoryPool.ActivatePoolItem();
-
-        clone.transform.position = firePoint.position;
-        clone.transform.rotation = firePoint.rotation;
-        clone.GetComponent<PlayerBullet>().Setup(bulletMemoryPool);
-    }
-
-    
+    }  
 
     public void TakeScore()
     {
         Debug.Log("Player Damaged");
-        GameManager.Instance.combo = 1;     // 占쌨븝옙 占십깍옙화
+        GameManager.Instance.combo = 1;     // 콤보 초기화
 
-        // 占쏙옙占?占쏙옙占쏙옙
+        // 양수 유지
         if (GameManager.Instance.score >= 100)
         {
-            GameManager.Instance.score -= 100;     // 100占쏙옙 占쏙옙占쏙옙
+            GameManager.Instance.score -= 100;     // 100점 감점
         }
         else GameManager.Instance.score = 0;
-
-
-        // GameManager.Instance.tCombo.text = GameManager.Instance.combo.ToString();
-        // GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
     }
 }
