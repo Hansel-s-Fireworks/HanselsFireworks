@@ -306,7 +306,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: efc349b974b1e1047b533198e2e4a1eb, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1748,10 +1748,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2059249619810042511}
   - component: {fileID: 6121125441432794729}
+  - component: {fileID: 4453444121079066295}
   - component: {fileID: 7584572691392086448}
   - component: {fileID: 6009529452846109001}
   - component: {fileID: 8575064077514928201}
   - component: {fileID: 7521202174756880475}
+  - component: {fileID: 1187962760942512216}
   m_Layer: 0
   m_Name: Shielded_Gingerbread
   m_TagString: Enemy
@@ -1797,6 +1799,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4453444121079066295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8811367503579928193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b425060cbae4e42b66ddf911b899c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveTime: 1
 --- !u!114 &7584572691392086448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1893,6 +1908,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 2
+--- !u!114 &1187962760942512216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8811367503579928193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35fd54ac079a8b47aa6549789157333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconPrefab: {fileID: 4922837886278913688, guid: 64491c38b1af452409456a53259a0f43,
+    type: 3}
+  clampOnRadar: 1
 --- !u!1 &8861187505154549073
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,6 +1999,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CandyCane 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431612649898633319, guid: a336ea0d41ab47444a8503038a22acc0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3514169014406662061, guid: a336ea0d41ab47444a8503038a22acc0,
         type: 3}
@@ -2165,6 +2200,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 86
+      objectReference: {fileID: 0}
+    - target: {fileID: 4362931296460795896, guid: 10ab0a140aaf4834d901e8f5521cfb49,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8678263192612253315, guid: 10ab0a140aaf4834d901e8f5521cfb49,
         type: 3}
