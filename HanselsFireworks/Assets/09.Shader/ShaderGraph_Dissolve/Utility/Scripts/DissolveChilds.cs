@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,8 +28,8 @@ namespace DissolveExample
         void Update()
         {
 
-            var value = Mathf.PingPong(Time.time * 0.5f, 1f);
-            SetValue(value);
+            //var value = Mathf.PingPong(Time.time * 0.5f, 1f);
+            //SetValue(value);
         }
 
         //IEnumerator enumerator()
