@@ -208,15 +208,15 @@ public class GameManager : MonoBehaviour
 
     private void Result()
     {        
-        burstBGM.mute = true;
+        // burstBGM.mute = true;
+        burstBGM.Stop();
         // mainBGM.mute = true;
-        if(currentBGM.loop == true)
+        if (currentBGM.loop == true)
         {
             currentBGM.loop = false;
             currentBGM.clip = resultBgm;
             currentBGM.Play();
-        }
-        
+        }        
     }
 
     IEnumerator CheckObjective()
@@ -236,22 +236,20 @@ public class GameManager : MonoBehaviour
             }
             else 
             {
-                SetEnemies(false);
+                SetEnemies(false);          // 의미 없음...
 
                 Result();
-                // 완전 끝
                 // 모든 플레이어, 적 이동 금지.  
                 Debug.Log("End");
                 StopCoroutine(Timer());
                 stageScore[currentStage] = score;
                 totalScore += stageScore[currentStage];
-                // UIManager.Instance.PlayEnd();           // Make player don't move
+                UIManager.Instance.PlayEnd();           // Make player don't move
                 UIManager.Instance.ShowResultUI();      // ShowResultUI
                 
                 currentStage++;
                 score = 0;
                 SceneMgr.Instance.LoadNextScene();      // LoadNextScene
-                //bgm.mute = true;
                 break;
             }
             yield return null;
