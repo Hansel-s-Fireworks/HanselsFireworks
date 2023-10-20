@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource burstBGM;
     [SerializeField] private AudioSource currentBGM;
 
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip resultBgm;
 
     private int leftTime { get; set; }
     public int LeftTime { get { return leftTime; } set { leftTime = value; } }
@@ -97,9 +99,12 @@ public class GameManager : MonoBehaviour
     public void Init() 
     {
         maxTime = UIManager.Instance.maxTime[currentStage];
-        // Enemy[] enemies = FindObjectsOfType<Enemy>();
+
         // 시작 전 모든 적들 움직임 정지시키기 위해 테스트
-        
+        SetEnemies(false);
+
+        print("모든 적 코루틴 정지");
+
         if (BossManager.instance == null)
         {
             Debug.Log("보스매니저 존재안함");
@@ -123,6 +128,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 적들 제어
+    public void SetEnemies(bool active)
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (var item in enemies)
+        {
+            item.enabled = active;
+        }
+        // ShortEnemy[] shortEnemies = FindObjectsOfType<ShortEnemy>();
+        // // 시작 전 모든 적들 움직임 정지시키기 위해 테스트
+        // foreach (var item in shortEnemies)
+        // {
+        //     item.enabled = active;
+        // }
+        // 
+        // LongEnemy[] longEnemies = FindObjectsOfType<LongEnemy>();
+        // // 시작 전 모든 적들 움직임 정지시키기 위해 테스트
+        // foreach (var item in longEnemies)
+        // {
+        //     item.enabled = active;
+        // }
+        // 
+        // ShieldedEnemy[] shieldedEnemies = FindObjectsOfType<ShieldedEnemy>();
+        // foreach (var item in shieldedEnemies)
+        // {
+        //     item.enabled = active;
+        // }
+    }
 
     public void SetTimer()
     {
@@ -149,7 +182,6 @@ public class GameManager : MonoBehaviour
     public void AddBonusScore()
     {
         score += bounsScore * combo;
-        // totalScore += bounsScore * combo;
     }
 
     public void ChangeBGM()
@@ -174,6 +206,19 @@ public class GameManager : MonoBehaviour
         currentBGM.mute = true;
     }
 
+    private void Result()
+    {        
+        burstBGM.mute = true;
+        // mainBGM.mute = true;
+        if(currentBGM.loop == true)
+        {
+            currentBGM.loop = false;
+            currentBGM.clip = resultBgm;
+            currentBGM.Play();
+        }
+        
+    }
+
     IEnumerator CheckObjective()
     {
         yield return new WaitUntil(() => leftMonster >= 1);
@@ -191,12 +236,16 @@ public class GameManager : MonoBehaviour
             }
             else 
             {
+                SetEnemies(false);
+
+                Result();
                 // 완전 끝
                 // 모든 플레이어, 적 이동 금지.  
                 Debug.Log("End");
                 StopCoroutine(Timer());
                 stageScore[currentStage] = score;
                 totalScore += stageScore[currentStage];
+                // UIManager.Instance.PlayEnd();           // Make player don't move
                 UIManager.Instance.ShowResultUI();      // ShowResultUI
                 
                 currentStage++;

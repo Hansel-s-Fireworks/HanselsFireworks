@@ -25,6 +25,11 @@ public abstract class Enemy : MonoBehaviour
         currentHP = maxHP;        
     }
 
+    public void StopMotion()
+    {
+        StopAllCoroutines();        
+    }
+
     protected void PlaySound(AudioClip clip)
     {
         audioSource.Stop();             // 기존에 재생중인 사운드를 정지하고 

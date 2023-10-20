@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/01.Scenes/Boss.unity
     guid: 785632443b8b13d4f834e0d6737bea09
-  - enabled: 0
+  - enabled: 1
     path: Assets/01.Scenes/Boss_Phase2.unity
     guid: 70d802cde91f2b94fb9a726e1c7c1eab
   - enabled: 1

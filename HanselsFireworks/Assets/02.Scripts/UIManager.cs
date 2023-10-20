@@ -136,6 +136,15 @@ public class UIManager : MonoBehaviour
         SetComponentEnabled<SpecialSkill>(true);
     }
 
+    public void PlayEnd()
+    {
+        // 컴포넌트 비활성화 
+        SetComponentEnabled<Player>(false);
+        SetComponentEnabled<PlayerMovement>(false);
+        SetComponentEnabled<SpecialSkill>(false);
+    }
+
+
     public void ShowResultUI()
     {
         InitScore();
@@ -233,7 +242,10 @@ public class UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         GameManager.Instance.SetTimer();
-        GameManager.Instance.SetObjective();
+        GameManager.Instance.SetObjective();        
+        GameManager.Instance.SetEnemies(true);  // 모든 적들 활성화하는 코드
+
+        print("시작 UI");
     }
 
 }
