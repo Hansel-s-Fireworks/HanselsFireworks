@@ -45,6 +45,7 @@ public class UIManager : MonoBehaviour
     [Header("Result UI")]
     public GameObject resultPenel;
     public GameObject playPenel;
+    public GameObject feverUI;
     public TextMeshProUGUI[] tStageScores;
     public TextMeshProUGUI tTotalScore;
     public TextMeshProUGUI tComboPlayScreen;
@@ -55,14 +56,18 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private Animator animResultUI;
     [SerializeField] private Animator animPlayUI;
+    [SerializeField] private Animator animFeverUI;
     [SerializeField] private float LoadingTime;
     [SerializeField] private Sprite[] stageImages;
     private int initTotalScore;
     private Player player;
     private AudioSource audioSource;
+    private bool doOnce;
+
 
     [Header("Init variable")]
     public int[] maxTime;
+
 
 
     // Start is called before the first frame update
@@ -74,6 +79,7 @@ public class UIManager : MonoBehaviour
         
         animResultUI = resultPenel.GetComponent<Animator>();
         animPlayUI = playPenel.GetComponent<Animator>();
+        animFeverUI = feverUI.GetComponent<Animator>();
 
         player = FindAnyObjectByType<Player>();
         
@@ -84,7 +90,9 @@ public class UIManager : MonoBehaviour
         // 마우스 커서를 보이게 하고 잠금을 해제합니다.
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        
+
+        doOnce = false;
+
         InitInfo();
     }
 
@@ -96,10 +104,22 @@ public class UIManager : MonoBehaviour
         tScore.text = GameManager.Instance.score.ToString();
         tCombo.text = GameManager.Instance.combo.ToString();
         tLeftCase.text = GameManager.Instance.leftCase.ToString();
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     ShowResultUI();
-        // }
+        FeverUI();
+    }
+
+    void FeverUI()
+    {
+        if (GameManager.Instance.leftCase > 0 && doOnce == false)
+        {
+            doOnce = true;
+            animFeverUI.SetBool("Fever", doOnce);
+        }
+
+        if(GameManager.Instance.leftCase <= 0)
+        {
+            doOnce = false;
+            animFeverUI.SetBool("Fever", doOnce);
+        }
     }
 
     void SetComponentEnabled<T>(bool isEnabled) where T : MonoBehaviour

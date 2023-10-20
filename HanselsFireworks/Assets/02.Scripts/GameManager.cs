@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
     {
         // 모든 Enemy 컴포넌트를 가진 게임 오브젝트 배열을 찾습니다.
         Enemy[] enemies = FindObjectsOfType<Enemy>();
-
+        
         // Enemy 컴포넌트를 가진 게임 오브젝트의 개수를 반환합니다.
         return enemies.Length;
     }
@@ -97,6 +97,8 @@ public class GameManager : MonoBehaviour
     public void Init() 
     {
         maxTime = UIManager.Instance.maxTime[currentStage];
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        
         if (BossManager.instance == null)
         {
             Debug.Log("보스매니저 존재안함");
@@ -106,6 +108,7 @@ public class GameManager : MonoBehaviour
             combo = 1;
             leftCase = 0;
             isMonsterLeft = true;
+            
         }
         else
         {
@@ -183,15 +186,6 @@ public class GameManager : MonoBehaviour
                     // bonus score
                     UIManager.Instance.ShowBonusUI();                    
                     AddBonusScore();
-
-                    // stageScore[currentStage] = score;
-                    // totalScore += stageScore[currentStage];
-                    // UIManager.Instance.ShowResultUI();      // ShowResultUI
-                    // 
-                    // currentStage++;
-                    // score = 0;
-                    // SceneMgr.Instance.LoadNextScene();      // LoadNextScene
-                    // break;
                 }
             }
             else 

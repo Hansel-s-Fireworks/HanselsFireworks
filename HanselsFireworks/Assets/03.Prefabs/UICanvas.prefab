@@ -2702,6 +2702,7 @@ MonoBehaviour:
   stageInfo: {fileID: 7003847764909236892}
   resultPenel: {fileID: 8899281440759107195}
   playPenel: {fileID: 4178538050579409816}
+  feverUI: {fileID: 8078415825965179912}
   tStageScores:
   - {fileID: 8328545785323539400}
   - {fileID: 4439722252435556482}
@@ -2712,6 +2713,7 @@ MonoBehaviour:
   sumResult: {fileID: 8300000, guid: 0417e76af53501641a7b5413288d277a, type: 3}
   animResultUI: {fileID: 0}
   animPlayUI: {fileID: 0}
+  animFeverUI: {fileID: 0}
   LoadingTime: 2
   stageImages:
   - {fileID: 21300000, guid: 1891ea8b91e29144289cc141a866c39a, type: 3}
@@ -2960,6 +2962,7 @@ GameObject:
   - component: {fileID: 8753081371554424131}
   - component: {fileID: 2556391443468102714}
   - component: {fileID: 433299914797540164}
+  - component: {fileID: 2120985442443068225}
   m_Layer: 5
   m_Name: Case
   m_TagString: Untagged
@@ -2984,7 +2987,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -1.5, y: 41.299988}
+  m_AnchoredPosition: {x: 0, y: -80}
   m_SizeDelta: {x: 275, y: 133.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2556391443468102714
@@ -3008,7 +3011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3025,6 +3028,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &2120985442443068225
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8078415825965179912}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3ee0d5727bff4a24c8a10fbdcfcc858a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8475143653683288435
 GameObject:
   m_ObjectHideFlags: 0
@@ -3100,8 +3124,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279059454
-  m_fontColor: {r: 0.9960785, g: 0.2627451, b: 0.050980397, a: 1}
+    rgba: 869374
+  m_fontColor: {r: 0.9960785, g: 0.2627451, b: 0.050980397, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

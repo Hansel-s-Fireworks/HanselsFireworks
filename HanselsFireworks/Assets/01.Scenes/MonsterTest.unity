@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17804131, g: 0.2166461, b: 0.26897433, a: 1}
+  m_IndirectSpecularColor: {r: 0.17804131, g: 0.2166461, b: 0.2689743, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2888,7 +2888,7 @@ PrefabInstance:
     - target: {fileID: 2059249619810042511, guid: d191ff96fdd78a24c99773761595da13,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30.39
+      value: 33.5
       objectReference: {fileID: 0}
     - target: {fileID: 2059249619810042511, guid: d191ff96fdd78a24c99773761595da13,
         type: 3}
@@ -2898,7 +2898,7 @@ PrefabInstance:
     - target: {fileID: 2059249619810042511, guid: d191ff96fdd78a24c99773761595da13,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -32.74
+      value: -24.26
       objectReference: {fileID: 0}
     - target: {fileID: 2059249619810042511, guid: d191ff96fdd78a24c99773761595da13,
         type: 3}
@@ -3291,7 +3291,7 @@ PrefabInstance:
     - target: {fileID: 2059249619810042511, guid: 125e75f009abf90419f03d2111602bda,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30.33
+      value: -33.49
       objectReference: {fileID: 0}
     - target: {fileID: 2059249619810042511, guid: 125e75f009abf90419f03d2111602bda,
         type: 3}
@@ -3336,7 +3336,7 @@ PrefabInstance:
     - target: {fileID: 8811367503579928193, guid: 125e75f009abf90419f03d2111602bda,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6165,7 +6165,7 @@ PrefabInstance:
     - target: {fileID: 4427565274650888144, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -42.163
+      value: -47
       objectReference: {fileID: 0}
     - target: {fileID: 4427565274650888144, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
         type: 3}
@@ -6399,16 +6399,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3791648904279661968, guid: b6b9b2abdd730944c8c043a476ad47c5,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279059454
+      objectReference: {fileID: 0}
     - target: {fileID: 4049183195797191729, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
       objectReference: {fileID: 1754674328}
-    - target: {fileID: 4131628774539340375, guid: b6b9b2abdd730944c8c043a476ad47c5,
-        type: 3}
-      propertyPath: maxTime.Array.data[0]
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7746905031149435733, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}
       propertyPath: m_Name
