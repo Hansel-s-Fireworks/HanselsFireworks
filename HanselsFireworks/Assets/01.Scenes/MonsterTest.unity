@@ -1365,7 +1365,7 @@ GameObject:
   - component: {fileID: 735967360}
   m_Layer: 0
   m_Name: Plane (2)
-  m_TagString: Floor
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8

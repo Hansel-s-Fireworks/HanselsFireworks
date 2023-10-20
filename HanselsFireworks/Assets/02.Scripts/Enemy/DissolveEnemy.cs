@@ -10,6 +10,8 @@ public class DissolveEnemy : MonoBehaviour
     [Header("Dissolve Time")]
     [SerializeField] private float dissolveTime;
     // private float timer;
+    private Animator animator;
+
 
     void Start()
     {
@@ -18,6 +20,7 @@ public class DissolveEnemy : MonoBehaviour
         {
             materials.AddRange(renders[i].materials);
         }
+        animator = GetComponent<Animator>();
     }
 
     private void Reset()
@@ -28,6 +31,7 @@ public class DissolveEnemy : MonoBehaviour
 
     public void StartDissolve()
     {
+        animator.speed = 0;     // 멈추기
         StartCoroutine(DissolveCookie());
     }
 
@@ -38,6 +42,7 @@ public class DissolveEnemy : MonoBehaviour
         while (true)
         {
             timer += Time.deltaTime * fakeLoadingDuration;
+            
             float value = Mathf.Lerp(0f, 1f, timer);
             SetValue(value);
             if(value >= 1)

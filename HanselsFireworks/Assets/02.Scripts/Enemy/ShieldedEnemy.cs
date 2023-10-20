@@ -13,6 +13,13 @@ public class ShieldedEnemy : Enemy
     [SerializeField] private float attackRange;
     [SerializeField] private float recognitionRange;            // 인식 및 공격 범위 (이 범위 안에 들어오면 Attack" 상태로 변경)
 
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip audioClipWalk;
+    [SerializeField] private AudioClip audioClipRun;
+    [SerializeField] private AudioClip audioClipDie;
+    [SerializeField] private AudioClip audioClipShieldBreak;
+    [SerializeField] private AudioClip audioClipAttack;
+
     public int shieldScore;
     [SerializeField] private Player target;                           // 적의 공격 대상(플레이어)
     
@@ -24,8 +31,24 @@ public class ShieldedEnemy : Enemy
     
     public Animator animator;
     public BoxCollider candyCane;
-
+    private CapsuleCollider collider;
+    private NavMeshAgent navMeshAgent;
     private DissolveEnemy dissoveEffect;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        target = FindObjectOfType<Player>();        // 플레이어 인식
+        animator = GetComponent<Animator>();
+        animator.SetInteger("HP", currentHP);
+        nav = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
+        dissoveEffect = GetComponent<DissolveEnemy>();
+        collider = GetComponent<CapsuleCollider>();
+        audioSource = GetComponent<AudioSource>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        ChangeState(EnemyState.Idle);
+    }
 
     public override void TakeScore()
     {
@@ -52,25 +75,28 @@ public class ShieldedEnemy : Enemy
         
         if (isDie == false)
         {
+            PlaySound(audioClipShieldBreak);
             animator.SetTrigger("Hit");
             if (currentHP == 1)
             {
-                // ChangeState(EnemyState.Hurt);
-                // GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
                 shield.SetActive(false);
             }
         }
         else 
         {
-            // ChangeState(EnemyState.Dead);
-            // animator.Play("Dead");
+            PlaySound(audioClipDie);
+
             GameManager.Instance.mode = Mode.Burst;
             GameManager.Instance.leftCase += 100;            
             GameManager.Instance.ChangeBGM();
-
-            // 몬스터 효과 재생
-            dissoveEffect.StartDissolve();
             
+            dissoveEffect.StartDissolve();      // 몬스터 효과 재생
+            // 모든 코루틴 스탑 => 중간에 공격모션시 소리나는 에러때문에 
+            StopAllCoroutines();
+            // 콜라이더도 제거. 안그러면 dissolve하는 동안 쿠키를 밀고 감
+            collider.enabled = false;
+            navMeshAgent.enabled = false;       // 얘까지 꺼야 땅에 꺼진다. 
+
             // WaveSpawner.Instance.;
             Debug.Log("Shielded_Gingerbread Dead");
         }
@@ -78,17 +104,7 @@ public class ShieldedEnemy : Enemy
 
     
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        target = FindObjectOfType<Player>();        // 플레이어 인식
-        animator = GetComponent<Animator>();
-        animator.SetInteger("HP", currentHP);
-        nav = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
-        dissoveEffect = GetComponent<DissolveEnemy>();
-        ChangeState(EnemyState.Idle);
-    }
+    
     void FreezeVelocity()
     {
         rb.velocity = Vector3.zero;
@@ -133,6 +149,7 @@ public class ShieldedEnemy : Enemy
 
     private IEnumerator Idle()
     {
+        audioSource.Stop();
         nav.speed = 0;
         while (true)
         {
@@ -148,6 +165,7 @@ public class ShieldedEnemy : Enemy
 
     private IEnumerator Pursuit()
     {
+        PlaySound(audioClipRun);
         while (true)
         {
             LookRotationToTarget();         // 타겟 방향을 계속 주시
@@ -162,15 +180,15 @@ public class ShieldedEnemy : Enemy
     }
 
     private IEnumerator Attack()
-    {
-        
+    {        
         while (true)
         {            
             nav.enabled = false;
             candyCane.enabled = true;
             FreezeVelocity();
             LookRotationToTarget();         // 타겟 방향을 계속 주시
-            // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)
+            animator.SetBool("Attack", true);
+            PlaySound(audioClipAttack);
             SetStatebyDistance();
             yield return null;
         }

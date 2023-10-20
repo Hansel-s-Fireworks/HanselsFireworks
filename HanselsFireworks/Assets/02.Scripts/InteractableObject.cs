@@ -8,10 +8,18 @@ public abstract class InteractableObject : MonoBehaviour
     [SerializeField] protected int maxHP;
     [SerializeField] protected int currentHP;
     [SerializeField] protected int score;
+    protected AudioSource audioSource;
 
     void Awake()
     {
         currentHP = maxHP;
+    }
+
+    protected void PlaySound(AudioClip clip)
+    {
+        audioSource.Stop();             // 기존에 재생중인 사운드를 정지하고 
+        audioSource.clip = clip;        // 새로운 사운드 clip으로 교체 후
+        audioSource.Play();             // 사운드 재생
     }
 
     public bool DecreaseHP(int damage)

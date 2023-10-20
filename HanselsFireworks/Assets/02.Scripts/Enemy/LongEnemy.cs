@@ -14,8 +14,12 @@ public class LongEnemy : Enemy
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
 
-    public Animator animator;
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip audioClipDie;
+    [SerializeField] private AudioClip audioClipAttack;
 
+    public Animator animator;
+    private CapsuleCollider collider;
     private MemoryPool memoryPool;
     private EnemyState enemyState = EnemyState.None;
 
@@ -34,8 +38,7 @@ public class LongEnemy : Enemy
 
     public override void TakeScore()
     {
-        GameManager.Instance.score += this.score * GameManager.Instance.combo;
-        
+        GameManager.Instance.score += this.score * GameManager.Instance.combo;        
     }
 
     public override void TakeDamage(int damage)
@@ -45,7 +48,12 @@ public class LongEnemy : Enemy
         bool isDie = DecreaseHP(damage);
         if(isDie)
         {
+            PlaySound(audioClipDie);
             dissoveEffect.StartDissolve();
+            // 모든 코루틴 스탑 => 중간에 공격모션시 소리나는 에러때문에 
+            StopAllCoroutines();
+            // 콜라이더도 제거. 안그러면 dissolve하는 동안 쿠키를 밀고 감
+            collider.enabled = false;
             GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
 
             Debug.Log("Shielded_Gingerbread Dead");
@@ -57,6 +65,8 @@ public class LongEnemy : Enemy
         target = FindObjectOfType<Player>();        // 플레이어 인식
         animator = GetComponent<Animator>();
         dissoveEffect = GetComponent<DissolveEnemy>();
+        collider = GetComponent<CapsuleCollider>();
+        audioSource = GetComponent<AudioSource>();
         ChangeState(EnemyState.Idle);
     }
 
@@ -66,6 +76,7 @@ public class LongEnemy : Enemy
 
         if (distance <= attackRange)        // 공격하기
         {
+            
             animator.SetBool("Attack", true);
             ChangeState(EnemyState.Attack);
         }        
@@ -97,9 +108,11 @@ public class LongEnemy : Enemy
         }
     }
 
-    // 애니메이션 이벤트와 연결    
+    // 애니메이션 이벤트와 연결
+    // 참조 없는 것처럼 보이지만 던지는것과 관련있다. 
     private void ThrowCandyball()
     {
+        PlaySound(audioClipAttack);
         // Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileSpawnPoint.rotation);
         // 메모리 풀을 이용해서 총알 생성
         GameObject clone = memoryPool.ActivatePoolItem();

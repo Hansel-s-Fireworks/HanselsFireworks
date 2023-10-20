@@ -306,7 +306,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1a8a1b58dda75764ca893eb1f2958832, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1754,6 +1754,7 @@ GameObject:
   - component: {fileID: 8575064077514928201}
   - component: {fileID: 7521202174756880475}
   - component: {fileID: 1187962760942512216}
+  - component: {fileID: 625336080411779706}
   m_Layer: 0
   m_Name: Shielded_Gingerbread
   m_TagString: Enemy
@@ -1831,6 +1832,12 @@ MonoBehaviour:
   runSpeed: 0
   attackRange: 3
   recognitionRange: 10
+  audioClipWalk: {fileID: 8300000, guid: 9fee2d74dc7d6c042ba8fdcd06877821, type: 3}
+  audioClipRun: {fileID: 8300000, guid: 9fee2d74dc7d6c042ba8fdcd06877821, type: 3}
+  audioClipDie: {fileID: 8300000, guid: 7053e670ad40d434ba7955ab7f0cd213, type: 3}
+  audioClipShieldBreak: {fileID: 8300000, guid: f318634301424b44d9bcd67bacc0e69c,
+    type: 3}
+  audioClipAttack: {fileID: 8300000, guid: 6e80bf2fc38ceba4e8853bfd59fb5fca, type: 3}
   shieldScore: 10
   target: {fileID: 0}
   shield: {fileID: 2075498011116959667}
@@ -1923,6 +1930,102 @@ MonoBehaviour:
   iconPrefab: {fileID: 4922837886278913688, guid: 64491c38b1af452409456a53259a0f43,
     type: 3}
   clampOnRadar: 1
+--- !u!82 &625336080411779706
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8811367503579928193}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8861187505154549073
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,7 +2112,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 45e2ebe16a254814ab0492c5b4a51988, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3514169014406662061, guid: a336ea0d41ab47444a8503038a22acc0,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2210,7 +2313,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 96fd43769dc3d7f459de8bf7d1260546, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8678263192612253315, guid: 10ab0a140aaf4834d901e8f5521cfb49,
         type: 3}
       propertyPath: m_Name

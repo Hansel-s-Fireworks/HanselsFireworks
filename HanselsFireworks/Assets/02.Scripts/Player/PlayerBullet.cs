@@ -68,7 +68,7 @@ public class PlayerBullet : MonoBehaviour
             memoryPool.DeactivatePoolItem(gameObject);
             // Destroy(gameObject);
         }
-        else if (other.CompareTag("Wall"))
+        else if (other.CompareTag("Wall") || other.CompareTag("Floor"))
         {
             if (mode == Mode.normal)
             {

@@ -9,7 +9,7 @@ public class EnemyProjectile : MonoBehaviour
     public float speed;
     public float time;
     private MemoryPool memoryPool;
-    public Vector3 moveDirection = Vector3.zero;        // ¿˚¿Ã πÊ«‚¿ª ¿¸¥ﬁ
+    public Vector3 moveDirection = Vector3.zero;        // Ï†ÅÏù¥ Î∞©Ìñ•ÏùÑ Ï†ÑÎã¨
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +43,10 @@ public class EnemyProjectile : MonoBehaviour
             other.GetComponent<Player>().TakeScore();
             memoryPool.DeactivatePoolItem(gameObject);
             // Destroy(gameObject);
+        }
+        else if (other.CompareTag("Wall"))
+        {
+            memoryPool.DeactivatePoolItem(gameObject);
         }
     }
 }

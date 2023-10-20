@@ -6,11 +6,23 @@ public class SpecialSkill : MonoBehaviour
 {
     private BreakableCookie[] breakableCookies;
     private ParticleSystem smellEffects;
-    bool doOnce;
+    [SerializeField] bool doOnce;
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip audioClipSkill;
+
+    public AudioSource audioSource;
+
+    void PlaySound(AudioClip clip)
+    {
+        audioSource.Stop();             // 기존에 재생중인 사운드를 정지하고 
+        audioSource.clip = clip;        // 새로운 사운드 clip으로 교체 후
+        audioSource.Play();             // 사운드 재생
+    }
     // Start is called before the first frame update
     void Start()
     {
         doOnce = true;
+        audioSource = GetComponent<AudioSource>();
         breakableCookies = FindObjectsOfType<BreakableCookie>();        
     }
 
@@ -20,6 +32,7 @@ public class SpecialSkill : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && doOnce)
         {
             doOnce = false;
+            PlaySound(audioClipSkill);
             foreach (var item in breakableCookies)
             {
                 smellEffects = item.GetComponentInChildren<ParticleSystem>();

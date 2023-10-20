@@ -20,28 +20,37 @@ public class Player : MonoBehaviour
     public float mouseYInput;
     private float xRotation = 0f;
 
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip audioClipHurt;
+
     [SerializeField] private Animator gunAnimator;
-    public FireGun fireGun;    
+    public FireGun fireGun;
+    public AudioSource audioSource;
+
 
     // Start is called before the first frame update
     void Start()
     {
         mode = GameManager.Instance.mode;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
-    {
-        
+    {        
         UpdateMode();
         PlayerView();        
     }
 
+    void PlaySound(AudioClip clip)
+    {
+        audioSource.Stop();             // 기존에 재생중인 사운드를 정지하고 
+        audioSource.clip = clip;        // 새로운 사운드 clip으로 교체 후
+        audioSource.Play();             // 사운드 재생
+    }
     private void UpdateMode()
     {
         mode = GameManager.Instance.mode;
-        /*if (Input.GetMouseButtonDown(0))
-        {*/
             switch (mode)
             {
                 case Mode.normal:
@@ -60,12 +69,10 @@ public class Player : MonoBehaviour
                     {
                         fireGun.StopWeaponAction();
                     }
-                // GameManager.Instance.leftCase -= 1;
                 break;
                 default:
                     break;
             }
-        //}
         
     }   
 
@@ -87,6 +94,7 @@ public class Player : MonoBehaviour
     public void TakeScore()
     {
         Debug.Log("Player Damaged");
+        PlaySound(audioClipHurt);
         GameManager.Instance.combo = 1;     // 콤보 초기화
 
         // 양수 유지

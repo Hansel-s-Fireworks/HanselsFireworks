@@ -23,7 +23,6 @@ public class ShortEnemy : Enemy
     [SerializeField] private AudioClip audioClipDie;
     [SerializeField] private AudioClip audioClipAttack;
 
-    private AudioSource audioSource;
     private Vector3 moveDirection = Vector3.zero;
     private EnemyState enemyState = EnemyState.None;
     NavMeshAgent nav;
@@ -31,43 +30,9 @@ public class ShortEnemy : Enemy
     
     public Animator animator;
     public BoxCollider candyCane;
-
+    private CapsuleCollider collider;
+    private NavMeshAgent navMeshAgent;
     private DissolveEnemy dissoveEffect;
-
-    public override void TakeScore()
-    {
-        GameManager.Instance.score += this.score * GameManager.Instance.combo;
-        
-    }
-
-    public override void TakeDamage(int damage)
-    {
-        Debug.Log("Shielded_Gingerbread Damaged");
-        bool isDie = DecreaseHP(damage);
-        animator.SetInteger("HP", currentHP);
-        nav.enabled = false;
-        audioSource.clip = audioClipDie;
-
-        if (isDie)
-        {
-            animator.SetTrigger("Hit");
-            dissoveEffect.StartDissolve();
-            GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
-
-            Debug.Log("Short_Gingerbread Dead");
-        }
-    }
-
-    private void PlaySound(AudioClip clip)
-    {
-        audioSource.Stop();             // 기존에 재생중인 사운드를 정지하고 
-        audioSource.clip = clip;        // 새로운 사운드 clip으로 교체 후
-        audioSource.Play();             // 사운드 재생
-    }
-    private void Setup()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     // Start is called before the first frame update
     void Start()
@@ -78,9 +43,42 @@ public class ShortEnemy : Enemy
         nav = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         dissoveEffect = GetComponent<DissolveEnemy>();
-        Setup();
+        collider = GetComponent<CapsuleCollider>();
+        audioSource = GetComponent<AudioSource>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         ChangeState(EnemyState.Idle);
     }
+
+    public override void TakeScore()
+    {
+        GameManager.Instance.score += this.score * GameManager.Instance.combo;
+        
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        Debug.Log("Short_Gingerbread Damaged");
+        bool isDie = DecreaseHP(damage);
+        animator.SetInteger("HP", currentHP);
+        nav.enabled = false;
+
+        if (isDie)
+        {
+            PlaySound(audioClipDie);
+            // animator.SetTrigger("Hit");
+            dissoveEffect.StartDissolve();          // 몬스터 효과 재생
+            // 모든 코루틴 스탑 => 중간에 공격모션시 소리나는 에러때문에 
+            StopAllCoroutines();
+            // 콜라이더도 제거. 안그러면 dissolve하는 동안 쿠키를 밀고 감
+            collider.enabled = false;
+            navMeshAgent.enabled = false;       // 얘까지 꺼야 땅에 꺼진다. 
+            GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
+
+            Debug.Log("Short_Gingerbread Dead");
+        }
+    }
+
+    
     void FreezeVelocity()
     {
         rb.velocity = Vector3.zero;
@@ -93,10 +91,6 @@ public class ShortEnemy : Enemy
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            // audioSource.clip = audioClipAttack;
-        }
     }
 
     private void SetStatebyDistance()
@@ -104,13 +98,11 @@ public class ShortEnemy : Enemy
         float distance = Vector3.Distance(target.transform.position, transform.position);
         if(distance < attackRange)
         {
-            audioSource.clip = audioClipAttack;
             animator.SetBool("Pursuit", false);
             ChangeState(EnemyState.Attack);
         }
         else if(distance > attackRange && distance <= recognitionRange)
         {
-            audioSource.clip = audioClipWalk;
             animator.SetBool("Pursuit", true);
             ChangeState(EnemyState.Pursuit);
         }
@@ -133,7 +125,7 @@ public class ShortEnemy : Enemy
 
     private IEnumerator Idle()
     {
-        // audioSource.Stop();
+        audioSource.Stop();
         nav.speed = 0;
         while (true)
         {
@@ -149,8 +141,8 @@ public class ShortEnemy : Enemy
 
     private IEnumerator Pursuit()
     {
-        audioSource.Play();
-        
+        PlaySound(audioClipRun);
+
         while (true)
         {
             animator.SetBool("Attack", false);
@@ -165,25 +157,6 @@ public class ShortEnemy : Enemy
         }
     }
 
-    // private IEnumerator Attack()
-    // {
-    //     audioSource.Play();
-    //     
-    // 
-    //     animator.SetBool("Attack", true);
-    //     bool isAttack = animator.GetBool("Attack");
-    //     while (isAttack)
-    //     {
-    //         nav.enabled = false;
-    //         candyCane.enabled = true;
-    //         FreezeVelocity();
-    //         LookRotationToTarget();         // 타겟 방향을 계속 주시
-    //         yield return new WaitForSeconds(0.75f);
-    //         // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)
-    //         SetStatebyDistance();
-    //     }
-    // }
-
     private IEnumerator Attack()
     {
         while (true)
@@ -194,7 +167,7 @@ public class ShortEnemy : Enemy
             LookRotationToTarget();                 // 타겟 방향을 계속 주시
             animator.SetBool("Attack", true);
             PlaySound(audioClipAttack);
-            SetStatebyDistance();           // 타겟과의 거리에 따라 행동 선택 (원거리 공격 / 정지)
+            SetStatebyDistance();
             yield return new WaitForSeconds(0.75f);
         }
     }
