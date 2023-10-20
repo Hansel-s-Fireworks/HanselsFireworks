@@ -70,9 +70,15 @@ public class FireGun : MonoBehaviour
     private IEnumerator OnAttackLoop()
     {
         while(GameManager.Instance.leftCase > 0)
-        {
-            
+        {            
             OnAttack();
+            if (GameManager.Instance.leftCase <= 0)
+            {
+                GameManager.Instance.ChangeBGM();
+                GameManager.Instance.mode = Mode.normal;
+                isAutomaticAttack = false;
+                break;
+            }
             yield return null;
         }
     }

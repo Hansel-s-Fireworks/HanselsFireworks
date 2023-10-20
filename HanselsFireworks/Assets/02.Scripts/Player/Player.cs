@@ -40,33 +40,33 @@ public class Player : MonoBehaviour
     private void UpdateMode()
     {
         mode = GameManager.Instance.mode;
-        if (Input.GetMouseButtonDown(0))
-        {
+        /*if (Input.GetMouseButtonDown(0))
+        {*/
             switch (mode)
             {
                 case Mode.normal:
-                        fireGun.StartWeaponAction();                    
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        fireGun.StartWeaponAction();
+                    }
                     break;
                 case Mode.Burst:
-                    if (GameManager.Instance.leftCase <= 0)
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        GameManager.Instance.ChangeBGM();
-                        GameManager.Instance.mode = Mode.normal;
-                        fireGun.isAutomaticAttack = false;
-                        break;
+                        fireGun.isAutomaticAttack = true;
+                        fireGun.StartWeaponAction();
                     }
-                    fireGun.StartWeaponAction();
-                    fireGun.isAutomaticAttack = true;
-                    // GameManager.Instance.leftCase -= 1;
-                    break;
+                    else if (Input.GetMouseButtonUp(0))
+                    {
+                        fireGun.StopWeaponAction();
+                    }
+                // GameManager.Instance.leftCase -= 1;
+                break;
                 default:
                     break;
             }
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            fireGun.StopWeaponAction();
-        }
+        //}
+        
     }   
 
 
