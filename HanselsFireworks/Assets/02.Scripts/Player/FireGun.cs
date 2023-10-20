@@ -7,17 +7,18 @@ public class FireGun : MonoBehaviour
     [Header("Weapon Setting")]
     public GameObject bullet;
     public float attackRate = 0.1f;            // 공격 속도
-    public bool isAutomaticAttack = false;      // 연속 공격 여부
+    public bool isAutomaticAttack;      // 연속 공격 여부
     [SerializeField] private Transform bulletSpawnPoint;             // 총알 생성 위치
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip audioClipFire;                // 공격 사운드
+    // [SerializeField] private AudioClip burstBGM;
 
     GunAnimatorController animator;
     AudioSource audioSource;                // 사운드 재생 컴포넌트
     private MemoryPool bulletMemoryPool;
     float lastAttackTime = 0;
-    bool isAttack = false;                  // 공격 여부 체크용
+    bool isAttack;                  // 공격 여부 체크용
 
     private void Awake()
     {
@@ -26,6 +27,8 @@ public class FireGun : MonoBehaviour
 
     private void Start()
     {
+        isAttack = false;
+        isAutomaticAttack = false;
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<GunAnimatorController>();
     }
@@ -74,7 +77,7 @@ public class FireGun : MonoBehaviour
             OnAttack();
             if (GameManager.Instance.leftCase <= 0)
             {
-                GameManager.Instance.ChangeBGM();
+                GameManager.Instance.PlayMainBGM();
                 GameManager.Instance.mode = Mode.normal;
                 isAutomaticAttack = false;
                 break;

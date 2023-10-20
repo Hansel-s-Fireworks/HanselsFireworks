@@ -139,6 +139,8 @@ public class UIManager : MonoBehaviour
     public void PlayEnd()
     {
         // 컴포넌트 비활성화 
+        player.audioSource.Stop();
+        player.fireGun.gameObject.SetActive(false);     // 총 애니메이션을 비활성화해야하는데 그냥 총 비활성화...
         SetComponentEnabled<Player>(false);
         SetComponentEnabled<PlayerMovement>(false);
         SetComponentEnabled<SpecialSkill>(false);
@@ -241,11 +243,25 @@ public class UIManager : MonoBehaviour
         // 3,2,1 실행. 이거 코루틴
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        GameManager.Instance.PlayMainBGM();
         GameManager.Instance.SetTimer();
         GameManager.Instance.SetObjective();        
         GameManager.Instance.SetEnemies(true);  // 모든 적들 활성화하는 코드
 
         print("시작 UI");
+    }
+    // 보스전 직전 씬에서 Start버튼 이벤트에 등록될 함수
+    public void StartBossStage()
+    {
+        // 3,2,1 실행. 이거 코루틴
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        GameManager.Instance.PlayBossBGM();
+        GameManager.Instance.SetTimer();
+        GameManager.Instance.SetObjective();
+        GameManager.Instance.SetEnemies(true);  // 모든 적들 활성화하는 코드
+
+        print("보스 UI시작");
     }
 
 }
