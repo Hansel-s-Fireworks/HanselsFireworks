@@ -30,8 +30,9 @@ public class ShortEnemy : Enemy
     Rigidbody rb;
     
     public Animator animator;
-
     public BoxCollider candyCane;
+
+    private DissolveEnemy dissoveEffect;
 
     public override void TakeScore()
     {
@@ -50,7 +51,7 @@ public class ShortEnemy : Enemy
         if (isDie)
         {
             animator.SetTrigger("Hit");
-            gameObject.SetActive(false);
+            dissoveEffect.StartDissolve();
             GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
 
             Debug.Log("Short_Gingerbread Dead");
@@ -76,6 +77,7 @@ public class ShortEnemy : Enemy
         animator.SetInteger("HP", currentHP);
         nav = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
+        dissoveEffect = GetComponent<DissolveEnemy>();
         Setup();
         ChangeState(EnemyState.Idle);
     }

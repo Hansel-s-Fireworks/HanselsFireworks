@@ -25,6 +25,8 @@ public class ShieldedEnemy : Enemy
     public Animator animator;
     public BoxCollider candyCane;
 
+    private DissolveEnemy dissoveEffect;
+
     public override void TakeScore()
     {
         if (currentHP >= 1)
@@ -65,7 +67,10 @@ public class ShieldedEnemy : Enemy
             GameManager.Instance.mode = Mode.Burst;
             GameManager.Instance.leftCase += 100;            
             GameManager.Instance.ChangeBGM();
-            gameObject.SetActive(false);
+
+            // 몬스터 효과 재생
+            dissoveEffect.StartDissolve();
+            
             // WaveSpawner.Instance.;
             Debug.Log("Shielded_Gingerbread Dead");
         }
@@ -81,6 +86,7 @@ public class ShieldedEnemy : Enemy
         animator.SetInteger("HP", currentHP);
         nav = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
+        dissoveEffect = GetComponent<DissolveEnemy>();
         ChangeState(EnemyState.Idle);
     }
     void FreezeVelocity()

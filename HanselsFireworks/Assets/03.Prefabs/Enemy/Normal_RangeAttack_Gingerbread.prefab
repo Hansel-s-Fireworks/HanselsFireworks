@@ -484,9 +484,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6383994243387762197}
   - component: {fileID: 551906524405977400}
+  - component: {fileID: -8081005721742430985}
   - component: {fileID: 5508963124572792787}
   - component: {fileID: 7577894047973471216}
   - component: {fileID: 7567953527057332974}
+  - component: {fileID: 6670462505564320376}
   m_Layer: 0
   m_Name: Normal_RangeAttack_Gingerbread
   m_TagString: Enemy
@@ -533,6 +535,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-8081005721742430985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3246502035714595544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b425060cbae4e42b66ddf911b899c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveTime: 1
 --- !u!114 &5508963124572792787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,7 +563,6 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 0
   score: 50
-  delay: 0
   attackRange: 8
   projectilePrefab: {fileID: 3728249667321437466, guid: ece706151e0a02446b65f7a4833c2f51,
     type: 3}
@@ -605,6 +619,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 2
+--- !u!114 &6670462505564320376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3246502035714595544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35fd54ac079a8b47aa6549789157333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconPrefab: {fileID: 4922837886278913688, guid: 64491c38b1af452409456a53259a0f43,
+    type: 3}
+  clampOnRadar: 1
 --- !u!1 &3272777571993803238
 GameObject:
   m_ObjectHideFlags: 0

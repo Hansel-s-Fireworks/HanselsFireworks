@@ -21,6 +21,8 @@ public class LongEnemy : Enemy
 
     [SerializeField] private Player target;
 
+    private DissolveEnemy dissoveEffect;
+
     private void Awake()
     {
         memoryPool = new MemoryPool(projectilePrefab);
@@ -43,7 +45,7 @@ public class LongEnemy : Enemy
         bool isDie = DecreaseHP(damage);
         if(isDie)
         {
-            gameObject.SetActive(false);
+            dissoveEffect.StartDissolve();
             GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
 
             Debug.Log("Shielded_Gingerbread Dead");
@@ -54,6 +56,7 @@ public class LongEnemy : Enemy
     {
         target = FindObjectOfType<Player>();        // 플레이어 인식
         animator = GetComponent<Animator>();
+        dissoveEffect = GetComponent<DissolveEnemy>();
         ChangeState(EnemyState.Idle);
     }
 
