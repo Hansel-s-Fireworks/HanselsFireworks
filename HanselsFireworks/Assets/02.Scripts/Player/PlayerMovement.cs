@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
+    [SerializeField] private float moveSpeed;
     public float walkSpeed;
     public float runSpeed;
     public float jumpForce;
@@ -28,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = false;
         rb = GetComponent<Rigidbody>();
-        audioSource = GetComponent<AudioSource>();
+        // audioSource = GetComponent<AudioSource>();
     }   
 
     void PlaySound(AudioClip clip)
@@ -66,14 +67,40 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Move()
-    {        
-        bool isRun = false;
-        isRun = Input.GetKey(keyCodeRun);
-        float moveSpeed = isRun ? runSpeed : walkSpeed;
-        if (isRun) PlaySound(audioClipRun); 
-        else PlaySound(audioClipWalk);
+    {
+
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+
+        // 이동중일떄
+        if (x != 0 || z != 0)
+        {
+            bool isRun = false;
+            // 옆이나 뒤로 이동시 달리기 제한
+            if (z > 0) isRun = Input.GetKey(keyCodeRun);
+
+            moveSpeed = isRun ? runSpeed : walkSpeed;
+            audioSource.clip = isRun == true ? audioClipRun : audioClipWalk;
+
+            if (audioSource.isPlaying == false)
+            {
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+        // 제자리에 멈춰있을 때
+        else
+        {
+            moveSpeed = 0;
+            // 멈췄을때 사운드가 재생 중이면 정지
+            if (audioSource.isPlaying == true)
+            {
+                audioSource.Stop();
+            }
+        }
+
         // xz 평면상에서 움직임 입력
-        Vector2 targetVelocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, Input.GetAxis("Vertical") * moveSpeed);
+        Vector2 targetVelocity = new Vector2(x * moveSpeed, z * moveSpeed);
         moveForce = new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.y);
         rb.velocity = transform.rotation * moveForce;
     }

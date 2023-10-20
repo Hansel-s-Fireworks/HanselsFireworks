@@ -13,14 +13,17 @@ EditorBuildSettings:
     guid: dd2db7de21546cc41beeed89d86a1f9d
   - enabled: 1
     path: Assets/01.Scenes/MAIN (JOOHONG ver) 1.unity
-    guid: a56c4ceaad3486f4a85e0657761e48ff
+    guid: e14a4ca7678448341bdac376e83f36fa
   - enabled: 1
     path: Assets/01.Scenes/MAIN (JOOHONG ver) 2.unity
-    guid: 09626eb5c343e464cb1e5c92c6947b54
-  - enabled: 1
+    guid: 43eb3fa63333803458aa0f0b504dfae4
+  - enabled: 0
     path: Assets/01.Scenes/Boss.unity
     guid: 785632443b8b13d4f834e0d6737bea09
-  - enabled: 1
+  - enabled: 0
     path: Assets/01.Scenes/Boss_Phase2.unity
     guid: 70d802cde91f2b94fb9a726e1c7c1eab
+  - enabled: 1
+    path: Assets/01.Scenes/06. HappyEnding.unity
+    guid: 1cbc472cc6cc31a4a9b706401aba60f6
   m_configObjects: {}

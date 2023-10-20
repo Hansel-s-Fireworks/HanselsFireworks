@@ -22,7 +22,7 @@ public class SpecialSkill : MonoBehaviour
     void Start()
     {
         doOnce = true;
-        audioSource = GetComponent<AudioSource>();
+        // audioSource = GetComponent<AudioSource>();
         breakableCookies = FindObjectsOfType<BreakableCookie>();        
     }
 

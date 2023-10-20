@@ -22,17 +22,18 @@ public class Player : MonoBehaviour
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip audioClipHurt;
+    public AudioSource audioSource;
+
 
     [SerializeField] private Animator gunAnimator;
     public FireGun fireGun;
-    public AudioSource audioSource;
 
 
     // Start is called before the first frame update
     void Start()
     {
         mode = GameManager.Instance.mode;
-        audioSource = GetComponent<AudioSource>();
+        // audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -95,6 +96,10 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Player Damaged");
         PlaySound(audioClipHurt);
+        // audioSource.clip = audioClipHurt;
+        // audioSource.loop = true;
+        // audioSource.Play();
+        
         GameManager.Instance.combo = 1;     // 콤보 초기화
 
         // 양수 유지
