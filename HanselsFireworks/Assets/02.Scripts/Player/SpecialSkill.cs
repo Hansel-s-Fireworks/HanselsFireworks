@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpecialSkill : MonoBehaviour
 {
     private BreakableCookie[] breakableCookies;
+    private Enemy[] enemies;
     private ParticleSystem smellEffects;
     [SerializeField] bool doOnce;
     [Header("Audio Clips")]
@@ -23,7 +24,8 @@ public class SpecialSkill : MonoBehaviour
     {
         doOnce = true;
         // audioSource = GetComponent<AudioSource>();
-        breakableCookies = FindObjectsOfType<BreakableCookie>();        
+        breakableCookies = FindObjectsOfType<BreakableCookie>();
+        enemies = FindObjectsOfType<Enemy>();
     }
 
     // Update is called once per frame
@@ -38,6 +40,12 @@ public class SpecialSkill : MonoBehaviour
                 smellEffects = item.GetComponentInChildren<ParticleSystem>();
                 smellEffects.Play();
             }
+            foreach (var item in enemies)
+            {
+                smellEffects = item.GetComponentInChildren<ParticleSystem>();
+                smellEffects.Play();
+            }           
+
         }
     }
 }
