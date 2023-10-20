@@ -506,7 +506,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1049421210961620478}
@@ -563,7 +563,7 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 0
   score: 50
-  attackRange: 8
+  attackRange: 16
   projectilePrefab: {fileID: 3728249667321437466, guid: ece706151e0a02446b65f7a4833c2f51,
     type: 3}
   projectileSpawnPoint: {fileID: 2322540270159420114}

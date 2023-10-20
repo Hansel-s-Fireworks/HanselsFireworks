@@ -306,7 +306,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 1a8a1b58dda75764ca893eb1f2958832, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1771,7 +1771,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1779022890888287729}
@@ -1827,10 +1827,10 @@ MonoBehaviour:
   maxHP: 1
   currentHP: 0
   score: 50
-  pursuitSpeed: 2
+  pursuitSpeed: 3
   runSpeed: 0
-  attackRange: 1.5
-  recognitionRange: 10
+  attackRange: 3
+  recognitionRange: 15
   target: {fileID: 0}
   audioClipWalk: {fileID: 8300000, guid: 9fee2d74dc7d6c042ba8fdcd06877821, type: 3}
   audioClipRun: {fileID: 8300000, guid: 9fee2d74dc7d6c042ba8fdcd06877821, type: 3}
@@ -2098,11 +2098,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CandyCane 1
       objectReference: {fileID: 0}
+    - target: {fileID: 631060494726477352, guid: a336ea0d41ab47444a8503038a22acc0,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1431612649898633319, guid: a336ea0d41ab47444a8503038a22acc0,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 45e2ebe16a254814ab0492c5b4a51988, type: 2}
     - target: {fileID: 3514169014406662061, guid: a336ea0d41ab47444a8503038a22acc0,
         type: 3}
       propertyPath: m_LocalScale.x

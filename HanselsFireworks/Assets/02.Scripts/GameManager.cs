@@ -97,7 +97,8 @@ public class GameManager : MonoBehaviour
     public void Init() 
     {
         maxTime = UIManager.Instance.maxTime[currentStage];
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        // Enemy[] enemies = FindObjectsOfType<Enemy>();
+        // 시작 전 모든 적들 움직임 정지시키기 위해 테스트
         
         if (BossManager.instance == null)
         {

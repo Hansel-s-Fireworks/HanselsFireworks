@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ff6756653e87a4ea95d7fcdd0998fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: MonsterTest
+  nextSceneName: MAIN (JOOHONG ver)
   percent: 0
   timer: 0
   fakeLoadingTime: 2

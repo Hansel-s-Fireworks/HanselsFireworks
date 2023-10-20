@@ -4625,7 +4625,7 @@ MonoBehaviour:
   currentStage: 0
   mainBGM: {fileID: 1754674328}
   burstBGM: {fileID: 1754674329}
-  currentBGM: {fileID: 0}
+  currentBGM: {fileID: 1754674328}
   leftMonster: 0
   combo: 0
   leftCase: 0
@@ -6905,11 +6905,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3791648904279661968, guid: b6b9b2abdd730944c8c043a476ad47c5,
-        type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4279059454
       objectReference: {fileID: 0}
     - target: {fileID: 4049183195797191729, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}

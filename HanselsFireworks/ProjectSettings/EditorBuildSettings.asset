@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/01.Scenes/01.StartMenu.unity
     guid: 5bca6847a64282e46abd219fb205ed7a
   - enabled: 1
+    path: Assets/01.Scenes/MAIN (JOOHONG ver).unity
+    guid: dd2db7de21546cc41beeed89d86a1f9d
+  - enabled: 1
     path: Assets/01.Scenes/MonsterTest.unity
     guid: 8b116773d671fb646bdcf1afce5575ed
   - enabled: 1
