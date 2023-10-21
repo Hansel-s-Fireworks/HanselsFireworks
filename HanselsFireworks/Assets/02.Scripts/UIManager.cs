@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour
     private Player player;
     private AudioSource audioSource;
     private bool doOnce;
+    
 
 
     [Header("Init variable")]
@@ -113,12 +114,14 @@ public class UIManager : MonoBehaviour
         {
             doOnce = true;
             animFeverUI.SetBool("Fever", doOnce);
+            player.ActivateFeverModeEffect(true);
         }
 
         if(GameManager.Instance.leftCase <= 0)
         {
             doOnce = false;
             animFeverUI.SetBool("Fever", doOnce);
+            player.ActivateFeverModeEffect(false);
         }
     }
 

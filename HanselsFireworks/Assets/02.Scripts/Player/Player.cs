@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip audioClipHurt;
     public AudioSource audioSource;
 
-
+    [SerializeField] private GameObject feverModeEffect;
     [SerializeField] private Animator gunAnimator;
     public FireGun fireGun;
 
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         mode = GameManager.Instance.mode;
+        feverModeEffect.SetActive(false);
         // audioSource = GetComponent<AudioSource>();
     }
 
@@ -92,13 +93,15 @@ public class Player : MonoBehaviour
         characterBody.Rotate(Vector3.up * mouseDelta.x);
     }  
 
+    public void ActivateFeverModeEffect(bool active)
+    {
+        feverModeEffect.SetActive(active);
+    }
+
     public void TakeScore()
     {
         Debug.Log("Player Damaged");
         PlaySound(audioClipHurt);
-        // audioSource.clip = audioClipHurt;
-        // audioSource.loop = true;
-        // audioSource.Play();
         
         GameManager.Instance.combo = 1;     // 콤보 초기화
 

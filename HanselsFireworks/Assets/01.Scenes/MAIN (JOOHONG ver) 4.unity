@@ -68306,6 +68306,11 @@ PrefabInstance:
       propertyPath: far clip plane
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 7604612599759390184, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7800825851143987980, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
         type: 3}
       propertyPath: m_Enabled
@@ -68327,7 +68332,8 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7604612599759390184, guid: 6a8f1c4aaf1ee264299b3f08208b7417, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8077738267041552445, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
         type: 3}
@@ -71310,7 +71316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1710022783
 AudioSource:
   m_ObjectHideFlags: 0
