@@ -7,14 +7,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     public float walkSpeed;
-    public float runSpeed;
-    public float jumpForce;
+    // public float runSpeed;
+    // public float jumpForce;
     private Vector3 moveForce;
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip audioClipWalk;
-    [SerializeField] private AudioClip audioClipRun;
-    [SerializeField] private AudioClip audioClipJump;
 
     [Header("Input KeyCodes")]
     [SerializeField] private KeyCode keyCodeRun = KeyCode.LeftShift;
@@ -45,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
             isJump = false;
         }
     }
-    void Jump()
+    /*void Jump()
     {
         if (Input.GetKeyDown(keyCodeJump) && !isJump)
         {
@@ -54,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isJump = true;
         }
-    }
+    }*/
 
     private void Update()
     {
@@ -75,13 +73,14 @@ public class PlayerMovement : MonoBehaviour
         // 이동중일떄
         if (x != 0 || z != 0)
         {
-            bool isRun = false;
+            // bool isRun = false;
             // 옆이나 뒤로 이동시 달리기 제한
-            if (z > 0) isRun = Input.GetKey(keyCodeRun);
-
-            moveSpeed = isRun ? runSpeed : walkSpeed;
-            audioSource.clip = isRun == true ? audioClipRun : audioClipWalk;
-
+            // if (z > 0) isRun = Input.GetKey(keyCodeRun);
+            // 
+            // moveSpeed = isRun ? runSpeed : walkSpeed;
+            // audioSource.clip = isRun == true ? audioClipRun : audioClipWalk;
+            moveSpeed = walkSpeed;
+            audioSource.clip = audioClipWalk;
             if (audioSource.isPlaying == false)
             {
                 audioSource.loop = true;

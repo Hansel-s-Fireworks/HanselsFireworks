@@ -40,7 +40,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI tScore;
     public TextMeshProUGUI tCombo;
     public TextMeshProUGUI tLeftCase;
-    public Image stageInfo; 
+    public Image stageInfo;
+    public Image specialSkillIcon;
 
     [Header("Result UI")]
     public GameObject resultPenel;
@@ -57,7 +58,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Animator animResultUI;
     [SerializeField] private Animator animPlayUI;
     [SerializeField] private Animator animFeverUI;
-    [SerializeField] private float LoadingTime;
+    [SerializeField] private float loadingTime;
     [SerializeField] private Sprite[] stageImages;
     private int initTotalScore;
     private Player player;
@@ -141,8 +142,12 @@ public class UIManager : MonoBehaviour
 
     public void PlayEnd()
     {
+        // 플레이어에 있는 모든 AudioSource 컴포넌트를 가져와 mute시킨다.
+        AudioSource[] moveSource = player.GetComponents<AudioSource>();
+        foreach (var item in moveSource) item.mute = true;
+
         // 컴포넌트 비활성화 
-        player.audioSource.Stop();
+        // player.audioSource.Stop();
         player.fireGun.gameObject.SetActive(false);     // 총 애니메이션을 비활성화해야하는데 그냥 총 비활성화...
         SetComponentEnabled<Player>(false);
         SetComponentEnabled<PlayerMovement>(false);
@@ -199,7 +204,7 @@ public class UIManager : MonoBehaviour
         int curStage = GameManager.Instance.currentStage;
         float temp = 0;
         int tempScore = 0;
-        float LoadingDuration = 1f / LoadingTime;
+        float LoadingDuration = 1f / loadingTime;
         while (true)
         {
             temp += Time.deltaTime * LoadingDuration;
@@ -221,7 +226,7 @@ public class UIManager : MonoBehaviour
         audioSource.Play();
         float temp = 0;
         int tempScore = 0;
-        float LoadingDuration = 1f / LoadingTime;
+        float LoadingDuration = 1f / loadingTime;
         while (true)
         {
             temp += Time.deltaTime * LoadingDuration;

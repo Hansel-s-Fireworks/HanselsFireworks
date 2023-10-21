@@ -90,6 +90,7 @@ public class ShieldedEnemy : Enemy
             GameManager.Instance.leftCase += 100;            
             GameManager.Instance.PlayBurstBGM();
             
+            
             dissoveEffect.StartDissolve();      // 몬스터 효과 재생
             // 모든 코루틴 스탑 => 중간에 공격모션시 소리나는 에러때문에 
             StopAllCoroutines();
