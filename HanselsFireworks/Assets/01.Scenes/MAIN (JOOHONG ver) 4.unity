@@ -67090,6 +67090,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4211184373820082094, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4211184373820082094, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
+        type: 3}
       propertyPath: walkSpeed
       value: 6
       objectReference: {fileID: 0}
@@ -67185,6 +67190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4663898018303545812, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4663898018303545812, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
+        type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1903820324}
@@ -67202,6 +67212,11 @@ PrefabInstance:
         type: 3}
       propertyPath: far clip plane
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7800825851143987980, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7800825851143987980, guid: 6a8f1c4aaf1ee264299b3f08208b7417,
         type: 3}
@@ -70042,6 +70057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneMng: {fileID: 1669418338}
   canHideUI: {fileID: 1755769704}
+  isSuccess2Phase: 0
   currentPhase: 1
   PhaseStartEvent:
     m_PersistentCalls:

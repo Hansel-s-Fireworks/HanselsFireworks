@@ -48,5 +48,9 @@ public class EnemyProjectile : MonoBehaviour
         {
             memoryPool.DeactivatePoolItem(gameObject);
         }
+        else if(other.CompareTag("Floor"))
+        {
+            memoryPool.DeactivatePoolItem(gameObject);
+        }
     }
 }
