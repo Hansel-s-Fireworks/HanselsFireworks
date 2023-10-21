@@ -55,6 +55,9 @@ public class ShortEnemy : Enemy
         
     }
 
+    
+
+
     public override void TakeDamage(int damage)
     {
         Debug.Log("Short_Gingerbread Damaged");
@@ -77,8 +80,14 @@ public class ShortEnemy : Enemy
             Debug.Log("Short_Gingerbread Dead");
         }
     }
+    public void DeActivate()
+    {
+        StopAllCoroutines();
+        audioSource.mute = true;
+        navMeshAgent.enabled = false;
+        animator.speed = 0;
+    }
 
-    
     void FreezeVelocity()
     {
         rb.velocity = Vector3.zero;

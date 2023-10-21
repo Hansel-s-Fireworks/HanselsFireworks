@@ -60,6 +60,13 @@ public class LongEnemy : Enemy
         }
     }
 
+    public void DeActivate()
+    {
+        StopAllCoroutines();
+        audioSource.mute = true;
+        animator.speed = 0;
+    }
+
     private void Start()
     {
         target = FindObjectOfType<Player>();        // 플레이어 인식

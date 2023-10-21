@@ -102,10 +102,11 @@ public class GameManager : MonoBehaviour
     public void Init() 
     {
         maxTime = UIManager.Instance.maxTime[currentStage];
+        GetEnemies();
         currentBGM.clip = mainBGM;
         currentBGM.loop = true;
         // 시작 전 모든 적들 움직임 정지시키기 위해 테스트
-        SetEnemies(false);
+        // SetEnemies(false);
 
         print("모든 적 코루틴 정지");
 
@@ -133,6 +134,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    public ShortEnemy[] shortEnemies;
+    public LongEnemy[] longEnemies;
+    public ShieldedEnemy[] shieldedEnemies;
+    public void GetEnemies()
+    {
+        shortEnemies = FindObjectsOfType<ShortEnemy>();
+        longEnemies = FindObjectsOfType<LongEnemy>();
+        shieldedEnemies = FindObjectsOfType<ShieldedEnemy>();
+    }
+
     // 적들 제어
     public void SetEnemies(bool active)
     {
@@ -141,6 +153,13 @@ public class GameManager : MonoBehaviour
         {
             item.enabled = active;
         }
+    }
+    
+    public void DeActivateMonsters()
+    {        
+        foreach (var item in shortEnemies) item.DeActivate();
+        foreach (var item in longEnemies) item.DeActivate();
+        foreach (var item in shieldedEnemies) item.DeActivate();
     }
 
     public void SetTimer()
@@ -221,8 +240,8 @@ public class GameManager : MonoBehaviour
             }
             else 
             {
-                SetEnemies(false);          // 의미 없음...
-
+                // SetEnemies(false);          // 의미 없음...
+                DeActivateMonsters();       
                 PlayWhistle();
                 // 모든 플레이어, 적 이동 금지.  
                 Debug.Log("End");

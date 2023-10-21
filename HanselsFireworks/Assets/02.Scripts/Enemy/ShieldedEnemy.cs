@@ -102,9 +102,15 @@ public class ShieldedEnemy : Enemy
         }
     }
 
-    
+    public void DeActivate()
+    {
+        StopAllCoroutines();
+        audioSource.mute = true;
+        navMeshAgent.enabled = false;
+        animator.speed = 0;
+    }
 
-    
+
     void FreezeVelocity()
     {
         rb.velocity = Vector3.zero;
@@ -120,13 +126,11 @@ public class ShieldedEnemy : Enemy
         float distance = Vector3.Distance(target.transform.position, transform.position);
         if(distance < attackRange)
         {
-            animator.SetBool("Attack", true);
             animator.SetBool("Pursuit", false);
             ChangeState(EnemyState.Attack);
         }
         else if(distance > attackRange && distance <= recognitionRange)
         {
-            animator.SetBool("Attack", false);
             animator.SetBool("Pursuit", true);
             ChangeState(EnemyState.Pursuit);
         }
@@ -168,6 +172,7 @@ public class ShieldedEnemy : Enemy
         PlaySound(audioClipRun);
         while (true)
         {
+            animator.SetBool("Attack", false);
             LookRotationToTarget();         // 타겟 방향을 계속 주시
             // MoveToTarget();                 // 타겟 방향을 계속 이동
             candyCane.enabled = false;
@@ -190,7 +195,7 @@ public class ShieldedEnemy : Enemy
             animator.SetBool("Attack", true);
             PlaySound(audioClipAttack);
             SetStatebyDistance();
-            yield return null;
+            yield return new WaitForSeconds(0.75f);
         }
     }
 
