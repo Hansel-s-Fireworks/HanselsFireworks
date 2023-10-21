@@ -37,7 +37,7 @@ public class BossManager : MonoBehaviour
 
     public void startBoss()
     {
-        GameManager.Instance.MuteBGM();
+        // GameManager.Instance.MuteBGM();
         PhaseStartEvent.Invoke(currentPhase);
     }
 
@@ -104,7 +104,8 @@ public class BossManager : MonoBehaviour
                 PhaseStartEvent.Invoke(currentPhase);
                 break;
             case 3:
-                SceneManager.LoadScene("06. HappyEnding");
+                GameManager.Instance.LeftTime = 3;
+                // SceneManager.LoadScene("06. HappyEnding");
                 break;
         }    
     }

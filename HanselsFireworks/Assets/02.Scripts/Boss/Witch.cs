@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -89,12 +89,14 @@ public class Witch : Enemy
             if (currentHP == maxHP - damage * 5)
             {
                 Debug.Log("씬전환");
-                BossManager.instance.goToNextPhase();
+                BossManager.instance.goToNextPhase();                
             }    
             if (isDie)
             {
                 canDamage = false;
                 animator.SetTrigger("IsDead");
+                // 마녀 비활성화
+                // gameObject.SetActive(false);
             }
         }
     }
