@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         mode = GameManager.Instance.mode;
-        feverModeEffect.SetActive(false);
+        if (BossManager.instance == null) feverModeEffect.SetActive(false);     // 보스전 아닐 때만
         // audioSource = GetComponent<AudioSource>();
     }
 

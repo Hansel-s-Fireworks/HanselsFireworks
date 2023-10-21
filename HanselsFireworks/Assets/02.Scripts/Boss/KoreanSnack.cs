@@ -31,10 +31,16 @@ public class KoreanSnack : Enemy
         }
     }
 
+    public void DeActivate()
+    {
+        // audioSource.mute = true;
+        navMeshAgent.enabled = false;
+    }
+
     private void Update()
     {
         // ?뚮젅?댁뼱???꾩튂瑜?紐⑺몴濡??ㅼ젙?섏뿬 紐ъ뒪?곌? ?곕씪媛?꾨줉 ?⑸땲??
-        if (player != null)
+        if (player != null && navMeshAgent.enabled)
         {
             navMeshAgent.SetDestination(player.position);
         }

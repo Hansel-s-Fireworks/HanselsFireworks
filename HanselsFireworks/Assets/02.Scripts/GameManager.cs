@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using Boss;
 
 public enum Mode
 {
@@ -101,17 +102,12 @@ public class GameManager : MonoBehaviour
     // UIManager가 매 씬전환 시작때마다 start함수에서 호출하는 초기화 함수
     public void Init() 
     {
-        maxTime = UIManager.Instance.maxTime[currentStage];
-        GetEnemies();
-        currentBGM.clip = mainBGM;
-        currentBGM.loop = true;
-        // 시작 전 모든 적들 움직임 정지시키기 위해 테스트
-        // SetEnemies(false);
-
-        print("모든 적 코루틴 정지");
-
         if (BossManager.instance == null)
         {
+            maxTime = UIManager.Instance.maxTime[currentStage];
+            GetEnemies();
+            currentBGM.clip = mainBGM;
+            currentBGM.loop = true;
             Debug.Log("보스매니저 존재안함");
             mode = Mode.normal;
             leftTime = maxTime;
@@ -123,9 +119,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            // 각 페이즈에서는 UIManager가 씬에서 호출하지 않는다.
+            // 그래서 BossManager에서 호출해야 한다. 
+            maxTime = Boss.UIManager.Instance.maxTime[currentStage];
+            currentBGM.clip = bossBgm;
+            currentBGM.loop = true;
             mode = Mode.normal;
-            leftTime = 90;
-            leftMonster = 1;
+            leftTime = maxTime;
+            leftMonster = 0;
             score = 0;
             combo = 1;
             leftCase = 0;
@@ -133,7 +134,6 @@ public class GameManager : MonoBehaviour
             Debug.Log("보스매니저 존재");
         }
     }
-
 
     public ShortEnemy[] shortEnemies;
     public LongEnemy[] longEnemies;
@@ -144,15 +144,29 @@ public class GameManager : MonoBehaviour
         longEnemies = FindObjectsOfType<LongEnemy>();
         shieldedEnemies = FindObjectsOfType<ShieldedEnemy>();
     }
+    [SerializeField] KoreanSnack[] koreanSnacks;
+    [SerializeField] Witch witch;
 
-    // 적들 제어
-    public void SetEnemies(bool active)
+    // 각 씬에 유일하게 있는 SceneMgr이 호출 ㅋㅋㅋㅋㅋ
+    public void GetKoreanSnacks()
     {
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
-        foreach (var item in enemies)
-        {
-            item.enabled = active;
-        }
+        koreanSnacks = FindObjectsOfType<KoreanSnack>();
+    }
+    // KoreanSnack 제어
+    public void DeActivateKoreanSnacks()
+    {        
+        foreach (var item in koreanSnacks) item.DeActivate();        
+    }
+
+    // 각 씬에 유일하게 있는 SceneMgr이 호출 ㅋㅋㅋㅋㅋ
+    public void GetWitch()
+    {
+        witch = FindObjectOfType<Witch>();
+    }
+
+    public void DeActivateWitch()
+    {
+        witch.DeActivate();
     }
     
     public void DeActivateMonsters()
@@ -195,12 +209,14 @@ public class GameManager : MonoBehaviour
         currentBGM.clip = mainBGM;
         currentBGM.Play();
     }
+
     public void PlayBurstBGM()
     {
         currentBGM.Stop();
         currentBGM.clip = burstBGM;
         currentBGM.Play();
     }
+
     public void PlayBossBGM()
     {
         currentBGM.Stop();
@@ -234,32 +250,76 @@ public class GameManager : MonoBehaviour
                 {
                     isMonsterLeft = false;
                     // bonus score
-                    UIManager.Instance.ShowBonusUI();                    
+                    if (BossManager.instance == null) UIManager.Instance.ShowBonusUI();                    
+                    else Boss.UIManager.Instance.ShowBonusUI();
                     AddBonusScore();
                 }
             }
             else 
             {
                 // SetEnemies(false);          // 의미 없음...
-                DeActivateMonsters();       
+                if (BossManager.instance == null) DeActivateMonsters();     
+                else
+                {
+                    if(BossManager.instance.currentPhase == 2)
+                    {
+                        DeActivateKoreanSnacks();       // 한국 과자 비활성화
+                    }
+                    else
+                    {
+                        DeActivateWitch();      // 마녀 또는 호박 비활성화.
+                        PumkinManager.Instance.DeActivate();    // 호박 없애기
+                    }
+                }
                 PlayWhistle();
                 // 모든 플레이어, 적 이동 금지.  
                 Debug.Log("End");
                 StopCoroutine(Timer());
                 stageScore[currentStage] = score;
                 totalScore += stageScore[currentStage];
-                UIManager.Instance.PlayEnd();           // Make player don't move
-                UIManager.Instance.ShowResultUI();      // ShowResultUI
-                
-                currentStage++;
-                score = 0;
-                SceneMgr.Instance.LoadNextScene();      // LoadNextScene
+                if (BossManager.instance == null) 
+                {
+                    UIManager.Instance.PlayEnd();           // Make player don't move
+                    UIManager.Instance.ShowResultUI();      // ShowResultUI
+                    currentStage++;
+                    score = 0;
+                    SceneMgr.Instance.LoadNextScene();      // LoadNextScene
+                }
+                else 
+                {
+                    // 보스전에서 시간이 다 되면 BadEnding씬으로 넘어가기
+                    // 여기서 Phase가 어디건 플레이어를 비활성화해야하는데...
+                    // 페이즈 2 플레이어는 전혀 다른 놈이다... 
+                    if(BossManager.instance.currentPhase == 2)
+                    {
+                        Boss.UIManager.Instance.DeActivatePlayer();
+                    }
+                    else
+                    {
+                        Boss.UIManager.Instance.PlayEnd();           // Make player don't move
+                    }
+                    Boss.UIManager.Instance.ShowResultUI();      // ShowResultUI
+                    SceneMgr.Instance.LoadNextScene("07. BadEnding"); 
+                    // SceneManager.LoadScene("07. BadEnding");
+                }
                 break;
             }
             yield return null;
         }
     }
 
-
+    // BossManager에서 Phase3까지 완료시 호출
+    public void BossObjective()
+    {
+        StopCoroutine(Timer());
+        Boss.UIManager.Instance.ShowBonusUI();
+        AddBonusScore();
+        PlayWhistle();
+        stageScore[currentStage] = score;
+        totalScore += stageScore[currentStage];
+        Boss.UIManager.Instance.PlayEnd();           // Make player don't move. 플레이어 사라짐
+        Boss.UIManager.Instance.ShowResultUI();      // ShowResultUI
+        SceneMgr.Instance.LoadNextScene("06. HappyEnding");          // 해피엔딩.
+    }
 
 }

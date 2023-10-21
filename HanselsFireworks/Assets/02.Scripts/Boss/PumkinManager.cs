@@ -13,7 +13,7 @@ public class PumkinManager : MonoBehaviour
     {
         if (Instance == null)
         {
-            Debug.Log("instance ?�성");
+            Debug.Log("instance ?앹꽦");
             Instance = this;
         }
     }
@@ -45,4 +45,11 @@ public class PumkinManager : MonoBehaviour
             pumkin.GetComponent<PumkinEnemy>().Attack();
         }
     }
+
+
+    public void DeActivate()
+    {
+        pumkins.Clear();
+    }
+
 }

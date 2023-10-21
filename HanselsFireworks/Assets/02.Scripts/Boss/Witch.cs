@@ -101,6 +101,14 @@ public class Witch : Enemy
         }
     }
 
+    public void DeActivate()
+    {
+        StopAllCoroutines();
+        attackSound.mute = true;
+        laughingSound.mute = true;
+        animator.speed = 0;
+    }
+
     IEnumerator SpawnPumkinWithDelay()
     {
         foreach (GameObject obj in myPumkins)

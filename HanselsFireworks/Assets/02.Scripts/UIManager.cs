@@ -254,7 +254,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.PlayMainBGM();
         GameManager.Instance.SetTimer();
         GameManager.Instance.SetObjective();        
-        GameManager.Instance.SetEnemies(true);  // 모든 적들 활성화하는 코드
+        // GameManager.Instance.SetEnemies(true);  // 모든 적들 활성화하는 코드
 
         print("시작 UI");
     }
@@ -267,7 +267,6 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.PlayBossBGM();
         GameManager.Instance.SetTimer();
         GameManager.Instance.SetObjective();
-        GameManager.Instance.SetEnemies(true);  // 모든 적들 활성화하는 코드
 
         print("보스 UI시작");
     }

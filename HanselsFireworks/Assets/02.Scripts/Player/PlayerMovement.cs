@@ -14,9 +14,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Audio Clips")]
     [SerializeField] private AudioClip audioClipWalk;
 
-    [Header("Input KeyCodes")]
-    [SerializeField] private KeyCode keyCodeRun = KeyCode.LeftShift;
-    [SerializeField] private KeyCode keyCodeJump = KeyCode.Space;
+    // [Header("Input KeyCodes")]
+    // [SerializeField] private KeyCode keyCodeRun = KeyCode.LeftShift;
+    // [SerializeField] private KeyCode keyCodeJump = KeyCode.Space;
 
     private Rigidbody rb;
     bool isGrounded;

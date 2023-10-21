@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Boss;
 
 public class SceneMgr : MonoBehaviour
 {
@@ -36,10 +37,32 @@ public class SceneMgr : MonoBehaviour
     [Range(0, 100)] public float percent;
     public float timer;
     public float fakeLoadingTime; // 페이크 로딩 시간 설정 (초 단위)
-
+    private void Start()
+    {
+        if (BossManager.instance != null)
+        {
+            if (BossManager.instance.currentPhase == 2)
+            {
+                GameManager.Instance.GetKoreanSnacks();
+                Boss.UIManager.Instance.GetPhaseTwoPlayer();
+            }
+            else
+            {
+                GameManager.Instance.GetWitch();
+                Boss.UIManager.Instance.GetPlayer();           // Make player don't move
+            }
+        }
+    }
     void Update()
     {
 
+    }
+
+    public void LoadNextScene(string sceneName)
+    {
+        nextSceneName = sceneName;
+        // 비동기적으로 Scene을 불러오기 위해 Coroutine을 사용한다.
+        StartCoroutine(LoadMyAsyncScene());
     }
 
     public void LoadNextScene()
