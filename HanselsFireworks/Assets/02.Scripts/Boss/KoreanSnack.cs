@@ -8,8 +8,7 @@ public class KoreanSnack : Enemy
     public Transform player; // ?뚮젅?댁뼱??Transform???곌껐??蹂??
     private NavMeshAgent navMeshAgent;
 
-    [SerializeField]
-    private AudioSource damageSound;
+    [SerializeField] private AudioClip audioClipDie;
 
     private void Start()
     {
@@ -24,8 +23,6 @@ public class KoreanSnack : Enemy
 
     public override void TakeDamage(int damage)
     {
-        damageSound.Play();
-
         bool isDie = DecreaseHP(damage);
         if (isDie)
         {

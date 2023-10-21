@@ -7,22 +7,50 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private int maxHealth, currentHealth;
 
+    [SerializeField]
+    private List<GameObject> hearts;
+
+    private int heartIndex;
+    private bool canDamage;
+
     private void Start()
     {
         currentHealth = maxHealth;
+        heartIndex = 3;
+        canDamage = true;
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (canDamage && hit.gameObject.tag == "Enemy")
         {
-            // Ãæµ¹ÇÑ ¿ÀºêÁ§Æ®°¡ Enemy ·¹ÀÌ¾î¿¡ ¼ÓÇÑ´Ù¸é ÇÃ·¹ÀÌ¾îÀÇ Ã¼·ÂÀ» °¨¼Ò½ÃÅ´
-            currentHealth -= 10; // ¿øÇÏ´Â ¸¸Å­ °¨¼Ò½ÃÅµ´Ï´Ù.
+            Debug.Log("ì¶©ëŒ");
+            currentHealth -= 10; // ì›í•˜ëŠ” ë§Œí¼ ê°ì†Œì‹œí‚µë‹ˆë‹¤.
 
-            if (currentHealth <= 0)
+            canDamage = false;
+
+            StartCoroutine(ChangeCanDamageAfterDelay(1.0f));
+
+            if (heartIndex >= 0)
+                hearts[heartIndex--].SetActive(false);
+
+            if (currentHealth == 0)
             {
-                BossManager.instance.goToNextPhase();
-                BossManager.instance.PhaseEnd();
+                BossManager.instance.isSuccess2Phase = false;
+                Invoke("GoTo3Phase", 0.5f);
             }
         }
+    }
+
+    private IEnumerator ChangeCanDamageAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); // 1ì´ˆ ì§€ì—°
+
+        canDamage = true;
+    }
+
+    private void GoTo3Phase()
+    {
+        BossManager.instance.PhaseEnd();
+        BossManager.instance.goToNextPhase();
     }
 }

@@ -12,6 +12,7 @@ public class BossManager : MonoBehaviour
     private GameObject sceneMng, canHideUI;
 
     private bool playerCanAttack;
+    public bool isSuccess2Phase;
     public int currentPhase;
     public UnityEvent<int> PhaseStartEvent;
     public UnityEvent<bool> PhaseEndEvent;
@@ -31,6 +32,7 @@ public class BossManager : MonoBehaviour
 
         currentPhase = 1;
         playerCanAttack = false;
+        isSuccess2Phase = false;
     }
 
     public void startBoss()
@@ -71,13 +73,13 @@ public class BossManager : MonoBehaviour
                 if (PumkinManager.Instance.GetPumkinList().Count == 0)
                 {
                     Debug.Log("Phase3 Clear");
-                    sceneMng.GetComponent<SceneMgr>().nextSceneName = "06. HappyEnding";
+                    //sceneMng.GetComponent<SceneMgr>().nextSceneName = "06. HappyEnding";
                     playerCanAttack = true;
                 }
                 else
                 {
                     Debug.Log("Phase3 fail");
-                    sceneMng.GetComponent<SceneMgr>().nextSceneName = "07. BadEnding";
+                    //sceneMng.GetComponent<SceneMgr>().nextSceneName = "07. BadEnding";
                     PhaseStartEvent.Invoke(3);
                     playerCanAttack = false;
                 }
@@ -97,12 +99,8 @@ public class BossManager : MonoBehaviour
                 break;
             case 2:
                 currentPhase++;
-                SceneManager.LoadScene("Boss");
+                SceneManager.LoadScene("MAIN (JOOHONG ver) 4");
                 canHideUI.SetActive(true);
-                if (Phase2Manager.Instance.snackCnt == -1)
-                {
-                    Debug.Log("어지러워");
-                }
                 PhaseStartEvent.Invoke(currentPhase);
                 break;
             case 3:

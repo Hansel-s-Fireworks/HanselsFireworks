@@ -82,4 +82,12 @@ public class PumkinEnemy : Enemy
         PumkinManager.Instance.DeletePumkin(this.gameObject);
         Destroy(gameObject);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<Player>().TakeScore();
+        }
+    }
 }
