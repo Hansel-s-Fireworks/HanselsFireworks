@@ -105,7 +105,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -161,7 +161,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d85463dbf7c7b2546ae2b18a6b573635, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.72
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -257,7 +257,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 47c09ee9717671848ab390b7ddda2207, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.62
   m_Pitch: 1
   Loop: 0
   Mute: 0

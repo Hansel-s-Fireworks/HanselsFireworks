@@ -12,7 +12,8 @@ public class Key : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î");
+            Debug.Log("í”Œë ˆì´ì–´");
+            BossManager.instance.isSuccess2Phase = true;
             gameClear.Play();
             Invoke("GoTo3Phase", 0.5f);
         }

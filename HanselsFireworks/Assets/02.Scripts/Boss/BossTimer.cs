@@ -10,13 +10,14 @@ public class BossTimer : MonoBehaviour
         BossManager.instance.PhaseStartEvent.AddListener(PhaseStart);
         if (BossManager.instance.currentPhase == 3)
         {
+            Debug.Log("이건 3페이즈야");
             PhaseStart(3);
         }
     }
 
     public void PhaseStart(int phase)
     {
-        Invoke("PhaseEnd", 10f);
+        Invoke("PhaseEnd", 12f);
     }
 
     private void PhaseEnd()
