@@ -3,7 +3,27 @@ guid: b33dfc3da2693ce4f94539340d6694d2
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: donut 11
+    second: {fileID: 2100000, guid: 135b89094cc328a48b88cee204bc8dd1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: donut 2
+    second: {fileID: 2100000, guid: fac26945b85bf46409ae932f01ca84d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: donut 5
+    second: {fileID: 2100000, guid: a33dce60a28f44642a64d85f367a80b4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: strawberry_mat
+    second: {fileID: 2100000, guid: 1d11e69e5619b9f4aa85a15667ae674d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
