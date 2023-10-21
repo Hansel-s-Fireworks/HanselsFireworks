@@ -306,7 +306,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: efc349b974b1e1047b533198e2e4a1eb, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1171,7 +1171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8429697534769294243
 Transform:
   m_ObjectHideFlags: 0
@@ -6604,6 +6604,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1779022890888287729}
+  - {fileID: 7161659016479595918}
   - {fileID: 8429697534769294243}
   - {fileID: 5950770248945952052}
   m_Father: {fileID: 0}
@@ -6932,6 +6933,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CandyCane 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1431612649898633319, guid: a336ea0d41ab47444a8503038a22acc0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3514169014406662061, guid: a336ea0d41ab47444a8503038a22acc0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7057,6 +7063,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 86
       objectReference: {fileID: 0}
+    - target: {fileID: 4362931296460795896, guid: 10ab0a140aaf4834d901e8f5521cfb49,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8678263192612253315, guid: 10ab0a140aaf4834d901e8f5521cfb49,
         type: 3}
       propertyPath: m_Name
@@ -7078,4 +7089,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2492705533494113400, guid: 10ab0a140aaf4834d901e8f5521cfb49,
     type: 3}
   m_PrefabInstance: {fileID: 7251573945494133040}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7545157294040662429
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2059249619810042511}
+    m_Modifications:
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6952127054553255323, guid: ca6112c2eaa05084ba06100533749dc7,
+        type: 3}
+      propertyPath: m_Name
+      value: SMELL Effect
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ca6112c2eaa05084ba06100533749dc7, type: 3}
+--- !u!4 &7161659016479595918 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 853039033880714259, guid: ca6112c2eaa05084ba06100533749dc7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7545157294040662429}
   m_PrefabAsset: {fileID: 0}
