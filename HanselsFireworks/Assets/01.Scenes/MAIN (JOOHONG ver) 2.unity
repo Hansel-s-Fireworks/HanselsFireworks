@@ -46203,7 +46203,7 @@ PrefabInstance:
     - target: {fileID: 5408219842028827287, guid: fb3d050dac8865c42b955be6d7fc6270,
         type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 5689972609216985765, guid: fb3d050dac8865c42b955be6d7fc6270,
         type: 3}
@@ -99643,7 +99643,7 @@ MonoBehaviour:
   player: {fileID: 0}
   character: {fileID: 0}
   playerMovement: {fileID: 0}
-  maxTime: 3c0000003c00000014000000
+  maxTime: 3c0000003c0000005a000000
 --- !u!95 &5505501222268407621
 Animator:
   serializedVersion: 5

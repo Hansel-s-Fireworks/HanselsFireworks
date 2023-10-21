@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 1
   currentHP: 0
-  score: 10
+  score: 500
   audioClipBreak: {fileID: 8300000, guid: f318634301424b44d9bcd67bacc0e69c, type: 3}
 --- !u!54 &6519376921660680715
 Rigidbody:
