@@ -81,9 +81,10 @@ public class PlayerBullet : MonoBehaviour
         }
         else if (other.CompareTag("Interactable"))
         {
-            Debug.Log("占쏙옙호占쌜울옙 占쏙옙占쏙옙占쏙옙트");
+            Debug.Log("Interactable");
             other.GetComponent<InteractableObject>().TakeDamage(1);
-            // 占싹뱄옙 占쏙옙占쏙옙占쏙옙트占쏙옙 占쌨븝옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙.
+            other.GetComponent<InteractableObject>().TakeScore();
+            
             impactMemoryPool.OnSpawnImpact(other, transform.position, transform.rotation);
             memoryPool.DeactivatePoolItem(gameObject);
         }
