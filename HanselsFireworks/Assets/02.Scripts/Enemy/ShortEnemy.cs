@@ -73,7 +73,7 @@ public class ShortEnemy : Enemy
             // 모든 코루틴 스탑 => 중간에 공격모션시 소리나는 에러때문에 
             StopAllCoroutines();
             // 콜라이더도 제거. 안그러면 dissolve하는 동안 쿠키를 밀고 감
-            collider.enabled = false;
+            // collider.enabled = false;
             // navMeshAgent.enabled = false;       // 얘까지 꺼야 땅에 꺼진다. 
             GameManager.Instance.leftMonster--;         // 남은 몬스터 수 줄기
 

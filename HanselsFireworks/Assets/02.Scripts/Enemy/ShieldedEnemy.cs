@@ -97,6 +97,8 @@ public class ShieldedEnemy : Enemy
             // 콜라이더도 제거. 안그러면 dissolve하는 동안 쿠키를 밀고 감
             collider.enabled = false;
             navMeshAgent.enabled = false;       // 얘까지 꺼야 땅에 꺼진다. 
+            
+            // GameManager.Instance.leftMonster--;
 
             // WaveSpawner.Instance.;
             Debug.Log("Shielded_Gingerbread Dead");
