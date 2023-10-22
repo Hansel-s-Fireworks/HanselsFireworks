@@ -66004,6 +66004,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2667723554189568670, guid: b6b9b2abdd730944c8c043a476ad47c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3731668911511960421, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}
       propertyPath: m_Pivot.x
@@ -66104,10 +66109,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4178538050579409816, guid: b6b9b2abdd730944c8c043a476ad47c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7746905031149435733, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}
       propertyPath: m_Name
       value: UICanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457515228887992241, guid: b6b9b2abdd730944c8c043a476ad47c5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 950a2024f49491947ad8660c9ed4dcab,
+        type: 3}
+    - target: {fileID: 8619161349735966388, guid: b6b9b2abdd730944c8c043a476ad47c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
