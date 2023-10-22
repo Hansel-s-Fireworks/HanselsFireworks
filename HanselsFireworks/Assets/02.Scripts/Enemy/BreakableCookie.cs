@@ -10,7 +10,11 @@ public class BreakableCookie : InteractableObject
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        // audioSource = GetComponent<AudioSource>();
+    }
+    private void Awake()
+    {
+        // audioSource = gameObject.GetComponentInParent<AudioSource>();
     }
 
     public override void TakeScore()

@@ -7,9 +7,11 @@ public class Window : InteractableObject
     [Header("Audio Clips")]
     [SerializeField] private AudioClip audioClipBreak;
 
-    private void Start()
+    [SerializeField] private AudioSource ccc;
+
+    private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        // ccc = GetComponentInParent<AudioSource>();
     }
 
     public override void TakeScore()
@@ -22,7 +24,8 @@ public class Window : InteractableObject
         bool isDie = DecreaseHP(damage);
         if (isDie)
         {
-            PlaySound(audioClipBreak);
+            // PlaySound(audioClipBreak);
+            ccc.Play();
             gameObject.SetActive(false);                // 비활성화
             GetComponent<BreakFruit>().Run();
             Debug.Log("Window Breaked");

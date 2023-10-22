@@ -8,7 +8,7 @@ public abstract class InteractableObject : MonoBehaviour
     [SerializeField] protected int maxHP;
     [SerializeField] protected int currentHP;
     [SerializeField] protected int score;
-    protected AudioSource audioSource;
+    [SerializeField] protected AudioSource audioSource;
 
     void Awake()
     {
