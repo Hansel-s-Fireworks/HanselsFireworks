@@ -3006,7 +3006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &506221415258944697
 Transform:
   m_ObjectHideFlags: 0
@@ -3692,7 +3692,7 @@ MonoBehaviour:
   firePoint: {fileID: 3939160187991503587}
   characterBody: {fileID: 4427565274650888144}
   cameraTransform: {fileID: 8077738267041552445}
-  mouseSensitivity: 7
+  mouseSensitivity: 3
   mouseXInput: 0
   mouseYInput: 0
   audioClipHurt: {fileID: 8300000, guid: c0b698ae42fbd9a458cc1f3ffed3854e, type: 3}

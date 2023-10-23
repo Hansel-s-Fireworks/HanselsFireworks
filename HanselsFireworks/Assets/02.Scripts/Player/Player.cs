@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [Header("Mouse Controll view")]
     public Transform characterBody;
     public Transform cameraTransform;
-    public float mouseSensitivity = 7f;
+    public float mouseSensitivity;
 
     [Header("Debug")]
     public float mouseXInput;
