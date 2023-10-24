@@ -5,11 +5,11 @@ using UnityEngine;
 public class Witch : Enemy
 {
     [SerializeField]
-    AudioSource  attackSound, laughingSound;
+    AudioSource  attackSound, laughingSound, damageSound;
     [SerializeField]
     private GameObject[] myPumkins;
     [SerializeField]
-    private GameObject pumkinPrefab, barrier;
+    private GameObject pumkinPrefab, barrier, phase2Bubble;
     private bool canDamage = false;
     private bool isAttacking = false;
     private Animator animator;
@@ -66,8 +66,8 @@ public class Witch : Enemy
         }
         else
         {
-            canDamage = true;
             barrier.SetActive(false);
+            canDamage = true;
         }
     }
 
@@ -83,22 +83,30 @@ public class Witch : Enemy
     {
         if (canDamage)
         {
+            damageSound.Play();
             animator.SetTrigger("IsDamage");
             bool isDie = DecreaseHP(damage);
 
-            if (currentHP == maxHP - damage * 5)
-            {
-                Debug.Log("씬전환");
-                BossManager.instance.goToNextPhase();                
-            }    
+
             if (isDie)
             {
                 canDamage = false;
                 animator.SetTrigger("IsDead");
                 // 마녀 비활성화
-                // gameObject.SetActive(false);
+                Invoke("GoToNextPhaseWithDelay", 2f);
             }
+
+            if (currentHP == maxHP - damage * 5)
+            {
+                phase2Bubble.SetActive(true);
+                Invoke("GoToNextPhaseWithDelay", 2f);               
+            }    
         }
+    }
+
+    private void GoToNextPhaseWithDelay()
+    {
+        BossManager.instance.goToNextPhase();
     }
 
     public void DeActivate()

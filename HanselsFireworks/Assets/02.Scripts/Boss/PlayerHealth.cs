@@ -19,25 +19,28 @@ public class PlayerHealth : MonoBehaviour
         heartIndex = 3;
         canDamage = true;
     }
+
+    private void Update()
+    {
+        if (currentHealth == 0)
+        {
+            BossManager.instance.isSuccess2Phase = false;
+            Invoke("GoTo3Phase", 0.5f);
+        }
+    }
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (canDamage && hit.gameObject.tag == "Enemy")
         {
             Debug.Log("충돌");
+            if (heartIndex >= 0)
+                hearts[heartIndex--].SetActive(false);
+
             currentHealth -= 10; // 원하는 만큼 감소시킵니다.
 
             canDamage = false;
 
             StartCoroutine(ChangeCanDamageAfterDelay(1.0f));
-
-            if (heartIndex >= 0)
-                hearts[heartIndex--].SetActive(false);
-
-            if (currentHealth == 0)
-            {
-                BossManager.instance.isSuccess2Phase = false;
-                Invoke("GoTo3Phase", 0.5f);
-            }
         }
     }
 

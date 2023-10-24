@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class KoreanSnack : Enemy
 {
-    public Transform player; // ?뚮젅?댁뼱??Transform???곌껐??蹂??
+    public Transform player;
     private NavMeshAgent navMeshAgent;
 
     [SerializeField] private AudioClip audioClipDie;

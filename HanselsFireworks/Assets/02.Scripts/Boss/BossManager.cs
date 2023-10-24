@@ -66,10 +66,12 @@ public class BossManager : MonoBehaviour
                 if (Phase2Manager.Instance.snackCnt == -1)
                 {
                     Debug.Log("Phase2 Clear");
+                    isSuccess2Phase = true;
                 }
                 else
                 {
                     Debug.Log("Phase2 fail");
+                    isSuccess2Phase = false;
                 }
                 break;
             case 3:
