@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
     public int leftCase;
     public Mode mode;
 
+    private float sensitivity;
     private int bounsScore = 500;
     private bool isMonsterLeft;
 
@@ -82,6 +83,10 @@ public class GameManager : MonoBehaviour
         leftMonster = GetLeftEnemies();        
     }
     
+    public void SetSensitivity(float value)
+    {
+        sensitivity = value;
+    }
 
     public int GetleftTime() { return leftTime; }
 
