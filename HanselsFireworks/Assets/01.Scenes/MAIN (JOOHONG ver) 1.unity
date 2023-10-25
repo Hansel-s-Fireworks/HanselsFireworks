@@ -62283,12 +62283,12 @@ PrefabInstance:
     - target: {fileID: 4131628774539340375, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}
       propertyPath: maxTime.Array.data[0]
-      value: 60
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4131628774539340375, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}
       propertyPath: maxTime.Array.data[1]
-      value: 60
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5037926644288212868, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}

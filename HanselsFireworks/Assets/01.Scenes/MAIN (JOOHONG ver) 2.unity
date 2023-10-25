@@ -46113,7 +46113,12 @@ PrefabInstance:
     - target: {fileID: 688457080554435972, guid: fb3d050dac8865c42b955be6d7fc6270,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.27110052
+      value: 1.4563521
+      objectReference: {fileID: 0}
+    - target: {fileID: 688457080554435972, guid: fb3d050dac8865c42b955be6d7fc6270,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 688457080554435972, guid: fb3d050dac8865c42b955be6d7fc6270,
         type: 3}
@@ -46123,7 +46128,7 @@ PrefabInstance:
     - target: {fileID: 688457080554435972, guid: fb3d050dac8865c42b955be6d7fc6270,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.53
+      value: -0.151
       objectReference: {fileID: 0}
     - target: {fileID: 854377086470084120, guid: fb3d050dac8865c42b955be6d7fc6270,
         type: 3}
@@ -76046,6 +76051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneMng: {fileID: 1669418338}
   canHideUI: {fileID: 1755769704}
+  aimUI: {fileID: 7308598886041387331}
   isSuccess2Phase: 0
   currentPhase: 1
   PhaseStartEvent:
@@ -78071,7 +78077,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4610003543585115023}
   - {fileID: 6257910877157735565}
   m_Father: {fileID: 2991077556341987031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -98562,6 +98567,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4610003543585115023}
   - {fileID: 1755769705}
   - {fileID: 4938247100293767029}
   - {fileID: 8705196505069794576}
@@ -99687,11 +99693,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1755769705}
+  m_Father: {fileID: 2991077556341987031}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 148.74998, y: -32.724987}
+  m_AnchoredPosition: {x: -0.000061035156, y: -0}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &4633483720909424892

@@ -9,9 +9,9 @@ public class Debuff : MonoBehaviour
     void Start()
     {
         if (!BossManager.instance.isSuccess2Phase)
+        {
             debuff.SetActive(true);
-
-        Destroy(debuff, 3f);
+        }
     }
 
 }

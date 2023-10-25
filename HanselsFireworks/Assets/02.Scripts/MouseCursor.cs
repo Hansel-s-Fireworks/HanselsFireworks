@@ -11,7 +11,8 @@ public class MouseCursor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
+        Vector2 tmp = new Vector2(10f, 10f);
+        Cursor.SetCursor(cursor, tmp, CursorMode.ForceSoftware);
     }
 
 }

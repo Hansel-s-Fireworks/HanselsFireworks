@@ -10,7 +10,7 @@ public class BossManager : MonoBehaviour
     public static BossManager instance;
 
     [SerializeField]
-    private GameObject sceneMng, canHideUI;
+    private GameObject sceneMng, canHideUI, aimUI;
 
     private bool playerCanAttack;
     public bool isSuccess2Phase;
@@ -70,6 +70,7 @@ public class BossManager : MonoBehaviour
                 }
                 else
                 {
+                    aimUI.SetActive(false);
                     Debug.Log("Phase2 fail");
                     isSuccess2Phase = false;
                 }
@@ -102,6 +103,7 @@ public class BossManager : MonoBehaviour
                 currentPhase++;
                 SceneManager.LoadScene("Boss_Phase2");
                 canHideUI.SetActive(false);
+                aimUI.SetActive(false);
                 break;
             case 2:
                 currentPhase++;
