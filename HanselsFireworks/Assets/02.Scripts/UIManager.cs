@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
     private Player player;
     private AudioSource audioSource;
     private bool doOnce;
-    
+    private bool doOnce_2;
 
 
     [Header("Init variable")]
@@ -94,7 +94,7 @@ public class UIManager : MonoBehaviour
         Cursor.visible = true;
 
         doOnce = false;
-
+        doOnce_2 = true;
         InitInfo();
     }
 
@@ -248,15 +248,19 @@ public class UIManager : MonoBehaviour
     // 게임 시작
     public void StartUI()
     {
-        // 3,2,1 실행. 이거 코루틴
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        GameManager.Instance.PlayMainBGM();
-        GameManager.Instance.SetTimer();
-        GameManager.Instance.SetObjective();        
-        // GameManager.Instance.SetEnemies(true);  // 모든 적들 활성화하는 코드
+        if (doOnce_2)
+        {
+            doOnce_2 = false;
+            // 3,2,1 실행. 이거 코루틴
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            GameManager.Instance.PlayMainBGM();
+            GameManager.Instance.SetTimer();
+            GameManager.Instance.SetObjective();
+            // GameManager.Instance.SetEnemies(true);  // 모든 적들 활성화하는 코드
 
-        print("시작 UI");
+            print("시작 UI");
+        }        
     }
     // 보스전 직전 씬에서 Start버튼 이벤트에 등록될 함수
     public void StartBossStage()
