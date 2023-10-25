@@ -53523,6 +53523,7 @@ MonoBehaviour:
   score: 0
   attackSound: {fileID: 0}
   laughingSound: {fileID: 0}
+  damageSound: {fileID: 0}
   myPumkins:
   - {fileID: 0}
   - {fileID: 0}
@@ -53532,6 +53533,7 @@ MonoBehaviour:
   - {fileID: 0}
   pumkinPrefab: {fileID: 0}
   barrier: {fileID: 0}
+  phase2Bubble: {fileID: 0}
 --- !u!1 &1095797597
 GameObject:
   m_ObjectHideFlags: 0
@@ -66112,12 +66114,12 @@ PrefabInstance:
     - target: {fileID: 4131628774539340375, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}
       propertyPath: maxTime.Array.data[0]
-      value: 2
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 4131628774539340375, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}
       propertyPath: maxTime.Array.data[1]
-      value: 2
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 4178538050579409816, guid: b6b9b2abdd730944c8c043a476ad47c5,
         type: 3}

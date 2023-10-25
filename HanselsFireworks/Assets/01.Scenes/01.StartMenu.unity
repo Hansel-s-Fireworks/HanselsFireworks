@@ -44149,7 +44149,6 @@ GameObject:
   - component: {fileID: 1339461459}
   - component: {fileID: 1339461458}
   - component: {fileID: 1339461461}
-  - component: {fileID: 1339461462}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -44275,19 +44274,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!114 &1339461462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339461457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1f60fe5e1041fc43995037b4560ea2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cursor: {fileID: 2800000, guid: d9e1889f9ed6aa94ebfef8f52ca9d445, type: 3}
 --- !u!1 &1339737161
 GameObject:
   m_ObjectHideFlags: 0
@@ -76792,6 +76778,7 @@ GameObject:
   - component: {fileID: 56485024572629413}
   - component: {fileID: 6351566475345405767}
   - component: {fileID: 8616968606124369544}
+  - component: {fileID: 8801224168160917053}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -76821,6 +76808,19 @@ MonoBehaviour:
   gunAnimator: {fileID: 8369791462726209533}
   audioSource: {fileID: 56485024572629413}
   fireGun: {fileID: 8369791462726209534}
+--- !u!114 &8801224168160917053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801224168160917051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f60fe5e1041fc43995037b4560ea2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursor: {fileID: 2800000, guid: d9e1889f9ed6aa94ebfef8f52ca9d445, type: 3}
 --- !u!222 &8973042218225557710
 CanvasRenderer:
   m_ObjectHideFlags: 0

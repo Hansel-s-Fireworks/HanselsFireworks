@@ -3,39 +3,39 @@ using UnityEngine;
 public class MaterialController : MonoBehaviour
 {
     public SkinnedMeshRenderer skinnedMeshRenderer;
-    public Material targetMaterial; // ´ë»ó ¸ÓÆ¼¸®¾ó
+    public Material targetMaterial; // ëŒ€ìƒ ë¨¸í‹°ë¦¬ì–¼
 
-    // ¸ÓÆ¼¸®¾ó ³» º¯¼ö¸¦ Á¶Á¤ÇÒ ¶§ »ç¿ëÇÒ º¯¼öµé
+    // ë¨¸í‹°ë¦¬ì–¼ ë‚´ ë³€ìˆ˜ë¥¼ ì¡°ì •í•  ë•Œ ì‚¬ìš©í•  ë³€ìˆ˜ë“¤
     public Color newColor;
     public float newFloatValue;
 
     private void Start()
     {
-        // SkinnedMeshRenderer°¡ ÁöÁ¤µÇÁö ¾Ê¾ÒÀ» °æ¿ì, ÇöÀç °ÔÀÓ ¿ÀºêÁ§Æ®¿¡¼­ Ã£¾Æº¾´Ï´Ù.
+        // SkinnedMeshRendererê°€ ì§€ì •ë˜ì§€ ì•Šì•˜ì„ ê²½ìš°, í˜„ì¬ ê²Œì„ ì˜¤ë¸Œì íŠ¸ì—ì„œ ì°¾ì•„ë´…ë‹ˆë‹¤.
         if (skinnedMeshRenderer == null)
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AdjustMaterialProperties();
-        }
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     AdjustMaterialProperties();
+        // }
     }
 
     public void AdjustMaterialProperties()
     {
-        // ´ë»ó ¸ÓÆ¼¸®¾óÀ» °¡Á®¿É´Ï´Ù.
+        // ëŒ€ìƒ ë¨¸í‹°ë¦¬ì–¼ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
         Material[] materials = skinnedMeshRenderer.materials;
         targetMaterial = materials[1];
-        // ´ë»ó ¸ÓÆ¼¸®¾óÀ» Ã£¾Æ¼­ Á¶Á¤ÇÕ´Ï´Ù.
+        // ëŒ€ìƒ ë¨¸í‹°ë¦¬ì–¼ì„ ì°¾ì•„ì„œ ì¡°ì •í•©ë‹ˆë‹¤.
         
-                // ¸ÓÆ¼¸®¾ó ³» º¯¼ö¸¦ Á¶Á¤ÇÕ´Ï´Ù.
-        // materials[1].SetColor("_Color", newColor); // "_Color"´Â ¸ÓÆ¼¸®¾ó¿¡ µû¶ó ´Ù¸¦ ¼ö ÀÖ½À´Ï´Ù.
-        // materials[1].SetFloat("_FloatValue", newFloatValue); // "_FloatValue" ¿ª½Ã ¸ÓÆ¼¸®¾ó¿¡ µû¶ó ´Ù¸¦ ¼ö ÀÖ½À´Ï´Ù.
+                // ë¨¸í‹°ë¦¬ì–¼ ë‚´ ë³€ìˆ˜ë¥¼ ì¡°ì •í•©ë‹ˆë‹¤.
+        // materials[1].SetColor("_Color", newColor); // "_Color"ëŠ” ë¨¸í‹°ë¦¬ì–¼ì— ë”°ë¼ ë‹¤ë¥¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
+        // materials[1].SetFloat("_FloatValue", newFloatValue); // "_FloatValue" ì—­ì‹œ ë¨¸í‹°ë¦¬ì–¼ì— ë”°ë¼ ë‹¤ë¥¼ ìˆ˜ ìˆìŠµë‹ˆë‹¤.
 
-                // ¸ÓÆ¼¸®¾óÀ» ´Ù½Ã ÇÒ´çÇÕ´Ï´Ù.
+                // ë¨¸í‹°ë¦¬ì–¼ì„ ë‹¤ì‹œ í• ë‹¹í•©ë‹ˆë‹¤.
                 // skinnedMeshRenderer.materials = materials;
            
     }

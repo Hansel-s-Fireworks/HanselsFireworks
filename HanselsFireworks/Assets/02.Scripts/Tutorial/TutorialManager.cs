@@ -78,8 +78,9 @@ namespace Tutorial
 
         public void SetSensitivity()
         {
-            player.mouseSensitivity = sensitivity.value;
-            tSensitivity.text = sensitivity.value.ToString();
+            
+            player.mouseSensitivity = Mathf.Round(sensitivity.value * 100.0f) / 100.0f;
+            tSensitivity.text = player.mouseSensitivity.ToString();
             PlayerPrefs.SetFloat("Sensitive", sensitivity.value);
             // GameManager.Instance.SetSensitivity(sensitivity.value);
         }
