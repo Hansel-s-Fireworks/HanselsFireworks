@@ -109,6 +109,8 @@ public class BossManager : MonoBehaviour
                 currentPhase++;
                 SceneManager.LoadScene("MAIN (JOOHONG ver) 4");
                 canHideUI.SetActive(true);
+                if (isSuccess2Phase) aimUI.SetActive(true);
+                
                 PhaseStartEvent.Invoke(currentPhase);
                 break;
             case 3:
