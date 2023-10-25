@@ -15,13 +15,14 @@ namespace Tutorial
         [SerializeField] private Slider sensitivity;
         [SerializeField] private TextMeshProUGUI tSensitivity;
 
-
         [SerializeField] private Player player;
+        [SerializeField] private PlayerMovement playerMovement;
 
         // Start is called before the first frame update
         void Start()
         {
             player = FindObjectOfType<Tutorial.Player>();
+            playerMovement = FindObjectOfType<PlayerMovement>();
         }
 
         // Update is called once per frame
@@ -38,6 +39,7 @@ namespace Tutorial
             }
             if (aimSensitivityPanel.activeSelf)
             {
+                playerMovement.audioSource.Stop();
                 SetSensitivity();
             }
         }
