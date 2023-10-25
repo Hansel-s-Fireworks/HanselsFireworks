@@ -9,6 +9,9 @@ public class PumkinEnemy : Enemy
     [SerializeField]
     private GameObject target;
 
+    [SerializeField]
+    private AudioSource damageSound;
+
     private float approachTime = 1f;
 
     private bool canTakeDamage = false;
@@ -33,13 +36,13 @@ public class PumkinEnemy : Enemy
     {
         if (canTakeDamage)
         {
-            GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
-            GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+            GameManager.Instance.score += this.score * GameManager.Instance.combo;            
         }
     }
 
     public override void TakeDamage(int damage)
     {
+        damageSound.Play();
         if (canTakeDamage)
         {
             animator.SetTrigger("IsDamage");
@@ -72,12 +75,19 @@ public class PumkinEnemy : Enemy
 
         while (elapsedTime < approachTime)
         {
-            Debug.Log("움직이는중");
             transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / approachTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         PumkinManager.Instance.DeletePumkin(this.gameObject);
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<Player>().TakeScore();
+        }
     }
 }

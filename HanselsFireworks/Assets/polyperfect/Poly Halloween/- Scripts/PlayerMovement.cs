@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Polyperfect.Universal
 {
@@ -19,6 +19,7 @@ namespace Polyperfect.Universal
 
         public GameObject bullet;
         public Transform firePoint;
+        public AudioSource fireSound;
 
 
         // Update is called once per frame
@@ -33,7 +34,10 @@ namespace Polyperfect.Universal
 
         private void Shoot()
         {
-            if (Input.GetMouseButtonDown(0)) { Instantiate(bullet, firePoint); }
+            if (Input.GetMouseButtonDown(0))
+            { Instantiate(bullet, firePoint);
+                fireSound.Play();
+            }
         }
 
         public void Controller()

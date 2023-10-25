@@ -29,7 +29,7 @@ public class Phase2Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") || other.CompareTag("Interactable"))
         {
             other.GetComponent<Enemy>().TakeDamage(1);
             // other.GetComponent<Enemy>().TakeScore();

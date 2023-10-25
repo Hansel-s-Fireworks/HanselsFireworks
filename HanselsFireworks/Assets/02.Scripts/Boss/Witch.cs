@@ -5,10 +5,11 @@ using UnityEngine;
 public class Witch : Enemy
 {
     [SerializeField]
+    AudioSource  attackSound, laughingSound, damageSound;
+    [SerializeField]
     private GameObject[] myPumkins;
     [SerializeField]
-    private GameObject pumkinPrefab;
-
+    private GameObject pumkinPrefab, barrier, phase2Bubble;
     private bool canDamage = false;
     private bool isAttacking = false;
     private Animator animator;
@@ -19,10 +20,39 @@ public class Witch : Enemy
         animator = GetComponent<Animator>();
     }
 
-    // 시작하는 조건 추가해야함
-    public void PrepareAttack()
+    public void Start()
     {
+        BossManager.instance.PhaseStartEvent.AddListener(PrepareAttack);
+        BossManager.instance.PhaseEndEvent.AddListener(MyTurn);
+
+        if (BossManager.instance.currentPhase == 3)
+        {
+            PrepareAttack(3);
+        }
+    }
+
+    // ?쒖옉?섎뒗 議곌굔 異붽??댁빞??
+    public void PrepareAttack(int phase)
+    {
+        switch(phase)
+        {
+            case 1:
+                foreach(GameObject pumkins in myPumkins)
+                {
+                    pumkins.GetComponent<PumkinAnimation>().angularSpeed = 40;
+                }
+                break;
+            case 3:
+                foreach (GameObject pumkins in myPumkins)
+                {
+                    pumkins.GetComponent<PumkinAnimation>().angularSpeed = 80;
+                }
+                break;
+        }
+
         StartCoroutine(SpawnPumkinWithDelay());
+        barrier.SetActive(true);
+        laughingSound.Play();
     }
 
     public void MyTurn(bool canTakeDamage)
@@ -30,16 +60,14 @@ public class Witch : Enemy
         canDamage = canTakeDamage;
         if (!canTakeDamage)
         {
-            Debug.Log("마녀가 공격");
-            // 마녀 공격 애니메이션
             animator.SetTrigger("IsAttacking");
+            attackSound.Play();
             PumkinManager.Instance.Attack();
         }
         else
         {
-            Debug.Log("내가 공격");
+            barrier.SetActive(false);
             canDamage = true;
-            // 맞는 애니메이션
         }
     }
 
@@ -47,8 +75,7 @@ public class Witch : Enemy
     {
         if (canDamage)
         {
-            GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
-            GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+            GameManager.Instance.score += this.score * GameManager.Instance.combo;
         }
     }
 
@@ -56,15 +83,38 @@ public class Witch : Enemy
     {
         if (canDamage)
         {
+            damageSound.Play();
             animator.SetTrigger("IsDamage");
             bool isDie = DecreaseHP(damage);
+
+
             if (isDie)
             {
                 canDamage = false;
-                Debug.Log("1페이즈 끝");
                 animator.SetTrigger("IsDead");
+                // 마녀 비활성화
+                Invoke("GoToNextPhaseWithDelay", 2f);
             }
+
+            if (currentHP == maxHP - damage * 5)
+            {
+                phase2Bubble.SetActive(true);
+                Invoke("GoToNextPhaseWithDelay", 2f);               
+            }    
         }
+    }
+
+    private void GoToNextPhaseWithDelay()
+    {
+        BossManager.instance.goToNextPhase();
+    }
+
+    public void DeActivate()
+    {
+        StopAllCoroutines();
+        attackSound.mute = true;
+        laughingSound.mute = true;
+        animator.speed = 0;
     }
 
     IEnumerator SpawnPumkinWithDelay()

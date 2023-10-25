@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class KoreanSnack : MonoBehaviour
+public class KoreanSnack : Enemy
 {
-    public Transform player; // 플레이어의 Transform을 연결할 변수
+    public Transform player;
     private NavMeshAgent navMeshAgent;
+
+    [SerializeField] private AudioClip audioClipDie;
 
     private void Start()
     {
@@ -15,10 +17,30 @@ public class KoreanSnack : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+    public override void TakeScore()
+    {
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        bool isDie = DecreaseHP(damage);
+        if (isDie)
+        {
+            gameObject.SetActive(false);
+            Phase2Manager.Instance.snackCnt--;
+        }
+    }
+
+    public void DeActivate()
+    {
+        // audioSource.mute = true;
+        navMeshAgent.enabled = false;
+    }
+
     private void Update()
     {
-        // 플레이어의 위치를 목표로 설정하여 몬스터가 따라가도록 합니다.
-        if (player != null)
+        // ?뚮젅?댁뼱???꾩튂瑜?紐⑺몴濡??ㅼ젙?섏뿬 紐ъ뒪?곌? ?곕씪媛?꾨줉 ?⑸땲??
+        if (player != null && navMeshAgent.enabled)
         {
             navMeshAgent.SetDestination(player.position);
         }

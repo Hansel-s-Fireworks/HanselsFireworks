@@ -5,10 +5,21 @@ using UnityEngine.AI;
 
 public class BreakableCookie : InteractableObject
 {
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip audioClipBreak;
+
+    private void Start()
+    {
+        // audioSource = GetComponent<AudioSource>();
+    }
+    private void Awake()
+    {
+        // audioSource = gameObject.GetComponentInParent<AudioSource>();
+    }
+
     public override void TakeScore()
     {
-        GameManager.Instance.totalScore += this.score;
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+        GameManager.Instance.score += this.score;
     }
 
     public override void TakeDamage(int damage)
@@ -16,7 +27,8 @@ public class BreakableCookie : InteractableObject
         bool isDie = DecreaseHP(damage);
         if (isDie)
         {
-            gameObject.SetActive(false);                // ��Ȱ��ȭ
+            PlaySound(audioClipBreak);
+            gameObject.SetActive(false);                // 비활성화
             GetComponent<BreakFruit>().Run();
             Debug.Log("BreakableCookie Breaked");
         }

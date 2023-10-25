@@ -11,34 +11,59 @@ public class ShieldedEnemy : Enemy
 
     [Header("Info")]
     [SerializeField] private float attackRange;
-    [SerializeField] private float recognitionRange;            // ÀÎ½Ä ¹× °ø°İ ¹üÀ§ (ÀÌ ¹üÀ§ ¾È¿¡ µé¾î¿À¸é Attack" »óÅÂ·Î º¯°æ)
+    [SerializeField] private float recognitionRange;            // ì¸ì‹ ë° ê³µê²© ë²”ìœ„ (ì´ ë²”ìœ„ ì•ˆì— ë“¤ì–´ì˜¤ë©´ Attack" ìƒíƒœë¡œ ë³€ê²½)
+
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip audioClipWalk;
+    [SerializeField] private AudioClip audioClipRun;
+    [SerializeField] private AudioClip audioClipDie;
+    [SerializeField] private AudioClip audioClipShieldBreak;
+    [SerializeField] private AudioClip audioClipAttack;
 
     public int shieldScore;
-    [SerializeField] private Player target;                           // ÀûÀÇ °ø°İ ´ë»ó(ÇÃ·¹ÀÌ¾î)
+    [SerializeField] private Player target;                           // ì ì˜ ê³µê²© ëŒ€ìƒ(í”Œë ˆì´ì–´)
     
     private Vector3 moveDirection = Vector3.zero;
-    private EnemyState enemyState = EnemyState.None;    // ÇöÀç Àû Çàµ¿
+    private EnemyState enemyState = EnemyState.None;    // í˜„ì¬ ì  í–‰ë™
     public GameObject shield;
     NavMeshAgent nav;
     Rigidbody rb;
     
     public Animator animator;
     public BoxCollider candyCane;
+    private CapsuleCollider collider;
+    private NavMeshAgent navMeshAgent;
+    private DissolveEnemy dissoveEffect;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        target = FindObjectOfType<Player>();        // í”Œë ˆì´ì–´ ì¸ì‹
+        animator = GetComponent<Animator>();
+        animator.SetInteger("HP", currentHP);
+        nav = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
+        dissoveEffect = GetComponent<DissolveEnemy>();
+        collider = GetComponent<CapsuleCollider>();
+        audioSource = GetComponent<AudioSource>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        ChangeState(EnemyState.Idle);
+    }
 
     public override void TakeScore()
     {
         if (currentHP >= 1)
         {
-            // ¹æÆĞ Á¡¼ö
-            GameManager.Instance.totalScore += shieldScore * GameManager.Instance.combo;
+            // ë°©íŒ¨ ì ìˆ˜
+            GameManager.Instance.score += shieldScore * GameManager.Instance.combo;
             Debug.Log("Shielded_Gingerbread Damaged_1");
         }
         else if (currentHP == 0)
         {
-            GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
+            GameManager.Instance.score += this.score * GameManager.Instance.combo;
             Debug.Log("Shielded_Gingerbread Damaged_2");
         }
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
+        
     }
 
     public override void TakeDamage(int damage)
@@ -50,40 +75,45 @@ public class ShieldedEnemy : Enemy
         
         if (isDie == false)
         {
+            PlaySound(audioClipShieldBreak);
             animator.SetTrigger("Hit");
             if (currentHP == 1)
             {
-                // ChangeState(EnemyState.Hurt);
-                // GameManager.Instance.totalScore += this.score * GameManager.Instance.combo;
                 shield.SetActive(false);
             }
         }
         else 
         {
-            // ChangeState(EnemyState.Dead);
-            // animator.Play("Dead");
+            PlaySound(audioClipDie);
+
             GameManager.Instance.mode = Mode.Burst;
-            GameManager.Instance.leftCase += 100;
-            GameManager.Instance.tLeftCase.text = GameManager.Instance.leftCase.ToString();
-            gameObject.SetActive(false);
+            GameManager.Instance.leftCase += 100;            
+            GameManager.Instance.PlayBurstBGM();
+            
+            
+            dissoveEffect.StartDissolve();      // ëª¬ìŠ¤í„° íš¨ê³¼ ì¬ìƒ
+            // ëª¨ë“  ì½”ë£¨í‹´ ìŠ¤íƒ‘ => ì¤‘ê°„ì— ê³µê²©ëª¨ì…˜ì‹œ ì†Œë¦¬ë‚˜ëŠ” ì—ëŸ¬ë•Œë¬¸ì— 
+            StopAllCoroutines();
+            // ì½œë¼ì´ë”ë„ ì œê±°. ì•ˆê·¸ëŸ¬ë©´ dissolveí•˜ëŠ” ë™ì•ˆ ì¿ í‚¤ë¥¼ ë°€ê³  ê°
+            collider.enabled = false;
+            navMeshAgent.enabled = false;       // ì–˜ê¹Œì§€ êº¼ì•¼ ë•…ì— êº¼ì§„ë‹¤. 
+            
+            // GameManager.Instance.leftMonster--;
+
             // WaveSpawner.Instance.;
             Debug.Log("Shielded_Gingerbread Dead");
         }
-        GameManager.Instance.tScore.text = GameManager.Instance.totalScore.ToString();
     }
 
-    
-
-    // Start is called before the first frame update
-    void Start()
+    public void DeActivate()
     {
-        target = FindObjectOfType<Player>();        // ÇÃ·¹ÀÌ¾î ÀÎ½Ä
-        animator = GetComponent<Animator>();
-        animator.SetInteger("HP", currentHP);
-        nav = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
-        ChangeState(EnemyState.Idle);
+        StopAllCoroutines();
+        audioSource.mute = true;
+        navMeshAgent.enabled = false;
+        animator.speed = 0;
     }
+
+
     void FreezeVelocity()
     {
         rb.velocity = Vector3.zero;
@@ -99,13 +129,11 @@ public class ShieldedEnemy : Enemy
         float distance = Vector3.Distance(target.transform.position, transform.position);
         if(distance < attackRange)
         {
-            animator.SetBool("Attack", true);
             animator.SetBool("Pursuit", false);
             ChangeState(EnemyState.Attack);
         }
         else if(distance > attackRange && distance <= recognitionRange)
         {
-            animator.SetBool("Attack", false);
             animator.SetBool("Pursuit", true);
             ChangeState(EnemyState.Pursuit);
         }
@@ -119,20 +147,21 @@ public class ShieldedEnemy : Enemy
 
     public void ChangeState(EnemyState newState)
     {
-        // ÇöÀç Àç»ıÁßÀÎ »óÅÂ¿Í ¹Ù²Ù·Á°í ÇÏ´Â »óÅÂ°¡ °°À¸¸é ¹Ù²Ü ÇÊ¿ä°¡ ¾ø±â ¶§¹®¿¡ return
+        // í˜„ì¬ ì¬ìƒì¤‘ì¸ ìƒíƒœì™€ ë°”ê¾¸ë ¤ê³  í•˜ëŠ” ìƒíƒœê°€ ê°™ìœ¼ë©´ ë°”ê¿€ í•„ìš”ê°€ ì—†ê¸° ë•Œë¬¸ì— return
         if (enemyState == newState) return;
-        StopCoroutine(enemyState.ToString());   // ÀÌÀü¿¡ Àç»ıÁßÀÌ´ø »óÅÂ Á¾·á   
-        enemyState = newState;                  // ÇöÀç ÀûÀÇ »óÅÂ¸¦ newState·Î ¼³Á¤        
-        StartCoroutine(enemyState.ToString());  // »õ·Î¿î »óÅÂ Àç»ı
+        StopCoroutine(enemyState.ToString());   // ì´ì „ì— ì¬ìƒì¤‘ì´ë˜ ìƒíƒœ ì¢…ë£Œ   
+        enemyState = newState;                  // í˜„ì¬ ì ì˜ ìƒíƒœë¥¼ newStateë¡œ ì„¤ì •        
+        StartCoroutine(enemyState.ToString());  // ìƒˆë¡œìš´ ìƒíƒœ ì¬ìƒ
     }
 
     private IEnumerator Idle()
     {
+        audioSource.Stop();
         nav.speed = 0;
         while (true)
         {
-            // ´ë±â»óÅÂÀÏ ¶§, ÇÏ´Â Çàµ¿
-            // Å¸°Ù°úÀÇ °Å¸®¿¡ µû¶ó Çàµ¿ ¼±ÅÂ°³(¹èÈ¸, Ãß°İ, ¿ø°Å¸® °ø°İ)
+            // ëŒ€ê¸°ìƒíƒœì¼ ë•Œ, í•˜ëŠ” í–‰ë™
+            // íƒ€ê²Ÿê³¼ì˜ ê±°ë¦¬ì— ë”°ë¼ í–‰ë™ ì„ íƒœê°œ(ë°°íšŒ, ì¶”ê²©, ì›ê±°ë¦¬ ê³µê²©)
             candyCane.enabled = false;
             nav.enabled = true;
             SetStatebyDistance();
@@ -143,10 +172,12 @@ public class ShieldedEnemy : Enemy
 
     private IEnumerator Pursuit()
     {
+        PlaySound(audioClipRun);
         while (true)
         {
-            LookRotationToTarget();         // Å¸°Ù ¹æÇâÀ» °è¼Ó ÁÖ½Ã
-            // MoveToTarget();                 // Å¸°Ù ¹æÇâÀ» °è¼Ó ÀÌµ¿
+            animator.SetBool("Attack", false);
+            LookRotationToTarget();         // íƒ€ê²Ÿ ë°©í–¥ì„ ê³„ì† ì£¼ì‹œ
+            // MoveToTarget();                 // íƒ€ê²Ÿ ë°©í–¥ì„ ê³„ì† ì´ë™
             candyCane.enabled = false;
             nav.enabled = true;
             nav.speed = pursuitSpeed;
@@ -157,42 +188,42 @@ public class ShieldedEnemy : Enemy
     }
 
     private IEnumerator Attack()
-    {
-        
+    {        
         while (true)
         {            
             nav.enabled = false;
             candyCane.enabled = true;
             FreezeVelocity();
-            LookRotationToTarget();         // Å¸°Ù ¹æÇâÀ» °è¼Ó ÁÖ½Ã
-            // Å¸°Ù°úÀÇ °Å¸®¿¡ µû¶ó Çàµ¿ ¼±ÅÃ (¿ø°Å¸® °ø°İ / Á¤Áö)
+            LookRotationToTarget();         // íƒ€ê²Ÿ ë°©í–¥ì„ ê³„ì† ì£¼ì‹œ
+            animator.SetBool("Attack", true);
+            PlaySound(audioClipAttack);
             SetStatebyDistance();
-            yield return null;
+            yield return new WaitForSeconds(0.75f);
         }
     }
 
     private void LookRotationToTarget()
     {
-        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // ¸ñÇ¥ À§Ä¡
-        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // ³» À§Ä¡        
-        transform.rotation = Quaternion.LookRotation(to - from);            // ¹Ù·Î µ¹±â
+        Vector3 to = new Vector3(target.transform.position.x, 0, target.transform.position.z);  // ëª©í‘œ ìœ„ì¹˜
+        Vector3 from = new Vector3(transform.position.x, 0, transform.position.z);      // ë‚´ ìœ„ì¹˜        
+        transform.rotation = Quaternion.LookRotation(to - from);            // ë°”ë¡œ ëŒê¸°
     }
 
     // private void MoveToTarget()
     // {
-    //     Vector3 to = target.transform.position; // ¸ñÇ¥ À§Ä¡
-    //     Vector3 from = transform.position;      // ³» À§Ä¡
+    //     Vector3 to = target.transform.position; // ëª©í‘œ ìœ„ì¹˜
+    //     Vector3 from = transform.position;      // ë‚´ ìœ„ì¹˜
     //     moveDirection = (to - from).normalized;
     //     transform.position += moveDirection * moveSpeed * Time.deltaTime;
     // }
 
     private void OnDrawGizmos()
     {
-        // ¸ñÇ¥ ÀÎ½Ä ¹× °ø°İ ¹üÀ§
+        // ëª©í‘œ ì¸ì‹ ë° ê³µê²© ë²”ìœ„
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
 
-        // ÃßÀû ¹üÀ§
+        // ì¶”ì  ë²”ìœ„
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, recognitionRange);
     }
