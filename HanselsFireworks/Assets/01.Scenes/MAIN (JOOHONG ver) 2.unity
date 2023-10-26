@@ -100555,7 +100555,7 @@ MonoBehaviour:
   player: {fileID: 0}
   character: {fileID: 0}
   playerMovement: {fileID: 0}
-  maxTime: 3c0000003c0000003c000000
+  maxTime: 3c0000003c0000005a000000
 --- !u!95 &5505501222268407621
 Animator:
   serializedVersion: 5
