@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// using UnityEngine.Cursor;
-using UnityEngine.UI;
-// using UnityEngine.UIElements;
-using Test;
 
-namespace Tutorial
+namespace Test
 {
-    public class Player : MonoBehaviour
+
+    public class PlayerPooling : MonoBehaviour
     {
         public Transform firePoint;
 
@@ -76,8 +73,6 @@ namespace Tutorial
             cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             characterBody.Rotate(Vector3.up * mouseDelta.x);
         }
-
     }
-
 
 }

@@ -4,11 +4,10 @@ using UnityEngine;
 // using UnityEngine.Cursor;
 using UnityEngine.UI;
 // using UnityEngine.UIElements;
-using Test;
 
-namespace Tutorial
+namespace Test
 {
-    public class Player : MonoBehaviour
+    public class PlayerNonPooling : MonoBehaviour
     {
         public Transform firePoint;
 
@@ -27,7 +26,7 @@ namespace Tutorial
         [SerializeField] private Animator gunAnimator;
 
         public AudioSource audioSource;
-        public FireGunWithPooling fireGun;
+        public FireGunNonPooling fireGun;
 
 
         // Start is called before the first frame update

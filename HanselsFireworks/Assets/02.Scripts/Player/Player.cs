@@ -40,8 +40,19 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {        
-        UpdateMode();
+    {
+        // UpdateMode();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            fireGun.isAutomaticAttack = true;
+            fireGun.StartWeaponAction();
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            fireGun.StopWeaponAction();
+        }
+
         PlayerView();        
     }
 
