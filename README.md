@@ -1,6 +1,8 @@
 # HanselsFireworks
 건국대학교 '게임 프로그래밍' 과목 중간 프로젝트 1등 작품
 
+[다운로드 링크](http://naver.me/54LZ3G9g)
+
 ## 플레이 영상(사진 클릭시 유튜브 이동)
 
 [![image](https://github.com/Hansel-s-Fireworks/HanselsFireworks/assets/108036322/5214080c-690f-4de4-84f7-e0c277227d43)](https://youtu.be/cocJUmiYUyY)
